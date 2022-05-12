@@ -1,47 +1,21 @@
+import { useEffect } from 'react';
+
+import { store } from '../../store';
+import { useAppSelector } from '../../hooks';
+import { fetchGuitarsAction } from '../../store/api-actions';
+import { getGuitars } from '../../store/selectors';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
 import ProductList from './product-list/product-list';
 
-import { Guitars } from '../../types/guitar';
-
-const productsMocks: Guitars = [
-  {
-    id: 1,
-    name: 'name1',
-    vendorCode: '123',
-    type: 'electro',
-    description: 'mega',
-    previewImg: 'img/content/catalog-product-1.jpg',
-    stringCount: 7,
-    rating: 9,
-    price: 15000,
-  },
-  {
-    id: 2,
-    name: 'name2',
-    vendorCode: '345',
-    type: 'classic',
-    description: 'super',
-    previewImg: 'img/content/catalog-product-2.jpg',
-    stringCount: 6,
-    rating: 6,
-    price: 20000,
-  },
-  {
-    id: 3,
-    name: 'name3',
-    vendorCode: '678',
-    type: 'classic',
-    description: 'drive',
-    previewImg: 'img/content/catalog-product-3.jpg',
-    stringCount: 6,
-    rating: 10,
-    price: 12000,
-  },
-];
-
 function Main(): JSX.Element {
+  const guitars = useAppSelector(getGuitars);
+
+  useEffect(() => {
+    store.dispatch(fetchGuitarsAction());
+  }, []);
+
   return (
     <div className="wrapper">
       <Header />
@@ -111,7 +85,9 @@ function Main(): JSX.Element {
                 <button className="catalog-sort__order-button catalog-sort__order-button--down" aria-label="По убыванию"></button>
               </div>
             </div>
-            <ProductList products={productsMocks} />
+
+            <ProductList products={guitars} />
+
             <div className="pagination page-content__pagination">
               <ul className="pagination__list">
                 <li className="pagination__page pagination__page--active"><a className="link pagination__page-link" href="1">1</a>
