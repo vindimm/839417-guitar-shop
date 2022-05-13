@@ -1,20 +1,26 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { store } from '../../store';
 import { useAppSelector } from '../../hooks';
-import { fetchGuitarsAction } from '../../store/api-actions';
+import { fetchGuitarsAction, fetchSeveralGuitarsAction } from '../../store/api-actions';
 import { getGuitars } from '../../store/selectors';
+import { GUITARS_PER_PAGE } from '../../const';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
 import ProductList from './product-list/product-list';
+import Pagination from './pagination/pagination';
 
 function Main(): JSX.Element {
   const guitars = useAppSelector(getGuitars);
+  const [activePage, setActivePage] = useState(1);
+  const startIndex = activePage * GUITARS_PER_PAGE;
+  const endIndex = startIndex + GUITARS_PER_PAGE;
 
   useEffect(() => {
     store.dispatch(fetchGuitarsAction());
-  }, []);
+    store.dispatch(fetchSeveralGuitarsAction([startIndex, endIndex]));
+  }, [startIndex, endIndex]);
 
   return (
     <div className="wrapper">
@@ -85,21 +91,8 @@ function Main(): JSX.Element {
                 <button className="catalog-sort__order-button catalog-sort__order-button--down" aria-label="По убыванию"></button>
               </div>
             </div>
-
             <ProductList products={guitars} />
-
-            <div className="pagination page-content__pagination">
-              <ul className="pagination__list">
-                <li className="pagination__page pagination__page--active"><a className="link pagination__page-link" href="1">1</a>
-                </li>
-                <li className="pagination__page"><a className="link pagination__page-link" href="2">2</a>
-                </li>
-                <li className="pagination__page"><a className="link pagination__page-link" href="3">3</a>
-                </li>
-                <li className="pagination__page pagination__page--next" id="next"><a className="link pagination__page-link" href="2">Далее</a>
-                </li>
-              </ul>
-            </div>
+            <Pagination activePage={activePage} setActivePage={setActivePage} />
           </div>
         </div>
       </main>
