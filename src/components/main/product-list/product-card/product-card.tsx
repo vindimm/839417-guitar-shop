@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { Guitar } from '../../../../types/guitar';
+import ProductInfo from './product-info/product-info';
 
 type ProductCardProps = {
   product: Guitar;
@@ -11,35 +12,14 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
     <div className="product-card">
       <img
         src={product.previewImg}
-        srcSet="img/content/catalog-product-1@2x.jpg 2x"
+        srcSet={`${product.previewImg?.slice(0, -4)}@2x.jpg 2x`}
         width="75"
         height="190"
-        alt="Честер Bass"
+        alt={product.name}
       />
-      <div className="product-card__info">
-        <div className="rate product-card__rate">
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="12" height="11" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-          <p className="visually-hidden">Рейтинг: Хорошо</p>
-          <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>9</p>
-        </div>
-        <p className="product-card__title">{product.name}</p>
-        <p className="product-card__price"><span className="visually-hidden">Цена:</span>{product.price} ₽
-        </p>
-      </div>
+
+      <ProductInfo product={product} />
+
       <div className="product-card__buttons">
         <Link className="button button--mini" to="#">Подробнее</Link>
         <Link className="button button--red-border button--mini button--in-cart" to="#">В Корзине</Link>
