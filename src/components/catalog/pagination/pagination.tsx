@@ -1,15 +1,14 @@
 import { Link } from 'react-router-dom';
 
 import { useAppSelector } from '../../../hooks';
-import { GUITARS_PER_PAGE } from '../../../const';
+import { AppRoute, GUITARS_PER_PAGE } from '../../../const';
 import { getGuitarsQuantity } from '../../../store/selectors';
 
 type PaginationProps = {
-  activePage: number;
-  setActivePage: (pageNumber: number) => void;
+  pageNumber: number;
 };
 
-function Pagination({activePage, setActivePage}: PaginationProps): JSX.Element {
+function Pagination({pageNumber}: PaginationProps): JSX.Element {
   const guitarsQuantity = useAppSelector(getGuitarsQuantity);
   const pagesQuantity = Math.floor(guitarsQuantity / GUITARS_PER_PAGE);
   const pages = Array.from({length: pagesQuantity}, () => '');
@@ -18,31 +17,40 @@ function Pagination({activePage, setActivePage}: PaginationProps): JSX.Element {
     <div className="pagination page-content__pagination">
       <ul className="pagination__list">
 
-        {activePage > 1 ?
+        {pageNumber > 1 ?
           <li className="pagination__page pagination__page--next" id="next">
-            <Link className="link pagination__page-link" to="#" onClick={() => setActivePage(activePage - 1)}>
+            <Link
+              className="link pagination__page-link"
+              to={AppRoute.Catalog.replace(':pageNumber', (pageNumber - 1).toString())}
+            >
               Назад
             </Link>
           </li>
           : ''}
 
         {pages.map((_item, index) => {
-          const keyValue = `page-${index}`;
+          const keyValue = `page-${index + 1}`;
           return (
             <li
-              className={activePage === index + 1 ? 'pagination__page pagination__page--active' : 'pagination__page'}
+              className={pageNumber === index + 1 ? 'pagination__page pagination__page--active' : 'pagination__page'}
               key={keyValue}
             >
-              <Link className="link pagination__page-link" to="#" onClick={() => setActivePage(index + 1)}>
+              <Link
+                className="link pagination__page-link"
+                to={AppRoute.Catalog.replace(':pageNumber', (index + 1).toString())}
+              >
                 {index + 1}
               </Link>
             </li>
           );
         })}
 
-        {activePage < pagesQuantity ?
+        {pageNumber < pagesQuantity ?
           <li className="pagination__page pagination__page--next" id="next">
-            <Link className="link pagination__page-link" to="#" onClick={() => setActivePage(activePage + 1)}>
+            <Link
+              className="link pagination__page-link"
+              to={AppRoute.Catalog.replace(':pageNumber', (pageNumber + 1).toString())}
+            >
               Далее
             </Link>
           </li>

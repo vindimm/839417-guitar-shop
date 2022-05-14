@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { store } from '../../store';
 import { useAppSelector } from '../../hooks';
 import { fetchGuitarsAction, fetchSeveralGuitarsAction } from '../../store/api-actions';
-import { getGuitars } from '../../store/selectors';
+import { getActiveGuitars } from '../../store/selectors';
 import { GUITARS_PER_PAGE } from '../../const';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
@@ -11,10 +12,15 @@ import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
 import ProductList from './product-list/product-list';
 import Pagination from './pagination/pagination';
 
-function Main(): JSX.Element {
-  const guitars = useAppSelector(getGuitars);
-  const [activePage, setActivePage] = useState(1);
-  const startIndex = activePage * GUITARS_PER_PAGE;
+function Catalog(): JSX.Element {
+  let { pageNumber } = useParams<{pageNumber: string}>();
+
+  if (!pageNumber) {
+    pageNumber = '1';
+  }
+
+  const activeGuitars = useAppSelector(getActiveGuitars);
+  const startIndex = (Number(pageNumber) - 1) * GUITARS_PER_PAGE;
   const endIndex = startIndex + GUITARS_PER_PAGE;
 
   useEffect(() => {
@@ -91,8 +97,8 @@ function Main(): JSX.Element {
                 <button className="catalog-sort__order-button catalog-sort__order-button--down" aria-label="По убыванию"></button>
               </div>
             </div>
-            <ProductList products={guitars} />
-            <Pagination activePage={activePage} setActivePage={setActivePage} />
+            <ProductList products={activeGuitars} />
+            <Pagination pageNumber={Number(pageNumber)} />
           </div>
         </div>
       </main>
@@ -101,4 +107,4 @@ function Main(): JSX.Element {
   );
 }
 
-export default Main;
+export default Catalog;

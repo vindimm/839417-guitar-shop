@@ -11,8 +11,8 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
   return (
     <div className="product-card">
       <img
-        src={product.previewImg}
-        srcSet={`${product.previewImg?.slice(0, -4)}@2x.jpg 2x`}
+        src={`../${product.previewImg}`}
+        srcSet={`../${product.previewImg?.slice(0, -4)}@2x.jpg 2x`}
         width="75"
         height="190"
         alt={product.name}

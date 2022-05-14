@@ -1,12 +1,14 @@
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
-import Main from '../main/main';
+import { AppRoute } from '../../const';
+import Catalog from '../catalog/catalog';
 
 function App(): JSX.Element {
   return (
     <BrowserRouter >
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route index element={<Catalog />} />
+        <Route path={AppRoute.Catalog} element={<Catalog />} />
       </Routes>
     </BrowserRouter>
   );
