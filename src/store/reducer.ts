@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { loadGuitars, loadSeveralGuitars } from './action';
+import { loadGuitars, loadSeveralGuitars, loadGuitar } from './action';
 import { Guitars } from '../types/guitar';
 
 type State = {
@@ -21,6 +21,10 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadSeveralGuitars, (state, action) => {
       state.activeGuitars = action.payload;
+    })
+    .addCase(loadGuitar, (state, action) => {
+      state.activeGuitars = [];
+      state.activeGuitars.push(action.payload);
     });
 });
 

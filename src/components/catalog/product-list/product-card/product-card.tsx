@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 
+import { AppRoute } from '../../../../const';
 import { Guitar } from '../../../../types/guitar';
 import ProductInfo from './product-info/product-info';
 
@@ -21,7 +22,12 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
       <ProductInfo product={product} />
 
       <div className="product-card__buttons">
-        <Link className="button button--mini" to="#">Подробнее</Link>
+        <Link
+          className="button button--mini"
+          to={AppRoute.Product.replace(':id', String(product.id))}
+        >
+          Подробнее
+        </Link>
         <Link className="button button--red-border button--mini button--in-cart" to="#">В Корзине</Link>
       </div>
     </div>
