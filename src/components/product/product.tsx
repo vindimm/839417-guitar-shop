@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks';
 
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getGuitarById } from '../../store/selectors';
 import { fetchGuitarAction } from '../../store/api-actions';
 import Header from '../common/header/header';
@@ -28,8 +28,8 @@ function Product(): JSX.Element {
           <Breadcrumbs />
           <div className="product-container">
             <img className="product-container__img"
-              src={`../${guitar?.previewImg.replace('.jpg', '.png')}`}
-              srcSet="../img/content/catalog-product-2@2x.png 2x"
+              src={`/${guitar?.previewImg.replace('.jpg', '.png')}`}
+              srcSet="/img/content/catalog-product-2@2x.png 2x"
               width="90"
               height="235"
               alt={guitar?.name}

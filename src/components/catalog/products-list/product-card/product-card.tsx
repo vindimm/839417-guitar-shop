@@ -12,8 +12,8 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
   return (
     <div className="product-card">
       <img
-        src={`../${product.previewImg}`}
-        srcSet={`../${product.previewImg?.slice(0, -4)}@2x.jpg 2x`}
+        src={`/${product.previewImg}`}
+        srcSet={`/${product.previewImg?.slice(0, -4)}@2x.jpg 2x`}
         width="75"
         height="190"
         alt={product.name}
@@ -24,7 +24,7 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
       <div className="product-card__buttons">
         <Link
           className="button button--mini"
-          to={AppRoute.Product.replace(':id', String(product.id))}
+          to={AppRoute.GuitarPage.replace(':id', String(product.id))}
         >
           Подробнее
         </Link>

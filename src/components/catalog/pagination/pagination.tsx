@@ -21,7 +21,7 @@ function Pagination({pageNumber}: PaginationProps): JSX.Element {
           <li className="pagination__page pagination__page--next" id="next">
             <Link
               className="link pagination__page-link"
-              to={AppRoute.Catalog.replace(':pageNumber', (pageNumber - 1).toString())}
+              to={AppRoute.CatalogPage.replace(':id', (pageNumber - 1).toString())}
             >
               Назад
             </Link>
@@ -37,7 +37,7 @@ function Pagination({pageNumber}: PaginationProps): JSX.Element {
             >
               <Link
                 className="link pagination__page-link"
-                to={AppRoute.Catalog.replace(':pageNumber', (index + 1).toString())}
+                to={AppRoute.CatalogPage.replace(':id', (index + 1).toString())}
               >
                 {index + 1}
               </Link>
@@ -49,7 +49,7 @@ function Pagination({pageNumber}: PaginationProps): JSX.Element {
           <li className="pagination__page pagination__page--next" id="next">
             <Link
               className="link pagination__page-link"
-              to={AppRoute.Catalog.replace(':pageNumber', (pageNumber + 1).toString())}
+              to={AppRoute.CatalogPage.replace(':id', (pageNumber + 1).toString())}
             >
               Далее
             </Link>

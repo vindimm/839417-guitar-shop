@@ -9,18 +9,18 @@ import { GUITARS_PER_PAGE } from '../../const';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
-import ProductList from './product-list/product-list';
+import ProductList from './products-list/products-list';
 import Pagination from './pagination/pagination';
 
 function Catalog(): JSX.Element {
-  let { pageNumber } = useParams<{pageNumber: string}>();
+  let { id } = useParams<{id: string}>();
 
-  if (!pageNumber) {
-    pageNumber = '1';
+  if (!id) {
+    id = '1';
   }
 
   const activeGuitars = useAppSelector(getActiveGuitars);
-  const startIndex = (Number(pageNumber) - 1) * GUITARS_PER_PAGE;
+  const startIndex = (Number(id) - 1) * GUITARS_PER_PAGE;
   const endIndex = startIndex + GUITARS_PER_PAGE;
 
   useEffect(() => {
@@ -98,7 +98,7 @@ function Catalog(): JSX.Element {
               </div>
             </div>
             <ProductList products={activeGuitars} />
-            <Pagination pageNumber={Number(pageNumber)} />
+            <Pagination pageNumber={Number(id)} />
           </div>
         </div>
       </main>

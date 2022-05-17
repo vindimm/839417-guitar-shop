@@ -6,7 +6,7 @@ import { Guitars } from '../types/guitar';
 type State = {
   guitarsQuantity: number;
   activeGuitars: Guitars;
-}
+};
 
 const initialState: State = {
   guitarsQuantity: 0,

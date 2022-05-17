@@ -5,7 +5,7 @@ type ProductListProps = {
   products: Guitars;
 };
 
-function ProductList({products}: ProductListProps): JSX.Element {
+function ProductsList({products}: ProductListProps): JSX.Element {
   return (
     <div className="cards catalog__cards">
       {products.map((product) => <ProductCard product={product} key={product.id} />)}
@@ -13,4 +13,4 @@ function ProductList({products}: ProductListProps): JSX.Element {
   );
 }
 
-export default ProductList;
+export default ProductsList;
