@@ -82,7 +82,9 @@ function Product(): JSX.Element {
             </div>
             <div className="product-container__price-wrapper">
               <p className="product-container__price-info product-container__price-info--title">Цена:</p>
-              <p className="product-container__price-info product-container__price-info--value">{guitar?.price} ₽</p>
+              <p className="product-container__price-info product-container__price-info--value">
+                {guitar?.price.toLocaleString('ru-RU')} ₽
+              </p>
               <a className="button button--red button--big product-container__button" href="#">
                 Добавить в корзину
               </a>

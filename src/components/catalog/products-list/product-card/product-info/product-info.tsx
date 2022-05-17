@@ -27,7 +27,8 @@ function ProductInfo({product}: ProductInfoProps): JSX.Element {
         <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>9</p>
       </div>
       <p className="product-card__title">{product.name}</p>
-      <p className="product-card__price"><span className="visually-hidden">Цена:</span>{product.price} ₽
+      <p className="product-card__price">
+        <span className="visually-hidden">Цена:</span>{product.price.toLocaleString('ru-RU')} ₽
       </p>
     </div>
   );

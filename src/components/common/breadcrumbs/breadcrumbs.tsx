@@ -1,31 +1,15 @@
-import { useLocation, Link } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 
 import { useAppSelector } from '../../../hooks';
-import { getActiveGuitars } from '../../../store/selectors';
+import { getGuitarById } from '../../../store/selectors';
+import { getParsedCrumbs } from '../../utils';
 
 function Breadcrumbs(): JSX.Element {
   const location = useLocation();
   const crumbs = location.pathname.split('/');
-  const activeGuitars = useAppSelector(getActiveGuitars);
-
-  const parseCrumbs = (item: string) => {
-    switch (item) {
-      case '':
-        item = 'Главная';
-        break;
-      case 'catalog':
-        item = 'Каталог';
-        break;
-      case 'guitar':
-        item = activeGuitars[0]?.name;
-        break;
-      default:
-        item = '';
-    }
-    return item;
-  };
-
-  const parsedCrumbs = crumbs.map(parseCrumbs).filter((item) => item !== '');
+  const { id } = useParams<{id: string}>();
+  const guitar = useAppSelector(getGuitarById(Number(id)));
+  const parsedCrumbs = getParsedCrumbs(crumbs, guitar?.name);
 
   return (
     <>
