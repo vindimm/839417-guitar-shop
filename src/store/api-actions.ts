@@ -5,7 +5,7 @@ import { api, store } from '../store';
 import { APIRoute } from '../const';
 import { AppDispatch, State } from '../types/state';
 import { Guitar, Guitars } from '../types/guitar';
-import { loadGuitars, loadSeveralGuitars, loadGuitar } from './action';
+import { loadGuitars, loadSeveralGuitars, loadGuitar } from './catalog-data/catalog-data';
 
 export const fetchGuitarsAction = createAsyncThunk(
   'data/fetchGuitars',

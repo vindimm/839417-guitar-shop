@@ -13,3 +13,8 @@ export enum APIRoute {
   // временный путь из-за проблем на сервере
   Guitars27 = '/guitars?_limit=27',
 }
+
+export enum NameSpace {
+  CatalogData = 'CATALOG_DATA',
+  CatalogProcess = 'CATALOG_PROCESS',
+}

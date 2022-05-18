@@ -1,9 +1,5 @@
-import { createAction } from '@reduxjs/toolkit';
+// Все действия отсюда удалил после введения
+// createSlice
+// позже здесь возможно появятся какие-то действия
 
-import { Guitar, Guitars } from '../types/guitar';
-
-export const loadGuitars = createAction<Guitars>('data/loadGuitars');
-
-export const loadSeveralGuitars = createAction<Guitars>('data/loadSeveralGuitars');
-
-export const loadGuitar = createAction<Guitar>('data/loadGuitar');
+export {};
