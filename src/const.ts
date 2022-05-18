@@ -12,6 +12,7 @@ export enum APIRoute {
   Guitar = '/guitars/:id',
   // временный путь из-за проблем на сервере
   Guitars27 = '/guitars?_limit=27',
+  Comment = '/guitars/:id/comments',
 }
 
 export enum NameSpace {

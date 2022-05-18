@@ -5,9 +5,14 @@ import { api, store } from '../store';
 import { APIRoute } from '../const';
 import { AppDispatch, State } from '../types/state';
 import { Guitar, Guitars } from '../types/guitar';
-import { loadGuitars, loadSeveralGuitars, loadGuitar } from './catalog-data/catalog-data';
+import { Comment } from '../types/comment';
+import { loadGuitars, loadSeveralGuitars, loadGuitar, loadComment } from './catalog-data/catalog-data';
 
-export const fetchGuitarsAction = createAsyncThunk(
+export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
   'data/fetchGuitars',
   async () => {
     const {data} = await api.get<Guitars>(APIRoute.Guitars27);
@@ -20,7 +25,7 @@ export const fetchSeveralGuitarsAction = createAsyncThunk<void, Array<number>, {
   state: State,
   extra: AxiosInstance
 }>(
-  'data/fetchGuitars',
+  'data/fetchSeveralGuitars',
   async ([startIndex, endIndex]) => {
     const {data} = await api.get<Guitars>(`${APIRoute.Guitars}?_start=${startIndex}&_end=${endIndex}`);
     store.dispatch(loadSeveralGuitars(data));
@@ -36,5 +41,17 @@ export const fetchGuitarAction = createAsyncThunk<void, string, {
   async (id) => {
     const {data} = await api.get<Guitar>(APIRoute.Guitar.replace(':id', id));
     store.dispatch(loadGuitar(data));
+  },
+);
+
+export const fetchCommentAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchComment',
+  async (id) => {
+    const {data} = await api.get<Comment>(APIRoute.Comment.replace(':id', id));
+    store.dispatch(loadComment(data));
   },
 );
