@@ -40,7 +40,6 @@ function ProductPage(): JSX.Element {
 
               <div className="rate product-container__rating">
                 <RatingChart rating={guitar?.rating} size={'middle'} />
-                <p className="visually-hidden">Оценка: Хорошо</p>
               </div>
 
               <div className="tabs">

@@ -10,7 +10,6 @@ function ProductInfo({ product }: ProductInfoProps): JSX.Element {
     <div className="product-card__info">
       <div className="rate product-card__rate">
         <RatingChart rating={product.rating} size={'small'} />
-        <p className="visually-hidden">Рейтинг: Хорошо</p>
         <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>9</p>
       </div>
       <p className="product-card__title">{product.name}</p>

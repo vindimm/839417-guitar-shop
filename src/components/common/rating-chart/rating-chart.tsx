@@ -1,3 +1,5 @@
+import { getMark, getDimensions } from '../../utils';
+
 type RatingChartProps = {
   // ****************
   // Когда появится рейтинг для отзывов
@@ -11,27 +13,7 @@ function RatingChart({ rating = 0, size = 'small' }: RatingChartProps): JSX.Elem
   const STARS_QUANTITY = 5;
   const stars = Array.from({length: STARS_QUANTITY}, () => '');
   const roundRating = rating ? Math.round(rating) : 0;
-
-  let width: number;
-  let height: number;
-
-  switch (size) {
-    case 'small':
-      width = 12;
-      height = 11;
-      break;
-    case 'middle':
-      width = 14;
-      height = 14;
-      break;
-    case 'large':
-      width = 16;
-      height = 16;
-      break;
-    default:
-      width = 14;
-      height = 14;
-  }
+  const [width, height] = getDimensions(size);
 
   return (
     <>
@@ -43,6 +25,7 @@ function RatingChart({ rating = 0, size = 'small' }: RatingChartProps): JSX.Elem
           </svg>
         );
       })}
+      <p className="visually-hidden">Оценка: {getMark(roundRating)}</p>
     </>
   );
 }

@@ -1,7 +1,6 @@
-import ReviewChart from '../../../common/rating-chart/rating-chart';
+import RatingChart from '../../../common/rating-chart/rating-chart';
 
 function ReviewItem(): JSX.Element {
-
   return (
     <div className="review">
       <div className="review__wrapper">
@@ -10,8 +9,7 @@ function ReviewItem(): JSX.Element {
       </div>
 
       <div className="rate review__rating-panel">
-        <ReviewChart size={'large'} />
-        <p className="visually-hidden">Оценка: Хорошо</p>
+        <RatingChart size={'large'} />
       </div>
 
       <h4 className="review__title title title--lesser">Достоинства:</h4>
