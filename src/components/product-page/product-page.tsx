@@ -6,8 +6,9 @@ import { getGuitarById } from '../../store/selectors';
 import { fetchGuitarAction } from '../../store/api-actions';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
-import ReviewsList from './reviews-list/reviews-list';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
+import ReviewsList from './reviews-list/reviews-list';
+import RatingChart from '../common/rating-chart/rating-chart';
 
 function ProductPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -36,24 +37,12 @@ function ProductPage(): JSX.Element {
             />
             <div className="product-container__info-wrapper">
               <h2 className="product-container__title title title--big title--uppercase">{guitar?.name}</h2>
+
               <div className="rate product-container__rating">
-                <svg width="14" height="14" aria-hidden="true">
-                  <use xlinkHref="#icon-full-star"></use>
-                </svg>
-                <svg width="14" height="14" aria-hidden="true">
-                  <use xlinkHref="#icon-full-star"></use>
-                </svg>
-                <svg width="14" height="14" aria-hidden="true">
-                  <use xlinkHref="#icon-full-star"></use>
-                </svg>
-                <svg width="14" height="14" aria-hidden="true">
-                  <use xlinkHref="#icon-full-star"></use>
-                </svg>
-                <svg width="14" height="14" aria-hidden="true">
-                  <use xlinkHref="#icon-star"></use>
-                </svg>
+                <RatingChart rating={guitar?.rating} size={'middle'} />
                 <p className="visually-hidden">Оценка: Хорошо</p>
               </div>
+
               <div className="tabs">
                 <a className="button button--medium tabs__button" href="#characteristics">Характеристики</a>
                 <a className="button button--black-border button--medium tabs__button" href="#description">
@@ -90,7 +79,9 @@ function ProductPage(): JSX.Element {
               </a>
             </div>
           </div>
+
           <ReviewsList />
+
         </div>
       </main>
       <Footer />
