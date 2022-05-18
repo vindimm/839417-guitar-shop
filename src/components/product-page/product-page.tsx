@@ -9,7 +9,7 @@ import Footer from '../common/footer/footer';
 import ReviewsList from './reviews-list/reviews-list';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
 
-function Product(): JSX.Element {
+function ProductPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const { id } = useParams<{id: string}>();
   const guitar = useAppSelector(getGuitarById(Number(id)));
@@ -98,4 +98,4 @@ function Product(): JSX.Element {
   );
 }
 
-export default Product;
+export default ProductPage;

@@ -12,13 +12,8 @@ import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
 import ProductList from './products-list/products-list';
 import Pagination from './pagination/pagination';
 
-function Catalog(): JSX.Element {
-  let { id } = useParams<{id: string}>();
-
-  if (!id) {
-    id = '1';
-  }
-
+function CatalogPage(): JSX.Element {
+  const { id } = useParams<{id: string}>();
   const activeGuitars = useAppSelector(getActiveGuitars);
   const startIndex = (Number(id) - 1) * GUITARS_PER_PAGE;
   const endIndex = startIndex + GUITARS_PER_PAGE;
@@ -107,4 +102,4 @@ function Catalog(): JSX.Element {
   );
 }
 
-export default Catalog;
+export default CatalogPage;
