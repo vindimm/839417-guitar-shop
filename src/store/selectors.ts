@@ -8,3 +8,6 @@ export const getGuitarsQuantity = ((state: State) => state[NameSpace.CatalogData
 
 export const getGuitarById = (id: number) => (state: State) =>
   state[NameSpace.CatalogData].activeGuitars.find((guitar: Guitar) => guitar.id === id);
+
+export const getCommentsByGuitarId = (id: number) => (state: State) =>
+  state[NameSpace.CatalogData].commentsByGuitar[id];

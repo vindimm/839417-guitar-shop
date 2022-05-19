@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { store } from '../../store';
-import { useAppSelector } from '../../hooks';
-import { fetchGuitarsAction, fetchSeveralGuitarsAction, fetchCommentAction } from '../../store/api-actions';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { fetchGuitarsAction, fetchSeveralGuitarsAction } from '../../store/api-actions';
 import { getActiveGuitars } from '../../store/selectors';
 import { GUITARS_PER_PAGE } from '../../const';
 import Header from '../common/header/header';
@@ -13,18 +12,16 @@ import ProductList from './products-list/products-list';
 import Pagination from './pagination/pagination';
 
 function CatalogPage(): JSX.Element {
+  const dispatch = useAppDispatch();
   const { id } = useParams<{id: string}>();
   const activeGuitars = useAppSelector(getActiveGuitars);
   const startIndex = (Number(id) - 1) * GUITARS_PER_PAGE;
   const endIndex = startIndex + GUITARS_PER_PAGE;
 
   useEffect(() => {
-    store.dispatch(fetchGuitarsAction());
-    store.dispatch(fetchSeveralGuitarsAction([startIndex, endIndex]));
-    if (id) {
-      store.dispatch(fetchCommentAction(id));
-    }
-  }, [startIndex, endIndex, id]);
+    dispatch(fetchGuitarsAction());
+    dispatch(fetchSeveralGuitarsAction([startIndex, endIndex]));
+  }, [startIndex, endIndex, dispatch]);
 
   return (
     <div className="wrapper">
