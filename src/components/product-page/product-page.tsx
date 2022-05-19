@@ -16,10 +16,10 @@ function ProductPage(): JSX.Element {
   const guitar = useAppSelector(getGuitarById(Number(id)));
 
   useEffect (() => {
-    if (id) {
+    if (id && !guitar) {
       dispatch(fetchGuitarAction(id));
     }
-  }, [id, dispatch]);
+  }, [id, dispatch, guitar]);
 
   return (
     <div className="wrapper">

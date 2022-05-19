@@ -1,4 +1,4 @@
-type Comment = {
+type Review = {
   id: string,
   userName: string,
   advantage: string,
@@ -9,8 +9,8 @@ type Comment = {
   guitarId: number
 }
 
-type Comments = Comment[];
+type Reviews = Review[];
 
-type CommentsByGuitar = Record<number, Comments>;
+type ReviewsByGuitar = Record<number, Reviews>;
 
-export type {Comment, Comments, CommentsByGuitar};
+export type {Review, Reviews, ReviewsByGuitar };

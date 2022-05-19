@@ -1,11 +1,7 @@
 import { getMark, getDimensions } from '../../utils';
 
 type RatingChartProps = {
-  // ****************
-  // Когда появится рейтинг для отзывов
-  // сделать rating обязательным параметром
-  // *****************
-  rating?: number | undefined;
+  rating: number | undefined;
   size: 'small' | 'middle' | 'large';
 };
 

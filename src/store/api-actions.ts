@@ -5,8 +5,8 @@ import { api, store } from '../store';
 import { APIRoute } from '../const';
 import { AppDispatch, State } from '../types/state';
 import { Guitar, Guitars } from '../types/guitar';
-import { Comment } from '../types/comment';
-import { loadGuitars, loadSeveralGuitars, loadGuitar, loadComment } from './catalog-data/catalog-data';
+import { Review } from '../types/review';
+import { loadGuitars, loadSeveralGuitars, loadGuitar, loadReviews } from './catalog-data/catalog-data';
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -44,14 +44,14 @@ export const fetchGuitarAction = createAsyncThunk<void, string, {
   },
 );
 
-export const fetchCommentAction = createAsyncThunk<void, string, {
+export const fetchReviewsAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'data/fetchComment',
+  'data/fetchReviews',
   async (id) => {
-    const {data} = await api.get<Comment>(APIRoute.Comment.replace(':id', id));
-    store.dispatch(loadComment(data));
+    const {data} = await api.get<Review>(APIRoute.Comment.replace(':id', id));
+    store.dispatch(loadReviews(data));
   },
 );

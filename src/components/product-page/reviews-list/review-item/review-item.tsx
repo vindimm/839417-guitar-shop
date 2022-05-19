@@ -1,23 +1,31 @@
+import { Review } from '../../../../types/review';
 import RatingChart from '../../../common/rating-chart/rating-chart';
 
-function ReviewItem(): JSX.Element {
+type ReviewItemProps = {
+  review: Review;
+}
+
+function ReviewItem({ review }: ReviewItemProps): JSX.Element {
+  const date = new Date(review.createAt);
+  const formattedDate = date.toLocaleDateString('ru-RU', {day: 'numeric', month: 'long'});
+
   return (
     <div className="review">
       <div className="review__wrapper">
-        <h4 className="review__title review__title--author title title--lesser">Иванов Максим</h4>
-        <span className="review__date">12 декабря</span>
+        <h4 className="review__title review__title--author title title--lesser">{review.userName}</h4>
+        <span className="review__date">{formattedDate}</span>
       </div>
 
       <div className="rate review__rating-panel">
-        <RatingChart size={'large'} />
+        <RatingChart rating={review.rating} size={'large'} />
       </div>
 
       <h4 className="review__title title title--lesser">Достоинства:</h4>
-      <p className="review__value">Хороший корпус, чистый звук, стурны хорошего качества</p>
+      <p className="review__value">{review.advantage}</p>
       <h4 className="review__title title title--lesser">Недостатки:</h4>
-      <p className="review__value">Тугие колонки</p>
+      <p className="review__value">{review.disadvantage}</p>
       <h4 className="review__title title title--lesser">Комментарий:</h4>
-      <p className="review__value">У гитары отличный цвет, хороше дерево. Тяжелая, в компдлекте неть чехла и ремня.</p>
+      <p className="review__value">{review.comment}</p>
     </div>
   );
 }

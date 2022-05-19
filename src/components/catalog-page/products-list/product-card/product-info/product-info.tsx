@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks';
 
-import { getCommentsByGuitarId } from '../../../../../store/selectors';
-import { fetchCommentAction } from '../../../../../store/api-actions';
+import { getReviewsByGuitarId } from '../../../../../store/selectors';
+import { fetchReviewsAction } from '../../../../../store/api-actions';
 import { Guitar } from '../../../../../types/guitar';
 import RatingChart from '../../../../common/rating-chart/rating-chart';
 
@@ -13,11 +13,11 @@ type ProductInfoProps = {
 function ProductInfo({ product }: ProductInfoProps): JSX.Element {
   const dispatch = useAppDispatch();
   const id = product.id;
-  const comments = useAppSelector(getCommentsByGuitarId(id));
+  const reviews = useAppSelector(getReviewsByGuitarId(id));
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchCommentAction(String(id)));
+      dispatch(fetchReviewsAction(String(id)));
     }
   }, [id, dispatch]);
 
@@ -27,7 +27,7 @@ function ProductInfo({ product }: ProductInfoProps): JSX.Element {
         <RatingChart rating={product.rating} size={'small'} />
         <p className="rate__count">
           <span className="visually-hidden">Всего оценок:</span>
-          {comments?.length}
+          {reviews?.length}
         </p>
       </div>
       <p className="product-card__title">{product.name}</p>

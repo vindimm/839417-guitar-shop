@@ -6,7 +6,7 @@ import { CatalogData } from '../../types/state';
 const initialState: CatalogData = {
   guitarsQuantity: 0,
   activeGuitars: [],
-  commentsByGuitar: {},
+  reviewsByGuitar: {},
 };
 
 export const catalogData = createSlice({
@@ -23,10 +23,10 @@ export const catalogData = createSlice({
       state.activeGuitars = [];
       state.activeGuitars.push(action.payload);
     },
-    loadComment: (state, action) => {
-      state.commentsByGuitar[action.payload[0].guitarId] = action.payload;
+    loadReviews: (state, action) => {
+      state.reviewsByGuitar[action.payload[0].guitarId] = action.payload;
     },
   },
 });
 
-export const { loadGuitars, loadSeveralGuitars, loadGuitar, loadComment } = catalogData.actions;
+export const { loadGuitars, loadSeveralGuitars, loadGuitar, loadReviews } = catalogData.actions;

@@ -15,11 +15,14 @@ function Breadcrumbs(): JSX.Element {
     <>
       <h1 className="page-content__title title title--bigger">{parsedCrumbs[parsedCrumbs.length - 1]}</h1>
       <ul className="breadcrumbs page-content__breadcrumbs">
-        {parsedCrumbs.map((crumb) => (
-          <li className="breadcrumbs__item" key={crumb}>
-            <Link className="link" to="/">{crumb}</Link>
-          </li>
-        ))}
+        {parsedCrumbs.map((crumb, index) => {
+          const keyValue = `${crumb}-${index}`;
+          return (
+            <li className="breadcrumbs__item" key={keyValue}>
+              <Link className="link" to="/">{crumb}</Link>
+            </li>
+          );
+        })}
       </ul>
     </>
   );
