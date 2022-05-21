@@ -2,6 +2,8 @@ export const GUITARS_PER_PAGE = 9;
 
 export const REVIEWS_PER_STEP = 3;
 
+export const DEFAULT_TAB_NAME = '#characteristics';
+
 export enum AppRoute {
   Catalog = '/catalog',
   CatalogPage = '/catalog/page/:id',
