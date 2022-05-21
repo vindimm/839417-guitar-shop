@@ -14,12 +14,16 @@ export enum AppRoute {
 export enum APIRoute {
   Guitars = '/guitars',
   Guitar = '/guitars/:id',
-  // временный путь из-за проблем на сервере
-  Guitars27 = '/guitars?_limit=27',
   Comment = '/guitars/:id/comments',
+  SendComment = '/comments',
 }
 
 export enum NameSpace {
   CatalogData = 'CATALOG_DATA',
   CatalogProcess = 'CATALOG_PROCESS',
+}
+
+export enum TabName {
+  Characteristic = '#characteristics',
+  Description = '#description',
 }

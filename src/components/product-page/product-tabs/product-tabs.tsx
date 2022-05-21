@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 import { Guitar } from '../../../types/guitar';
-import { DEFAULT_TAB_NAME } from '../../../const';
+import { TabName } from '../../../const';
 
 type ProductTabsProps = {
   guitar: Guitar | undefined,
@@ -11,12 +11,12 @@ type ProductTabsProps = {
 function ProductTabs({ guitar }: ProductTabsProps): JSX.Element {
 
   const location = useLocation();
-  const tabName: string = location.hash || DEFAULT_TAB_NAME;
+  const tabName: string = location.hash || TabName.Characteristic;
 
   return (
     <div className="tabs">
       <Link
-        className={tabName === '#characteristics' ?
+        className={tabName === TabName.Characteristic ?
           'button button--medium tabs__button' :
           'button button--medium tabs__button button--black-border'}
         to="#characteristics"
@@ -24,7 +24,7 @@ function ProductTabs({ guitar }: ProductTabsProps): JSX.Element {
           Характеристики
       </Link>
       <Link
-        className={tabName === '#description' ?
+        className={tabName === TabName.Description ?
           'button button--medium tabs__button' :
           'button button--medium tabs__button button--black-border'}
         to="#description"
@@ -42,18 +42,20 @@ function ProductTabs({ guitar }: ProductTabsProps): JSX.Element {
           ) :
           (
             <table className="tabs__table">
-              <tr className="tabs__table-row">
-                <td className="tabs__title">Артикул:</td>
-                <td className="tabs__value">{guitar?.vendorCode}</td>
-              </tr>
-              <tr className="tabs__table-row">
-                <td className="tabs__title">Тип:</td>
-                <td className="tabs__value">{guitar?.type}</td>
-              </tr>
-              <tr className="tabs__table-row">
-                <td className="tabs__title">Количество струн:</td>
-                <td className="tabs__value">{guitar?.stringCount} струнная</td>
-              </tr>
+              <tbody>
+                <tr className="tabs__table-row">
+                  <td className="tabs__title">Артикул:</td>
+                  <td className="tabs__value">{guitar?.vendorCode}</td>
+                </tr>
+                <tr className="tabs__table-row">
+                  <td className="tabs__title">Тип:</td>
+                  <td className="tabs__value">{guitar?.type}</td>
+                </tr>
+                <tr className="tabs__table-row">
+                  <td className="tabs__title">Количество струн:</td>
+                  <td className="tabs__value">{guitar?.stringCount} струнная</td>
+                </tr>
+              </tbody>
             </table>
           )}
       </div>

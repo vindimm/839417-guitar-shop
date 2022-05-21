@@ -5,7 +5,7 @@ import { api, store } from '../store';
 import { APIRoute } from '../const';
 import { AppDispatch, State } from '../types/state';
 import { Guitar, Guitars } from '../types/guitar';
-import { Review } from '../types/review';
+import { Review, PostingReview } from '../types/review';
 import { loadGuitars, loadSeveralGuitars, loadGuitar, loadReviews } from './catalog-data/catalog-data';
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
@@ -15,7 +15,7 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchGuitars',
   async () => {
-    const {data} = await api.get<Guitars>(APIRoute.Guitars27);
+    const {data} = await api.get<Guitars>(APIRoute.Guitars);
     store.dispatch(loadGuitars(data));
   },
 );
@@ -53,5 +53,19 @@ export const fetchReviewsAction = createAsyncThunk<void, string, {
   async (id) => {
     const {data} = await api.get<Review>(APIRoute.Comment.replace(':id', id));
     store.dispatch(loadReviews(data));
+  },
+);
+
+export const sendReviewAction = createAsyncThunk<void, PostingReview, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/addReviews',
+  async (review, {dispatch}) => {
+    const {data} = await api.post<Review>(APIRoute.SendComment, review);
+
+    dispatch(loadReviews(data));
+    // dispatch(redirectToRoute(AppRoute.Film.replace(':id', id)));
   },
 );

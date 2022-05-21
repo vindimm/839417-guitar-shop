@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, KeyboardEvent } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
@@ -7,6 +7,7 @@ import { fetchReviewsAction } from '../../../store/api-actions';
 import { Reviews } from '../../../types/review';
 import { REVIEWS_PER_STEP } from '../../../const';
 import ReviewItem from './review-item/review-item';
+import ReviewModal from './review-modal/review-modal';
 
 function ReviewsList(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -14,23 +15,42 @@ function ReviewsList(): JSX.Element {
   const reviews: Reviews = useAppSelector(getReviewsByGuitarId(Number(id)));
 
   const [showedReviews, setShowedReviews] = useState<Reviews>(reviews?.slice(0, REVIEWS_PER_STEP));
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setShowedReviews(reviews?.slice(0, REVIEWS_PER_STEP));
   }, [reviews]);
 
-  useEffect (() => {
+  useEffect(() => {
     if (id && !reviews) {
       dispatch(fetchReviewsAction(id));
     }
   }, [id, dispatch, reviews]);
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleEscKeyDown = (evt: KeyboardEvent) => {
+    if (evt.key === 'Escape') {
+      closeModal();
+    }
+  };
+
   return (
-    <section className="reviews">
+    <section className="reviews" onKeyDown={handleEscKeyDown}>
       <h3 className="reviews__title title title--bigger">
         Отзывы
       </h3>
-      <Link className="button button--red-border button--big reviews__sumbit-button" to="#">
+      <Link
+        className="button button--red-border button--big reviews__sumbit-button"
+        to="#"
+        onClick={openModal}
+      >
         Оставить отзыв
       </Link>
 
@@ -44,9 +64,17 @@ function ReviewsList(): JSX.Element {
           Показать еще отзывы
         </button>}
 
-      <Link className="button button--up button--red-border button--big reviews__up-button" to="#header">
+      {showedReviews !== undefined &&
+        <Link
+          to="#"
+          className="button button--up button--red-border button--big reviews__up-button"
+          style={{ zIndex: '100' }}
+          onClick={() => {window.scrollTo(0, 0); }}
+        >
         Наверх
-      </Link>
+        </Link>}
+
+      {isModalOpen && <ReviewModal handleCloseModal={closeModal} />}
     </section>
   );
 }
