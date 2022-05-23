@@ -7,7 +7,7 @@ import { fetchReviewsAction } from '../../../store/api-actions';
 import { Reviews } from '../../../types/review';
 import { REVIEWS_PER_STEP } from '../../../const';
 import ReviewItem from './review-item/review-item';
-import ReviewModal from './review-modal/review-modal';
+import ReviewForm from './review-form/review-form';
 
 function ReviewsList(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -74,7 +74,7 @@ function ReviewsList(): JSX.Element {
         Наверх
         </Link>}
 
-      {isModalOpen && <ReviewModal handleCloseModal={closeModal} />}
+      {isModalOpen && <ReviewForm handleCloseModal={closeModal} />}
     </section>
   );
 }
