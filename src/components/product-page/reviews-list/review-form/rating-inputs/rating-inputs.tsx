@@ -1,5 +1,7 @@
 import React, { ChangeEvent } from 'react';
 
+import { getMark } from '../../../../utils';
+
 type RatingInputsProps = {
   onRatingChange: (value: number) => void;
   maxRating: number;
@@ -31,7 +33,7 @@ function RatingInputs({onRatingChange, maxRating, rating}: RatingInputsProps): J
               <label
                 className="rate__label"
                 htmlFor={`star-${currentId}`}
-                title={`Отлично${currentId}`}
+                title={getMark(currentId)}
               >
               </label>
             </React.Fragment>

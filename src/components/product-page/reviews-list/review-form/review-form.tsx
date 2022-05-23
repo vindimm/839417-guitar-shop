@@ -1,4 +1,4 @@
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { sendReviewAction } from '../../../../store/api-actions';
@@ -22,6 +22,7 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
   const [advantage, setAdvantage] = useState('');
   const [disadvantage, setDisadvantage] = useState('');
   const [comment, setComment] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleUserNameChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setUserName(evt.target.value);
@@ -49,6 +50,14 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
     handleCloseReviewModal();
     handleOpenSuccessModal();
   };
+
+  useEffect(() => {
+    if (!rating || !userName || !advantage || !disadvantage || !comment) {
+      setIsFormValid(false);
+    } else {
+      setIsFormValid(true);
+    }
+  }, [rating, userName, advantage, disadvantage, comment]);
 
   return (
     <div className="modal is-active modal--review modal-for-ui-kit">
@@ -120,7 +129,13 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
             </textarea>
 
             <p className="form-review__warning">Заполните поле</p>
-            <button className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
+            <button
+              className="button button--medium-20 form-review__button"
+              type="submit"
+              disabled={!isFormValid}
+            >
+              Отправить отзыв
+            </button>
           </form>
           <button
             className="modal__close-btn button-cross"

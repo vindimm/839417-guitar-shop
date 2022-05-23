@@ -35,7 +35,7 @@ export const getMark = (rating: number): string => {
       mark = 'Плохо';
       break;
     case 3:
-      mark = 'Средне';
+      mark = 'Нормально';
       break;
     case 4:
       mark = 'Хорошо';
