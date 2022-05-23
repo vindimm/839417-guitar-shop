@@ -8,10 +8,11 @@ import { RATING, MAX_RATING } from '../../../../const';
 import RatingInputs from './rating-inputs/rating-inputs';
 
 type ReviewFormProps = {
-  handleCloseModal: () => void;
+  handleCloseReviewModal: () => void;
+  handleOpenSuccessModal: () => void;
 }
 
-function ReviewForm({ handleCloseModal }: ReviewFormProps): JSX.Element {
+function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFormProps): JSX.Element {
   const { id } = useParams<{id: string}>();
   const guitar = useAppSelector(getGuitarById(Number(id)));
   const dispatch = useAppDispatch();
@@ -45,12 +46,14 @@ function ReviewForm({ handleCloseModal }: ReviewFormProps): JSX.Element {
   const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(sendReviewAction({guitarId: Number(id), userName, advantage, disadvantage, comment, rating}));
+    handleCloseReviewModal();
+    handleOpenSuccessModal();
   };
 
   return (
     <div className="modal is-active modal--review modal-for-ui-kit">
       <div className="modal__wrapper">
-        <div className="modal__overlay" data-close-modal onClick={handleCloseModal}>
+        <div className="modal__overlay" data-close-modal onClick={handleCloseReviewModal}>
         </div>
         <div className="modal__content">
           <h2 className="modal__header modal__header--review title title--medium">Оставить отзыв</h2>
@@ -123,7 +126,7 @@ function ReviewForm({ handleCloseModal }: ReviewFormProps): JSX.Element {
             className="modal__close-btn button-cross"
             type="button"
             aria-label="Закрыть"
-            onClick={handleCloseModal}
+            onClick={handleCloseReviewModal}
           >
             <span className="button-cross__icon"></span>
             <span className="modal__close-btn-interactive-area"></span>

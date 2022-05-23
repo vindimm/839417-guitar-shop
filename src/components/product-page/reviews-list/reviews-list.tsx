@@ -8,6 +8,7 @@ import { Reviews } from '../../../types/review';
 import { REVIEWS_PER_STEP } from '../../../const';
 import ReviewItem from './review-item/review-item';
 import ReviewForm from './review-form/review-form';
+import ReviewSuccessModal from './review-success-modal/review-success-modal';
 
 function ReviewsList(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -15,7 +16,8 @@ function ReviewsList(): JSX.Element {
   const reviews: Reviews = useAppSelector(getReviewsByGuitarId(Number(id)));
 
   const [showedReviews, setShowedReviews] = useState<Reviews>(reviews?.slice(0, REVIEWS_PER_STEP));
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   useEffect(() => {
     setShowedReviews(reviews?.slice(0, REVIEWS_PER_STEP));
@@ -27,17 +29,25 @@ function ReviewsList(): JSX.Element {
     }
   }, [id, dispatch, reviews]);
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const openReviewModal = () => {
+    setIsReviewModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeReviewModal = () => {
+    setIsReviewModalOpen(false);
+  };
+
+  const openSuccessModal = () => {
+    setIsSuccessModalOpen(true);
+  };
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
   };
 
   const handleEscKeyDown = (evt: KeyboardEvent) => {
     if (evt.key === 'Escape') {
-      closeModal();
+      closeReviewModal();
     }
   };
 
@@ -49,7 +59,7 @@ function ReviewsList(): JSX.Element {
       <Link
         className="button button--red-border button--big reviews__sumbit-button"
         to="#"
-        onClick={openModal}
+        onClick={openReviewModal}
       >
         Оставить отзыв
       </Link>
@@ -74,7 +84,8 @@ function ReviewsList(): JSX.Element {
         Наверх
         </Link>}
 
-      {isModalOpen && <ReviewForm handleCloseModal={closeModal} />}
+      {isReviewModalOpen && <ReviewForm handleCloseReviewModal={closeReviewModal} handleOpenSuccessModal={openSuccessModal} />}
+      {isSuccessModalOpen && <ReviewSuccessModal handleCloseSuccessModal={closeSuccessModal} />}
     </section>
   );
 }
