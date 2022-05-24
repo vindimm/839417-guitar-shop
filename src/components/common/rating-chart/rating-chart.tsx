@@ -1,4 +1,4 @@
-import { getMark, getDimensions } from '../../utils';
+import { getMark, getDimensions } from '../../../utils/utils';
 
 type RatingChartProps = {
   rating: number | undefined;

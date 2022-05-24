@@ -31,18 +31,22 @@ function ReviewsList(): JSX.Element {
 
   const openReviewModal = () => {
     setIsReviewModalOpen(true);
+    document.body.style.position = 'fixed';
   };
 
   const closeReviewModal = () => {
     setIsReviewModalOpen(false);
+    document.body.style.position = 'static';
   };
 
   const openSuccessModal = () => {
     setIsSuccessModalOpen(true);
+    document.body.style.position = 'fixed';
   };
 
   const closeSuccessModal = () => {
     setIsSuccessModalOpen(false);
+    document.body.style.position = 'static';
   };
 
   const handleEscKeyDown = (evt: KeyboardEvent) => {

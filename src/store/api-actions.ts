@@ -64,8 +64,6 @@ export const sendReviewAction = createAsyncThunk<void, PostingReview, {
   'data/addReviews',
   async (review, {dispatch}) => {
     const {data} = await api.post<Review>(APIRoute.SendComment, review);
-
     dispatch(loadReviews(data));
-    // dispatch(redirectToRoute(AppRoute.Film.replace(':id', id)));
   },
 );

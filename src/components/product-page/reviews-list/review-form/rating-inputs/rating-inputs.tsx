@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 
-import { getMark } from '../../../../utils';
+import { getMark } from '../../../../../utils/utils';
 
 type RatingInputsProps = {
   onRatingChange: (value: number) => void;

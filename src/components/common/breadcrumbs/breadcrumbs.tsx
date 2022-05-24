@@ -2,7 +2,7 @@ import { useParams, useLocation, Link } from 'react-router-dom';
 
 import { useAppSelector } from '../../../hooks';
 import { getGuitarById } from '../../../store/selectors';
-import { getParsedCrumbs } from '../../utils';
+import { getParsedCrumbs } from '../../../utils/utils';
 
 function Breadcrumbs(): JSX.Element {
   const location = useLocation();
