@@ -4,7 +4,7 @@ function Footer(): JSX.Element {
   return (
     <footer className="footer">
       <div className="footer__container container">
-        <Link className="footer__logo logo" to="#"><img className="logo__img" width="70" height="70" src="/img/svg/logo.svg" alt="Логотип"/></Link>
+        <Link className="footer__logo logo" to="/"><img className="logo__img" width="70" height="70" src="/img/svg/logo.svg" alt="Логотип"/></Link>
         <div className="socials footer__socials">
           <ul className="socials__list">
             <li className="socials-item">
@@ -55,7 +55,8 @@ function Footer(): JSX.Element {
           <div className="footer__nav-content">
             <svg className="footer__icon" width="8" height="8" aria-hidden="true">
               <use xlinkHref="#icon-phone"></use>
-            </svg><a className="link" href="tel:88125005050"> 8-812-500-50-50</a>
+            </svg>
+            <a className="link" href="tel:88125005050"> 8-812-500-50-50</a>
           </div>
           <p className="footer__nav-content">Режим работы:<br/>
             <span className="footer__span">

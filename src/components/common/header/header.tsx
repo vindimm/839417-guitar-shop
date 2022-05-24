@@ -1,16 +1,18 @@
 import { Link } from 'react-router-dom';
 
+import { AppRoute } from '../../../const';
+
 function Header(): JSX.Element {
   return (
     <header className="header" id="header">
       <div className="container header__wrapper">
-        <Link className="header__logo logo" to="#">
+        <Link className="header__logo logo" to="/">
           <img className="logo__img" width="70" height="70" src="/img/svg/logo.svg" alt="Логотип"/>
         </Link>
         <nav className="main-nav">
           <ul className="main-nav__list">
             <li>
-              <Link className="link main-nav__link link--current" to="#">Каталог</Link>
+              <Link className="link main-nav__link link--current" to={AppRoute.Catalog}>Каталог</Link>
             </li>
             <li>
               <Link className="link main-nav__link" to="#">Где купить?</Link>
