@@ -1,5 +1,5 @@
 // Получение массива строк для навигации ("хлебные крошки")
-export const getParsedCrumbs = (crumbs: string[], guitarTitle: string | undefined) => {
+export const getParsedCrumbs = (crumbs: string[], guitarTitle: string | undefined = '') => {
   const parseCrumbs = (item: string | undefined) => {
     switch (item) {
       case '':
