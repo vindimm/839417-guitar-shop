@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { api, store } from '../store';
+// import { api, store } from '../store';
 import { APIRoute } from '../const';
 import { AppDispatch, State } from '../types/state';
 import { Guitar, Guitars } from '../types/guitar';
@@ -14,9 +14,9 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance
 }>(
   'data/fetchGuitars',
-  async () => {
+  async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<Guitars>(APIRoute.Guitars);
-    store.dispatch(loadGuitars(data));
+    dispatch(loadGuitars(data));
   },
 );
 
@@ -26,9 +26,9 @@ export const fetchSeveralGuitarsAction = createAsyncThunk<void, Array<number>, {
   extra: AxiosInstance
 }>(
   'data/fetchSeveralGuitars',
-  async ([startIndex, endIndex]) => {
+  async ([startIndex, endIndex], {dispatch, extra: api}) => {
     const {data} = await api.get<Guitars>(`${APIRoute.Guitars}?_start=${startIndex}&_end=${endIndex}`);
-    store.dispatch(loadSeveralGuitars(data));
+    dispatch(loadSeveralGuitars(data));
   },
 );
 
@@ -38,9 +38,9 @@ export const fetchGuitarAction = createAsyncThunk<void, string, {
   extra: AxiosInstance
 }>(
   'data/fetchGuitar',
-  async (id) => {
+  async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<Guitar>(APIRoute.Guitar.replace(':id', id));
-    store.dispatch(loadGuitar(data));
+    dispatch(loadGuitar(data));
   },
 );
 
@@ -50,9 +50,9 @@ export const fetchReviewsAction = createAsyncThunk<void, string, {
   extra: AxiosInstance
 }>(
   'data/fetchReviews',
-  async (id) => {
+  async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<Review>(APIRoute.Comment.replace(':id', id));
-    store.dispatch(loadReviews(data));
+    dispatch(loadReviews(data));
   },
 );
 
@@ -62,7 +62,7 @@ export const sendReviewAction = createAsyncThunk<void, PostingReview, {
   extra: AxiosInstance
 }>(
   'data/addReviews',
-  async (review, {dispatch}) => {
+  async (review, {dispatch, extra: api}) => {
     const {data} = await api.post<Review>(APIRoute.SendComment, review);
     dispatch(loadReviews(data));
   },

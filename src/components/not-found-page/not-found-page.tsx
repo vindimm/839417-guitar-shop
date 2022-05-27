@@ -9,9 +9,9 @@ function NotFoundPage(): JSX.Element {
       <Header />
       <main className="page-content">
         <div className="container">
-          <h2 className="product-container__title title title--big title--uppercase">
+          <h1 className="product-container__title title title--big title--uppercase">
             404. Not Found
-          </h2>
+          </h1>
           <Link className="link" to="/">
             Вернуться на главную
           </Link>
