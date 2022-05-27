@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-// import { api, store } from '../store';
 import { APIRoute } from '../const';
 import { AppDispatch, State } from '../types/state';
 import { Guitar, Guitars } from '../types/guitar';
