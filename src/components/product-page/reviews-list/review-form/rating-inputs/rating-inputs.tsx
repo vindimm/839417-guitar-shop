@@ -24,6 +24,7 @@ function RatingInputs({onRatingChange, maxRating, rating}: RatingInputsProps): J
               <input
                 className="visually-hidden"
                 id={`star-${currentId}`}
+                data-testid={`star-${currentId}`}
                 name="rate"
                 type="radio"
                 value={currentId}

@@ -34,14 +34,14 @@ function ProductTabs({ guitar }: ProductTabsProps): JSX.Element {
       <div className="tabs__content">
         {tabName === '#description' ?
           (
-            <p className="tabs__product-description">
+            <p className="tabs__product-description" data-testid="tabs__product-description">
               Гитара подходит как для старта обучения, так и для домашних занятий или использования в полевых условиях,
               например, в походах или для проведения уличных выступлений. Доступная стоимость, качество и надежная
               конструкция, а также приятный внешний вид, который сделает вас звездой вечеринки.
             </p>
           ) :
           (
-            <table className="tabs__table">
+            <table className="tabs__table" data-testid="tabs__product-characteristic">
               <tbody>
                 <tr className="tabs__table-row">
                   <td className="tabs__title">Артикул:</td>
