@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { APIRoute } from '../const';
+import { APIRoute, AppRoute } from '../const';
+import { redirectToRoute } from './action';
 import { AppDispatch, State } from '../types/state';
 import { Guitar, Guitars } from '../types/guitar';
 import { Review, PostingReview } from '../types/review';
@@ -38,8 +39,12 @@ export const fetchGuitarAction = createAsyncThunk<void, string, {
 }>(
   'data/fetchGuitar',
   async (id, {dispatch, extra: api}) => {
-    const {data} = await api.get<Guitar>(APIRoute.Guitar.replace(':id', id));
-    dispatch(loadGuitar(data));
+    try {
+      const {data} = await api.get<Guitar>(APIRoute.Guitar.replace(':id', id));
+      dispatch(loadGuitar(data));
+    } catch(error) {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
   },
 );
 

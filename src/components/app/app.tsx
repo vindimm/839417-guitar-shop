@@ -1,13 +1,15 @@
-import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
 import { AppRoute } from '../../const';
+import HistoryRoute from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 import CatalogPage from '../catalog-page/catalog-page';
 import ProductPage from '../product-page/product-page';
 import NotFoundPage from '../not-found-page/not-found-page';
 
 function App(): JSX.Element {
   return (
-    <BrowserRouter >
+    <HistoryRoute history={browserHistory}>
       <Routes>
         <Route index element={<Navigate to={AppRoute.Catalog} />} />
         <Route path={AppRoute.Catalog} >
@@ -17,7 +19,7 @@ function App(): JSX.Element {
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </BrowserRouter>
+    </HistoryRoute>
   );
 }
 

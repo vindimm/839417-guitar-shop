@@ -75,3 +75,12 @@ export const getDimensions = (size: 'small' | 'middle' | 'large'): [number, numb
 
   return [width, height];
 };
+
+// Превращает строку из пробелов в пустую строку
+export const validateString = (text: string): string => {
+  let result = text.replace(/\s+/g, ' ');
+  if (result === ' ') {
+    result = '';
+  }
+  return result;
+};

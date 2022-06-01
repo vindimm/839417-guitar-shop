@@ -9,6 +9,7 @@ export enum AppRoute {
   CatalogPage = '/catalog/page/:id',
   CatalogPage1 = '/catalog/page/1',
   GuitarPage = '/catalog/guitar/:id',
+  NotFound = '/404',
 }
 
 export enum APIRoute {

@@ -1,5 +1,4 @@
-// Все действия отсюда удалил после введения
-// createSlice
-// позже здесь возможно появятся какие-то действия
+import { createAction } from '@reduxjs/toolkit';
+import { AppRoute } from '../const';
 
-export {};
+export const redirectToRoute = createAction<AppRoute | string>('redirectToRoute');

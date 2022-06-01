@@ -5,6 +5,7 @@ import { sendReviewAction } from '../../../../store/api-actions';
 import { useAppSelector, useAppDispatch } from '../../../../hooks';
 import { getGuitarById } from '../../../../store/selectors';
 import { RATING, MAX_RATING } from '../../../../const';
+import { validateString } from '../../../../utils/utils';
 import RatingInputs from './rating-inputs/rating-inputs';
 
 type ReviewFormProps = {
@@ -25,19 +26,19 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
   const [isFormValid, setIsFormValid] = useState(false);
 
   const handleUserNameChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setUserName(evt.target.value);
+    setUserName(validateString(evt.target.value));
   };
 
   const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(evt.target.value);
+    setComment(validateString(evt.target.value));
   };
 
   const handleAdvantageChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setAdvantage(evt.target.value);
+    setAdvantage(validateString(evt.target.value));
   };
 
   const handleDisadvantageChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setDisadvantage(evt.target.value);
+    setDisadvantage(validateString(evt.target.value));
   };
 
   const handleRatingChange = (value: number) => {
