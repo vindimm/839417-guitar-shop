@@ -14,13 +14,14 @@ function ReviewsList(): JSX.Element {
   const dispatch = useAppDispatch();
   const { id } = useParams<{id: string}>();
   const reviews: Reviews = useAppSelector(getReviewsByGuitarId(Number(id)));
+  const reversedReviews = reviews?.slice(0).reverse();
 
-  const [showedReviews, setShowedReviews] = useState<Reviews>(reviews?.slice(0, REVIEWS_PER_STEP));
+  const [showedReviews, setShowedReviews] = useState<Reviews>(reversedReviews?.slice(0, REVIEWS_PER_STEP));
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   useEffect(() => {
-    setShowedReviews(reviews?.slice(0, REVIEWS_PER_STEP));
+    setShowedReviews(reversedReviews?.slice(0, REVIEWS_PER_STEP));
   }, [reviews]);
 
   useEffect(() => {
@@ -73,7 +74,7 @@ function ReviewsList(): JSX.Element {
       {showedReviews?.length < reviews?.length &&
         <button
           className="button button--medium reviews__more-button"
-          onClick={() => setShowedReviews(reviews?.slice(0, showedReviews?.length + REVIEWS_PER_STEP))}
+          onClick={() => setShowedReviews(reversedReviews?.slice(0, showedReviews?.length + REVIEWS_PER_STEP))}
         >
           Показать еще отзывы
         </button>}

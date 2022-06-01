@@ -26,7 +26,10 @@ export const catalogData = createSlice({
     loadReviews: (state, action) => {
       state.reviewsByGuitar[action.payload[0].guitarId] = action.payload;
     },
+    addReview: (state, action) => {
+      state.reviewsByGuitar[action.payload.guitarId].push(action.payload);
+    },
   },
 });
 
-export const { loadGuitars, loadSeveralGuitars, loadGuitar, loadReviews } = catalogData.actions;
+export const { loadGuitars, loadSeveralGuitars, loadGuitar, loadReviews, addReview } = catalogData.actions;

@@ -6,7 +6,7 @@ import { redirectToRoute } from './action';
 import { AppDispatch, State } from '../types/state';
 import { Guitar, Guitars } from '../types/guitar';
 import { Review, PostingReview } from '../types/review';
-import { loadGuitars, loadSeveralGuitars, loadGuitar, loadReviews } from './catalog-data/catalog-data';
+import { loadGuitars, loadSeveralGuitars, loadGuitar, loadReviews, addReview } from './catalog-data/catalog-data';
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -65,9 +65,9 @@ export const sendReviewAction = createAsyncThunk<void, PostingReview, {
   state: State,
   extra: AxiosInstance
 }>(
-  'data/addReviews',
+  'data/addReview',
   async (review, {dispatch, extra: api}) => {
     const {data} = await api.post<Review>(APIRoute.SendComment, review);
-    dispatch(loadReviews(data));
+    dispatch(addReview(data));
   },
 );
