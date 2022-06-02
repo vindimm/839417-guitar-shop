@@ -10,7 +10,7 @@ type ProductCardProps = {
 
 function ProductCard({product}: ProductCardProps): JSX.Element {
   return (
-    <div className="product-card">
+    <li className="product-card">
       <img
         src={`/${product.previewImg}`}
         srcSet={`/${product.previewImg?.slice(0, -4)}@2x.jpg 2x`}
@@ -30,7 +30,7 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
         </Link>
         <Link className="button button--red-border button--mini button--in-cart" to="#">В Корзине</Link>
       </div>
-    </div>
+    </li>
   );
 }
 

@@ -16,8 +16,8 @@ function RatingChart({ rating = 0, size = 'small' }: RatingChartProps): JSX.Elem
       {stars.map((_item: string, index: number) => {
         const keyValue = `star-${index}`;
         return (
-          <svg width={width} height={height} aria-hidden="true" key={keyValue}>
-            <use xlinkHref={(index + 1) <= roundRating ? '#icon-full-star' : '#icon-star'}></use>
+          <svg width={width} height={height} aria-hidden="true" key={keyValue} data-testid="rating-chart-svg">
+            <use xlinkHref={(index + 1) <= roundRating ? '#icon-full-star' : '#icon-star'} data-testid="rating-chart-star"></use>
           </svg>
         );
       })}

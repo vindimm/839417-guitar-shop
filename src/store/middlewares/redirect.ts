@@ -11,8 +11,6 @@ export const redirect: Middleware<unknown, Reducer>=
       (action) => {
         if (action.type === 'redirectToRoute') {
           browserHistory.push(action.payload);
-          // eslint-disable-next-line no-console
-          console.log(121231231231);
         }
 
         return next(action);

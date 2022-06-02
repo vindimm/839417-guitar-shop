@@ -16,9 +16,9 @@ export const makeFakeGuitar = (): Guitar => (
 );
 
 export const makeFakeGuitars = (quantity: number): Guitars => (
-  new Array(quantity).fill(null).map(() => (
+  new Array(quantity).fill(null).map((_item, index: number) => (
     {
-      id: 1,
+      id: index,
       name: 'fsdafasdfasds',
       vendorCode: 'qwe1231',
       type: 'classic',
