@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getGuitarById } from '../../store/selectors';
+import { getGuitarById, getReviewsByGuitarId } from '../../store/selectors';
 import { fetchGuitarAction } from '../../store/api-actions';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
@@ -15,6 +15,7 @@ function ProductPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const { id } = useParams<{id: string}>();
   const guitar = useAppSelector(getGuitarById(Number(id)));
+  const reviews = useAppSelector(getReviewsByGuitarId(Number(id)));
 
   useEffect (() => {
     if (id && !guitar) {
@@ -41,6 +42,10 @@ function ProductPage(): JSX.Element {
 
               <div className="rate product-container__rating">
                 <RatingChart rating={guitar?.rating} size={'middle'} />
+                <p className="rate__count" style={{paddingLeft: '8px'}}>
+                  <span className="visually-hidden">Всего оценок:</span>
+                  {reviews?.length || 0}
+                </p>
               </div>
 
               <ProductTabs guitar={guitar} />

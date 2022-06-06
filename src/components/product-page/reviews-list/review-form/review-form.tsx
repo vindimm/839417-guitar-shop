@@ -57,18 +57,32 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
 
     if (!rating) {
       setIsRatingWarning(true);
+    } else {
+      setIsRatingWarning(false);
     }
+
     if (!userName) {
       setIsUserNameWarning(true);
+    } else {
+      setIsUserNameWarning(false);
     }
+
     if (!advantage) {
       setIsAdvantageWarning(true);
+    } else {
+      setIsAdvantageWarning(false);
     }
+
     if (!disadvantage) {
       setIsDisadvantageWarning(true);
+    } else {
+      setIsDisadvantageWarning(false);
     }
+
     if (!comment) {
       setIsCommentWarning(true);
+    } else {
+      setIsCommentWarning(false);
     }
 
     if (isFormValid) {
@@ -108,7 +122,7 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
                   value={userName}
                   onChange={handleUserNameChange}
                 />
-                <p className={`form-review__warning ${isUserNameWarning ? '' : 'visually-hidden'}`}>
+                <p className="form-review__warning" style={isUserNameWarning ? {} : {visibility: 'hidden'}} >
                   Заполните поле
                 </p>
               </div>
@@ -119,7 +133,7 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
 
                   <RatingInputs rating={rating} maxRating={MAX_RATING} onRatingChange={handleRatingChange} />
 
-                  <p className={`rate__message ${isRatingWarning ? '' : 'visually-hidden'}`}>
+                  <p className="rate__message" style={isRatingWarning ? {} : {visibility: 'hidden'}}>
                     Поставьте оценку
                   </p>
                 </div>
@@ -135,7 +149,7 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
               value={advantage}
               onChange={handleAdvantageChange}
             />
-            <p className={`form-review__warning ${isAdvantageWarning ? '' : 'visually-hidden'}`}>
+            <p className="form-review__warning" style={isAdvantageWarning ? {} : {visibility: 'hidden'}}>
               Заполните поле
             </p>
 
@@ -148,7 +162,7 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
               value={disadvantage}
               onChange={handleDisadvantageChange}
             />
-            <p className={`form-review__warning ${isDisadvantageWarning ? '' : 'visually-hidden'}`}>
+            <p className="form-review__warning" style={isDisadvantageWarning ? {} : {visibility: 'hidden'}}>
               Заполните поле
             </p>
 
@@ -163,7 +177,7 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
             >
             </textarea>
 
-            <p className={`form-review__warning ${isCommentWarning ? '' : 'visually-hidden'}`}>
+            <p className="form-review__warning" style={isCommentWarning ? {} : {visibility: 'hidden'}}>
               Заполните поле
             </p>
             <button
