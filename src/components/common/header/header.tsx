@@ -2,7 +2,11 @@ import { Link } from 'react-router-dom';
 
 import { AppRoute } from '../../../const';
 
-function Header(): JSX.Element {
+type HeaderProps = {
+  isCatalogPage?: boolean;
+}
+
+function Header({ isCatalogPage }: HeaderProps ): JSX.Element {
   return (
     <header className="header" id="header">
       <div className="container header__wrapper">
@@ -12,7 +16,12 @@ function Header(): JSX.Element {
         <nav className="main-nav">
           <ul className="main-nav__list">
             <li>
-              <Link className="link main-nav__link link--current" to={AppRoute.Catalog}>Каталог</Link>
+              <Link
+                className={`link main-nav__link ${isCatalogPage ? 'link--current' : ''}`}
+                to={AppRoute.Catalog}
+              >
+              Каталог
+              </Link>
             </li>
             <li>
               <Link className="link main-nav__link" to="#">Где купить?</Link>

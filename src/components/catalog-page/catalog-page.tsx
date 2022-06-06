@@ -25,7 +25,7 @@ function CatalogPage(): JSX.Element {
 
   return (
     <div className="wrapper">
-      <Header />
+      <Header isCatalogPage />
       <main className="page-content">
         <div className="container">
           <Breadcrumbs />

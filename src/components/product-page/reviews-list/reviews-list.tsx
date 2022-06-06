@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getReviewsByGuitarId } from '../../../store/selectors';
 import { fetchReviewsAction } from '../../../store/api-actions';
-import { Reviews } from '../../../types/review';
+import { Review, Reviews } from '../../../types/review';
 import { REVIEWS_PER_STEP } from '../../../const';
 import ReviewItem from './review-item/review-item';
 import ReviewForm from './review-form/review-form';
@@ -14,14 +14,24 @@ function ReviewsList(): JSX.Element {
   const dispatch = useAppDispatch();
   const { id } = useParams<{id: string}>();
   const reviews: Reviews = useAppSelector(getReviewsByGuitarId(Number(id)));
-  const reversedReviews = reviews?.slice(0).reverse();
 
-  const [showedReviews, setShowedReviews] = useState<Reviews>(reversedReviews?.slice(0, REVIEWS_PER_STEP));
+  const sortedByDateReviews = reviews?.slice(0).reverse();
+  sortedByDateReviews?.sort((reviewA: Review, reviewB: Review): number => {
+    if (reviewA.createAt < reviewB.createAt ) {
+      return 1;
+    }
+    if (reviewA.createAt > reviewB.createAt ) {
+      return -1;
+    }
+    return 0;
+  });
+
+  const [showedReviews, setShowedReviews] = useState<Reviews>(sortedByDateReviews?.slice(0, REVIEWS_PER_STEP));
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   useEffect(() => {
-    setShowedReviews(reversedReviews?.slice(0, REVIEWS_PER_STEP));
+    setShowedReviews(sortedByDateReviews?.slice(0, REVIEWS_PER_STEP));
   }, [reviews]);
 
   useEffect(() => {
@@ -74,7 +84,7 @@ function ReviewsList(): JSX.Element {
       {showedReviews?.length < reviews?.length &&
         <button
           className="button button--medium reviews__more-button"
-          onClick={() => setShowedReviews(reversedReviews?.slice(0, showedReviews?.length + REVIEWS_PER_STEP))}
+          onClick={() => setShowedReviews(sortedByDateReviews?.slice(0, showedReviews?.length + REVIEWS_PER_STEP))}
         >
           Показать еще отзывы
         </button>}

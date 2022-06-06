@@ -23,6 +23,13 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
   const [advantage, setAdvantage] = useState('');
   const [disadvantage, setDisadvantage] = useState('');
   const [comment, setComment] = useState('');
+
+  const [isRatingWarning, setIsRatingWarning] = useState(false);
+  const [isUserNameWarning, setIsUserNameWarning] = useState(false);
+  const [isAdvantageWarning, setIsAdvantageWarning] = useState(false);
+  const [isDisadvantageWarning, setIsDisadvantageWarning] = useState(false);
+  const [isCommentWarning, setIsCommentWarning] = useState(false);
+
   const [isFormValid, setIsFormValid] = useState(false);
 
   const handleUserNameChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -47,9 +54,28 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
 
   const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(sendReviewAction({guitarId: Number(id), userName, advantage, disadvantage, comment, rating}));
-    handleCloseReviewModal();
-    handleOpenSuccessModal();
+
+    if (!rating) {
+      setIsRatingWarning(true);
+    }
+    if (!userName) {
+      setIsUserNameWarning(true);
+    }
+    if (!advantage) {
+      setIsAdvantageWarning(true);
+    }
+    if (!disadvantage) {
+      setIsDisadvantageWarning(true);
+    }
+    if (!comment) {
+      setIsCommentWarning(true);
+    }
+
+    if (isFormValid) {
+      dispatch(sendReviewAction({guitarId: Number(id), userName, advantage, disadvantage, comment, rating}));
+      handleCloseReviewModal();
+      handleOpenSuccessModal();
+    }
   };
 
   useEffect(() => {
@@ -82,7 +108,9 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
                   value={userName}
                   onChange={handleUserNameChange}
                 />
-                <p className="form-review__warning">Заполните поле</p>
+                <p className={`form-review__warning ${isUserNameWarning ? '' : 'visually-hidden'}`}>
+                  Заполните поле
+                </p>
               </div>
 
               <div>
@@ -91,7 +119,9 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
 
                   <RatingInputs rating={rating} maxRating={MAX_RATING} onRatingChange={handleRatingChange} />
 
-                  <p className="rate__message">Поставьте оценку</p>
+                  <p className={`rate__message ${isRatingWarning ? '' : 'visually-hidden'}`}>
+                    Поставьте оценку
+                  </p>
                 </div>
               </div>
             </div>
@@ -105,7 +135,9 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
               value={advantage}
               onChange={handleAdvantageChange}
             />
-            <p className="form-review__warning">Заполните поле</p>
+            <p className={`form-review__warning ${isAdvantageWarning ? '' : 'visually-hidden'}`}>
+              Заполните поле
+            </p>
 
             <label className="form-review__label form-review__label--required" htmlFor="disadv">Недостатки</label>
             <input
@@ -116,7 +148,9 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
               value={disadvantage}
               onChange={handleDisadvantageChange}
             />
-            <p className="form-review__warning">Заполните поле</p>
+            <p className={`form-review__warning ${isDisadvantageWarning ? '' : 'visually-hidden'}`}>
+              Заполните поле
+            </p>
 
             <label className="form-review__label form-review__label--required" htmlFor="comment">Комментарий</label>
             <textarea
@@ -129,11 +163,12 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
             >
             </textarea>
 
-            <p className="form-review__warning">Заполните поле</p>
+            <p className={`form-review__warning ${isCommentWarning ? '' : 'visually-hidden'}`}>
+              Заполните поле
+            </p>
             <button
               className="button button--medium-20 form-review__button"
               type="submit"
-              disabled={!isFormValid}
             >
               Отправить отзыв
             </button>

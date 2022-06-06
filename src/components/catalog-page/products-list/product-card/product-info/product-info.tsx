@@ -27,7 +27,7 @@ function ProductInfo({ product }: ProductInfoProps): JSX.Element {
         <RatingChart rating={product.rating} size={'small'} />
         <p className="rate__count">
           <span className="visually-hidden">Всего оценок:</span>
-          {reviews?.length}
+          {reviews?.length || 0}
         </p>
       </div>
       <p className="product-card__title">{product.name}</p>
