@@ -30,7 +30,7 @@ describe('Component: Breadcrumbs', () => {
       <HistoryRouter history={customHistory}>
         <Provider store={mockStore({
           CATALOG_DATA: {
-            activeGuitars: mockGuitars,
+            guitars: mockGuitars,
           },
         })}
         >

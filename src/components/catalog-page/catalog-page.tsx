@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { fetchGuitarsAction, fetchSeveralGuitarsAction } from '../../store/api-actions';
-import { getActiveGuitars } from '../../store/selectors';
+import { fetchGuitarsAction } from '../../store/api-actions';
+import { getGuitars } from '../../store/selectors';
 import { GUITARS_PER_PAGE } from '../../const';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
@@ -14,13 +14,13 @@ import Pagination from './pagination/pagination';
 function CatalogPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const { id } = useParams<{id: string}>();
-  const activeGuitars = useAppSelector(getActiveGuitars);
   const startIndex = (Number(id) - 1) * GUITARS_PER_PAGE;
   const endIndex = startIndex + GUITARS_PER_PAGE;
+  const guitars = useAppSelector(getGuitars);
+  const activeGuitars = guitars?.slice(startIndex, endIndex);
 
   useEffect(() => {
     dispatch(fetchGuitarsAction());
-    dispatch(fetchSeveralGuitarsAction([startIndex, endIndex]));
   }, [startIndex, endIndex, dispatch]);
 
   return (

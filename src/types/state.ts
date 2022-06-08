@@ -7,7 +7,6 @@ export type State = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export type CatalogData = {
-  guitarsQuantity: number;
-  activeGuitars: Guitars;
+  guitars: Guitars;
   reviewsByGuitar: ReviewsByGuitar;
 }

@@ -4,8 +4,7 @@ import { NameSpace } from '../../const';
 import { CatalogData } from '../../types/state';
 
 const initialState: CatalogData = {
-  guitarsQuantity: 0,
-  activeGuitars: [],
+  guitars: [],
   reviewsByGuitar: {},
 };
 
@@ -14,14 +13,10 @@ export const catalogData = createSlice({
   initialState,
   reducers: {
     loadGuitars: (state, action) => {
-      state.guitarsQuantity = action.payload.length;
-    },
-    loadSeveralGuitars: (state, action) => {
-      state.activeGuitars = action.payload;
+      state.guitars = action.payload;
     },
     loadGuitar: (state, action) => {
-      state.activeGuitars = [];
-      state.activeGuitars.push(action.payload);
+      state.guitars.push(action.payload);
     },
     loadReviews: (state, action) => {
       state.reviewsByGuitar[action.payload[0].guitarId] = action.payload;
@@ -32,4 +27,4 @@ export const catalogData = createSlice({
   },
 });
 
-export const { loadGuitars, loadSeveralGuitars, loadGuitar, loadReviews, addReview } = catalogData.actions;
+export const { loadGuitars, loadGuitar, loadReviews, addReview } = catalogData.actions;

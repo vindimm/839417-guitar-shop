@@ -32,7 +32,7 @@ describe('Component: ProductCard', () => {
       <HistoryRouter history={customHistory}>
         <Provider store={mockStore({
           CATALOG_DATA: {
-            activeGuitars: mockGuitars,
+            guitars: mockGuitars,
             reviewsByGuitar: mockReviewsByGuitar,
           },
         })}

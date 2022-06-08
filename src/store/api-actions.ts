@@ -6,7 +6,7 @@ import { redirectToRoute } from './action';
 import { AppDispatch, State } from '../types/state';
 import { Guitar, Guitars } from '../types/guitar';
 import { Review, PostingReview } from '../types/review';
-import { loadGuitars, loadSeveralGuitars, loadGuitar, loadReviews, addReview } from './catalog-data/catalog-data';
+import { loadGuitars, loadGuitar, loadReviews, addReview } from './catalog-data/catalog-data';
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -17,18 +17,6 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<Guitars>(APIRoute.Guitars);
     dispatch(loadGuitars(data));
-  },
-);
-
-export const fetchSeveralGuitarsAction = createAsyncThunk<void, Array<number>, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  'data/fetchSeveralGuitars',
-  async ([startIndex, endIndex], {dispatch, extra: api}) => {
-    const {data} = await api.get<Guitars>(`${APIRoute.Guitars}?_start=${startIndex}&_end=${endIndex}`);
-    dispatch(loadSeveralGuitars(data));
   },
 );
 
