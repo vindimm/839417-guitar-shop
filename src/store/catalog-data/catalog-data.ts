@@ -16,7 +16,10 @@ export const catalogData = createSlice({
       state.guitars = action.payload;
     },
     loadGuitar: (state, action) => {
-      state.guitars.push(action.payload);
+      // чтобы гитары не дублировались, проверяем нет ли уже такой гитары в стейте
+      if (!state.guitars.find((guitar) => guitar.id === action.payload.id)) {
+        state.guitars = [...state.guitars, action.payload];
+      }
     },
     loadReviews: (state, action) => {
       state.reviewsByGuitar[action.payload[0].guitarId] = action.payload;

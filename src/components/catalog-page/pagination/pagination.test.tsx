@@ -4,21 +4,22 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'react-router-dom/node_modules/history';
 
+import { makeFakeGuitars } from '../../../utils/mocks';
 import Pagination from './pagination';
 
+const mockGuitars = makeFakeGuitars(27);
 const mockStore = configureMockStore();
 
 describe('Component: Pagination', () => {
   it('should render buttons [1, 2, 3, Далее] and NOT render [Назад]', () => {
     const pageNumber = 1;
-    const guitarsQuantity = 27;
     const customHistory = createMemoryHistory();
 
     render(
       <HistoryRouter history={customHistory}>
         <Provider store={mockStore({
           CATALOG_DATA: {
-            guitarsQuantity: guitarsQuantity,
+            guitars: mockGuitars,
           },
         })}
         >
@@ -36,14 +37,13 @@ describe('Component: Pagination', () => {
 
   it('should render buttons [Назад, 1, 2, 3] and NOT render [Далее]', () => {
     const pageNumber = 3;
-    const guitarsQuantity = 27;
     const customHistory = createMemoryHistory();
 
     render(
       <HistoryRouter history={customHistory}>
         <Provider store={mockStore({
           CATALOG_DATA: {
-            guitarsQuantity: guitarsQuantity,
+            guitars: mockGuitars,
           },
         })}
         >
@@ -61,14 +61,13 @@ describe('Component: Pagination', () => {
 
   it('should render buttons [Назад, 1, 2, 3, Далее]', () => {
     const pageNumber = 2;
-    const guitarsQuantity = 27;
     const customHistory = createMemoryHistory();
 
     render(
       <HistoryRouter history={customHistory}>
         <Provider store={mockStore({
           CATALOG_DATA: {
-            guitarsQuantity: guitarsQuantity,
+            guitars: mockGuitars,
           },
         })}
         >
