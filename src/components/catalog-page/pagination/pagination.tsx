@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { useAppSelector } from '../../../hooks';
 import { AppRoute, GUITARS_PER_PAGE } from '../../../const';
@@ -13,6 +14,8 @@ function Pagination({pageNumber}: PaginationProps): JSX.Element {
   const pagesQuantity = Math.floor(guitarsQuantity / GUITARS_PER_PAGE);
   const pages = Array.from({length: pagesQuantity}, () => '');
 
+  const { search } = useLocation();
+
   return (
     <div className="pagination page-content__pagination">
       <ul className="pagination__list">
@@ -21,7 +24,7 @@ function Pagination({pageNumber}: PaginationProps): JSX.Element {
           <li className="pagination__page pagination__page--next" id="next">
             <Link
               className="link pagination__page-link"
-              to={AppRoute.CatalogPage.replace(':id', (pageNumber - 1).toString())}
+              to={`${AppRoute.CatalogPage.replace(':id', (pageNumber - 1).toString())}${search}`}
             >
               Назад
             </Link>
@@ -37,7 +40,7 @@ function Pagination({pageNumber}: PaginationProps): JSX.Element {
             >
               <Link
                 className="link pagination__page-link"
-                to={AppRoute.CatalogPage.replace(':id', (index + 1).toString())}
+                to={`${AppRoute.CatalogPage.replace(':id', (index + 1).toString())}${search}`}
               >
                 {index + 1}
               </Link>
@@ -49,7 +52,7 @@ function Pagination({pageNumber}: PaginationProps): JSX.Element {
           <li className="pagination__page pagination__page--next" id="next">
             <Link
               className="link pagination__page-link"
-              to={AppRoute.CatalogPage.replace(':id', (pageNumber + 1).toString())}
+              to={`${AppRoute.CatalogPage.replace(':id', (pageNumber + 1).toString())}${search}`}
             >
               Далее
             </Link>

@@ -4,10 +4,9 @@ import { useParams, useLocation } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchSortedGuitarsAction } from '../../store/api-actions';
 import { redirectToRoute } from '../../store/action';
-import { AppRoute } from '../../const';
 import { getGuitars } from '../../store/selectors';
-import { GUITARS_PER_PAGE } from '../../const';
-import { SortingType, SortingOrder } from '../../const';
+import { AppRoute, GUITARS_PER_PAGE, SortingType, SortingOrder } from '../../const';
+import { getSearchParams } from '../../utils/utils';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
@@ -22,8 +21,10 @@ function CatalogPage(): JSX.Element {
   const endIndex = startIndex + GUITARS_PER_PAGE;
   const guitars = useAppSelector(getGuitars);
 
-  const [sortingType, setSortingType] = useState(SortingType.Default);
-  const [sortingOrder, setSortingOrder] = useState(SortingOrder.Default);
+  const searchParams = getSearchParams(search);
+
+  const [sortingType, setSortingType] = useState(searchParams._sort || SortingType.Default);
+  const [sortingOrder, setSortingOrder] = useState(searchParams._order || SortingOrder.Default);
 
   useEffect(() => {
     if (search) {

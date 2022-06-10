@@ -84,3 +84,16 @@ export const validateString = (text: string): string => {
   }
   return result;
 };
+
+// Принимает search-строку и возвращает объект с get-параметрами и их значениями
+export const getSearchParams = (search: string): Record<string, string> => {
+  const result: Record<string, string> = {};
+  search
+    .substring(1)
+    .split('&')
+    .forEach((item) => {
+      const param = item.split('=');
+      result[param[0]] = param[1];
+    });
+  return result;
+};
