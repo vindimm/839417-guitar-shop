@@ -28,3 +28,15 @@ export enum TabName {
   Characteristic = '#characteristics',
   Description = '#description',
 }
+
+export enum SortingType {
+  Default = 'default',
+  Price = 'price',
+  Rating = 'rating',
+}
+
+export enum SortingOrder {
+  Default = 'default',
+  Up = 'asc',
+  Down = 'desc',
+}

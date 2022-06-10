@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { fetchGuitarsAction } from '../../store/api-actions';
+import { fetchSortedGuitarsAction } from '../../store/api-actions';
+import { redirectToRoute } from '../../store/action';
+import { AppRoute } from '../../const';
 import { getGuitars } from '../../store/selectors';
 import { GUITARS_PER_PAGE } from '../../const';
+import { SortingType, SortingOrder } from '../../const';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
@@ -14,14 +17,51 @@ import Pagination from './pagination/pagination';
 function CatalogPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const { id } = useParams<{id: string}>();
+  const { search } = useLocation();
   const startIndex = (Number(id) - 1) * GUITARS_PER_PAGE;
   const endIndex = startIndex + GUITARS_PER_PAGE;
   const guitars = useAppSelector(getGuitars);
-  const activeGuitars = guitars?.slice(startIndex, endIndex);
+
+  const [sortingType, setSortingType] = useState(SortingType.Default);
+  const [sortingOrder, setSortingOrder] = useState(SortingOrder.Default);
 
   useEffect(() => {
-    dispatch(fetchGuitarsAction());
-  }, [startIndex, endIndex, dispatch]);
+    if (search) {
+      dispatch(fetchSortedGuitarsAction(search));
+    }
+  }, [search, dispatch, sortingType, sortingOrder]);
+
+  const handlePriceSort = () => {
+    setSortingType(SortingType.Price);
+    dispatch(redirectToRoute(`${AppRoute.CatalogPage1}?_sort=${SortingType.Price}&_order=${sortingOrder}`));
+  };
+
+  const handleRatingSort = () => {
+    setSortingType(SortingType.Rating);
+    dispatch(redirectToRoute(`${AppRoute.CatalogPage1}?_sort=${SortingType.Rating}&_order=${sortingOrder}`));
+  };
+
+  const handleSortingUp = () => {
+    if (sortingType === SortingType.Default) {
+      setSortingType(SortingType.Price);
+      setSortingOrder(SortingOrder.Up);
+      dispatch(redirectToRoute(`${AppRoute.CatalogPage1}?_sort=${SortingType.Price}&_order=${SortingOrder.Up}`));
+    } else {
+      setSortingOrder(SortingOrder.Up);
+      dispatch(redirectToRoute(`${AppRoute.CatalogPage1}?_sort=${sortingType}&_order=${SortingOrder.Up}`));
+    }
+  };
+
+  const handleSortingDown = () => {
+    if (sortingType === SortingType.Default) {
+      setSortingType(SortingType.Price);
+      setSortingOrder(SortingOrder.Down);
+      dispatch(redirectToRoute(`${AppRoute.CatalogPage1}?_sort=${SortingType.Price}&_order=${SortingOrder.Down}`));
+    } else {
+      setSortingOrder(SortingOrder.Down);
+      dispatch(redirectToRoute(`${AppRoute.CatalogPage1}?_sort=${sortingType}&_order=${SortingOrder.Down}`));
+    }
+  };
 
   return (
     <div className="wrapper">
@@ -84,15 +124,43 @@ function CatalogPage(): JSX.Element {
             <div className="catalog-sort">
               <h2 className="catalog-sort__title">Сортировать:</h2>
               <div className="catalog-sort__type">
-                <button className="catalog-sort__type-button" aria-label="по цене">по цене</button>
-                <button className="catalog-sort__type-button" aria-label="по популярности">по популярности</button>
+                <button
+                  className={`catalog-sort__type-button ${sortingType === SortingType.Price ? 'catalog-sort__type-button--active' : ''}`}
+                  aria-label="по цене"
+                  onClick={handlePriceSort}
+                >
+                    по цене
+                </button>
+                <button
+                  className=
+                    {`catalog-sort__type-button 
+                    ${sortingType === SortingType.Rating ? 'catalog-sort__type-button--active' : ''}`}
+                  aria-label="по популярности"
+                  onClick={handleRatingSort}
+                >
+                  по популярности
+                </button>
               </div>
               <div className="catalog-sort__order">
-                <button className="catalog-sort__order-button catalog-sort__order-button--up" aria-label="По возрастанию"></button>
-                <button className="catalog-sort__order-button catalog-sort__order-button--down" aria-label="По убыванию"></button>
+                <button
+                  className=
+                    {`catalog-sort__order-button catalog-sort__order-button--up 
+                    ${sortingOrder === SortingOrder.Up ? 'catalog-sort__order-button--active' : ''}`}
+                  aria-label="По возрастанию"
+                  onClick={handleSortingUp}
+                >
+                </button>
+                <button
+                  className=
+                    {`catalog-sort__order-button catalog-sort__order-button--down 
+                    ${sortingOrder === SortingOrder.Down ? 'catalog-sort__order-button--active' : ''}`}
+                  aria-label="По убыванию"
+                  onClick={handleSortingDown}
+                >
+                </button>
               </div>
             </div>
-            <ProductList products={activeGuitars} />
+            <ProductList products={guitars?.slice(startIndex, endIndex)} />
             <Pagination pageNumber={Number(id)} />
           </div>
         </div>

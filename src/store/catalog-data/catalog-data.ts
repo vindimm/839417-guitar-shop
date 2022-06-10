@@ -15,6 +15,9 @@ export const catalogData = createSlice({
     loadGuitars: (state, action) => {
       state.guitars = action.payload;
     },
+    loadSortedGuitars: (state, action) => {
+      state.guitars = action.payload;
+    },
     loadGuitar: (state, action) => {
       // чтобы гитары не дублировались, проверяем нет ли уже такой гитары в стейте
       if (!state.guitars.find((guitar) => guitar.id === action.payload.id)) {
@@ -30,4 +33,4 @@ export const catalogData = createSlice({
   },
 });
 
-export const { loadGuitars, loadGuitar, loadReviews, addReview } = catalogData.actions;
+export const { loadGuitars, loadSortedGuitars, loadGuitar, loadReviews, addReview } = catalogData.actions;
