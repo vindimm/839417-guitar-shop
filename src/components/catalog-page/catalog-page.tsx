@@ -25,42 +25,61 @@ function CatalogPage(): JSX.Element {
 
   const [sortingType, setSortingType] = useState(searchParams._sort || SortingType.Default);
   const [sortingOrder, setSortingOrder] = useState(searchParams._order || SortingOrder.Default);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     if (search) {
       dispatch(fetchSortedGuitarsAction(search));
     }
-  }, [search, dispatch, sortingType, sortingOrder]);
+  }, [search, dispatch]);
+
+  useEffect(() => {
+    dispatch(redirectToRoute(searchQuery));
+  }, [searchQuery, dispatch, sortingType, sortingOrder]);
 
   const handlePriceSort = () => {
     setSortingType(SortingType.Price);
-    dispatch(redirectToRoute(`${AppRoute.CatalogPage1}?_sort=${SortingType.Price}&_order=${sortingOrder}`));
+    if (sortingOrder === SortingOrder.Default) {
+      setSortingOrder(SortingOrder.Asc);
+    }
+    if (sortingOrder === SortingOrder.Desc) {
+      setSearchQuery(`${AppRoute.CatalogPage1}?_sort=${SortingType.Price}&_order=${SortingOrder.Desc}`);
+    } else {
+      setSearchQuery(`${AppRoute.CatalogPage1}?_sort=${SortingType.Price}`);
+    }
   };
 
   const handleRatingSort = () => {
     setSortingType(SortingType.Rating);
-    dispatch(redirectToRoute(`${AppRoute.CatalogPage1}?_sort=${SortingType.Rating}&_order=${sortingOrder}`));
+    if (sortingOrder === SortingOrder.Default) {
+      setSortingOrder(SortingOrder.Asc);
+    }
+    if (sortingOrder === SortingOrder.Desc) {
+      setSearchQuery(`${AppRoute.CatalogPage1}?_sort=${SortingType.Rating}&_order=${SortingOrder.Desc}`);
+    } else {
+      setSearchQuery(`${AppRoute.CatalogPage1}?_sort=${SortingType.Rating}`);
+    }
   };
 
   const handleSortingUp = () => {
+    setSortingType(sortingType);
+    setSortingOrder(SortingOrder.Asc);
     if (sortingType === SortingType.Default) {
       setSortingType(SortingType.Price);
-      setSortingOrder(SortingOrder.Up);
-      dispatch(redirectToRoute(`${AppRoute.CatalogPage1}?_sort=${SortingType.Price}&_order=${SortingOrder.Up}`));
+      setSearchQuery(`${AppRoute.CatalogPage1}?_sort=${SortingType.Price}`);
     } else {
-      setSortingOrder(SortingOrder.Up);
-      dispatch(redirectToRoute(`${AppRoute.CatalogPage1}?_sort=${sortingType}&_order=${SortingOrder.Up}`));
+      setSearchQuery(`${AppRoute.CatalogPage1}?_sort=${sortingType}`);
     }
   };
 
   const handleSortingDown = () => {
+    setSortingType(sortingType);
+    setSortingOrder(SortingOrder.Desc);
     if (sortingType === SortingType.Default) {
       setSortingType(SortingType.Price);
-      setSortingOrder(SortingOrder.Down);
-      dispatch(redirectToRoute(`${AppRoute.CatalogPage1}?_sort=${SortingType.Price}&_order=${SortingOrder.Down}`));
+      setSearchQuery(`${AppRoute.CatalogPage1}?_sort=${SortingType.Price}&_order=${SortingOrder.Desc}`);
     } else {
-      setSortingOrder(SortingOrder.Down);
-      dispatch(redirectToRoute(`${AppRoute.CatalogPage1}?_sort=${sortingType}&_order=${SortingOrder.Down}`));
+      setSearchQuery(`${AppRoute.CatalogPage1}?_sort=${sortingType}&_order=${SortingOrder.Desc}`);
     }
   };
 
@@ -146,7 +165,7 @@ function CatalogPage(): JSX.Element {
                 <button
                   className=
                     {`catalog-sort__order-button catalog-sort__order-button--up 
-                    ${sortingOrder === SortingOrder.Up ? 'catalog-sort__order-button--active' : ''}`}
+                    ${sortingOrder === SortingOrder.Asc ? 'catalog-sort__order-button--active' : ''}`}
                   aria-label="По возрастанию"
                   onClick={handleSortingUp}
                 >
@@ -154,7 +173,7 @@ function CatalogPage(): JSX.Element {
                 <button
                   className=
                     {`catalog-sort__order-button catalog-sort__order-button--down 
-                    ${sortingOrder === SortingOrder.Down ? 'catalog-sort__order-button--active' : ''}`}
+                    ${sortingOrder === SortingOrder.Desc ? 'catalog-sort__order-button--active' : ''}`}
                   aria-label="По убыванию"
                   onClick={handleSortingDown}
                 >

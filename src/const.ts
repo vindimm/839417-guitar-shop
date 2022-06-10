@@ -37,6 +37,6 @@ export enum SortingType {
 
 export enum SortingOrder {
   Default = 'default',
-  Up = 'asc',
-  Down = 'desc',
+  Asc = 'asc',
+  Desc = 'desc',
 }
