@@ -13,7 +13,9 @@ import CatalogPage from './catalog-page';
 
 const id = 2;
 const guitarsQuantity = 5;
+const guitarsQuantity2 = 3;
 const mockGuitars = makeFakeGuitars(guitarsQuantity);
+const mockGuitars2 = makeFakeGuitars(guitarsQuantity2);
 const mockReviewsByGuitar = makeFakeReviewsByGuitar(Number(id));
 
 const api = createAPI();
@@ -34,6 +36,9 @@ describe('Component: ProductCard', () => {
           CATALOG_DATA: {
             guitars: mockGuitars,
             reviewsByGuitar: mockReviewsByGuitar,
+          },
+          CATALOG_SEARCH: {
+            guitarsByName: mockGuitars2,
           },
         })}
         >

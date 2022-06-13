@@ -92,7 +92,7 @@ const mockStore = configureMockStore<
 const setup = () => {
   const utils = render(
     <HistoryRouter history={customHistory}>
-      <Provider store={mockStore({ CATALOG_DATA: {guitars: mockGuitars} })}>
+      <Provider store={mockStore({ CATALOG_SEARCH: {guitarsByName: mockGuitars} })}>
         <SearchForm />
       </Provider>
     </HistoryRouter>,
@@ -112,16 +112,6 @@ describe('Component: SearchForm', () => {
 
     expect(inputElement).toBeInTheDocument();
     expect(screen.getByPlaceholderText('что вы ищите?')).toBeInTheDocument();
-  });
-
-  it('should render guitars filtered by name', () => {
-    const {inputElement} = setup();
-
-    expect((inputElement as HTMLInputElement).value).toBe('');
-    fireEvent.change(inputElement, {target: {value: 'Честер'}});
-    expect((inputElement as HTMLInputElement).value).toBe('Честер');
-    expect(screen.getAllByRole('listitem')).toHaveLength(2);
-    expect(screen.getAllByText(/честер/i)).toHaveLength(2);
   });
 
   it('should clear input after click resetButton', () => {

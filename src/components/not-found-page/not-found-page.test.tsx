@@ -28,7 +28,11 @@ describe('Component: NotFoundPage', () => {
 
     render(
       <HistoryRouter history={customHistory}>
-        <Provider store={mockStore({ CATALOG_DATA: {guitars: mockGuitars} })}>
+        <Provider store={mockStore({
+          CATALOG_DATA: {guitars: mockGuitars},
+          CATALOG_SEARCH: {guitarsByName: mockGuitars},
+        })}
+        >
           <NotFoundPage />
         </Provider>
       </HistoryRouter>,
