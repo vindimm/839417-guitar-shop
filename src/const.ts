@@ -21,7 +21,7 @@ export enum APIRoute {
 
 export enum NameSpace {
   CatalogData = 'CATALOG_DATA',
-  CatalogProcess = 'CATALOG_PROCESS',
+  CatalogSearch = 'CATALOG_SEARCH',
 }
 
 export enum TabName {

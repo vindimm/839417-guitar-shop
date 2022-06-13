@@ -10,12 +10,15 @@ import {
   loadGuitars,
   resetGuitars,
   loadSortedGuitars,
-  loadGuitarsByName,
-  resetGuitarsByName,
   loadGuitar,
   loadReviews,
   addReview
 } from './catalog-data/catalog-data';
+
+import {
+  loadGuitarsByName,
+  resetGuitarsByName
+} from './catalog-search/catalog-search';
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,

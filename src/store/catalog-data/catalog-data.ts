@@ -5,7 +5,6 @@ import { CatalogData } from '../../types/state';
 
 const initialState: CatalogData = {
   guitars: [],
-  guitarsByName: [],
   reviewsByGuitar: {},
 };
 
@@ -21,12 +20,6 @@ export const catalogData = createSlice({
     },
     loadSortedGuitars: (state, action) => {
       state.guitars = action.payload;
-    },
-    loadGuitarsByName: (state, action) => {
-      state.guitarsByName = action.payload;
-    },
-    resetGuitarsByName: (state) => {
-      state.guitarsByName = [];
     },
     loadGuitar: (state, action) => {
       // чтобы гитары не дублировались, проверяем нет ли уже такой гитары в стейте
@@ -47,8 +40,6 @@ export const {
   loadGuitars,
   resetGuitars,
   loadSortedGuitars,
-  loadGuitarsByName,
-  resetGuitarsByName,
   loadGuitar,
   loadReviews,
   addReview,

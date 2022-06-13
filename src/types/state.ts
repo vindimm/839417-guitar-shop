@@ -8,6 +8,9 @@ export type AppDispatch = typeof store.dispatch;
 
 export type CatalogData = {
   guitars: Guitars;
-  guitarsByName: Guitars;
   reviewsByGuitar: ReviewsByGuitar;
-}
+};
+
+export type CatalogSearch = {
+  guitarsByName: Guitars;
+};
