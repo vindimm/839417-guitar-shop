@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { fetchSortedGuitarsAction } from '../../store/api-actions';
+import { fetchGuitarsAction, fetchSortedGuitarsAction, resetGuitarsAction } from '../../store/api-actions';
 import { redirectToRoute } from '../../store/action';
 import { getGuitars } from '../../store/selectors';
 import { AppRoute, GUITARS_PER_PAGE, SortingType, SortingOrder } from '../../const';
@@ -20,22 +20,33 @@ function CatalogPage(): JSX.Element {
   const startIndex = (Number(id) - 1) * GUITARS_PER_PAGE;
   const endIndex = startIndex + GUITARS_PER_PAGE;
   const guitars = useAppSelector(getGuitars);
+  const {_sort, _order}  = getSearchParams(search);
+  let initialSortingOrder = '';
 
-  const searchParams = getSearchParams(search);
+  if (_sort && !_order) {
+    initialSortingOrder = SortingOrder.Asc;
+  }
 
-  const [sortingType, setSortingType] = useState(searchParams._sort || SortingType.Default);
-  const [sortingOrder, setSortingOrder] = useState(searchParams._order || SortingOrder.Default);
+  const [sortingType, setSortingType] = useState(_sort || SortingType.Default);
+  const [sortingOrder, setSortingOrder] = useState(_order || initialSortingOrder);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    if (search) {
+    if (!search) {
+      dispatch(fetchGuitarsAction());
+    } else {
       dispatch(fetchSortedGuitarsAction(search));
     }
+    return () => {
+      dispatch(resetGuitarsAction());
+    };
   }, [search, dispatch]);
 
   useEffect(() => {
-    dispatch(redirectToRoute(searchQuery));
-  }, [searchQuery, dispatch, sortingType, sortingOrder]);
+    if (searchQuery) {
+      dispatch(redirectToRoute(searchQuery));
+    }
+  }, [searchQuery, dispatch, sortingType, sortingOrder, search]);
 
   const handlePriceSort = () => {
     setSortingType(SortingType.Price);

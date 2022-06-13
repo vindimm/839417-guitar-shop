@@ -6,7 +6,16 @@ import { redirectToRoute } from './action';
 import { AppDispatch, State } from '../types/state';
 import { Guitar, Guitars } from '../types/guitar';
 import { Review, PostingReview } from '../types/review';
-import { loadGuitars, loadSortedGuitars, loadGuitar, loadReviews, addReview } from './catalog-data/catalog-data';
+import {
+  loadGuitars,
+  resetGuitars,
+  loadSortedGuitars,
+  loadGuitarsByName,
+  resetGuitarsByName,
+  loadGuitar,
+  loadReviews,
+  addReview
+} from './catalog-data/catalog-data';
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -17,6 +26,40 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<Guitars>(APIRoute.Guitars);
     dispatch(loadGuitars(data));
+  },
+);
+
+export const fetchGuitarsByNameAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchGuitarsByName',
+  async (name, {dispatch, extra: api}) => {
+    const {data} = await api.get<Guitars>(`${APIRoute.Guitars}?name_like=${name}`);
+    dispatch(loadGuitarsByName(data));
+  },
+);
+
+export const resetGuitarsAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchGuitarsByName',
+  async (_arg, {dispatch, extra: api}) => {
+    dispatch(resetGuitars());
+  },
+);
+
+export const resetGuitarsByNameAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchGuitarsByName',
+  async (_arg, {dispatch, extra: api}) => {
+    dispatch(resetGuitarsByName());
   },
 );
 

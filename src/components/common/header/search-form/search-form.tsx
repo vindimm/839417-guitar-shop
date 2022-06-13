@@ -2,38 +2,30 @@ import { useState, useEffect, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { getGuitars } from '../../../../store/selectors';
-import { fetchGuitarsAction } from '../../../../store/api-actions';
-import { Guitars } from '../../../../types/guitar';
+import { getGuitarsByName } from '../../../../store/selectors';
+import { fetchGuitarsByNameAction, resetGuitarsByNameAction } from '../../../../store/api-actions';
 import { AppRoute } from '../../../../const';
 
 function SearchForm (): JSX.Element {
-  const emptyGuitars: Guitars = [];
   const dispatch = useAppDispatch();
-  const guitars = useAppSelector(getGuitars);
+  const guitars = useAppSelector(getGuitarsByName);
 
   const [searchValue, setSearchValue] = useState('');
-  const [filteredGuitars, setFilteredGuitars] = useState(emptyGuitars);
-
-  const filterGuitarsByName = (arr: Guitars, query: string): Guitars =>
-    arr.filter((guitar) => guitar.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
 
   const handleSearchChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(evt.target.value);
-    setFilteredGuitars(filterGuitarsByName(guitars, evt.target.value));
-    if (evt.target.value === '') {
-      setFilteredGuitars(emptyGuitars);
-    }
   };
 
   const handleResetButton = () => {
     setSearchValue('');
-    setFilteredGuitars(emptyGuitars);
+    dispatch(resetGuitarsByNameAction());
   };
 
   useEffect(() => {
-    dispatch(fetchGuitarsAction());
-  }, [dispatch]);
+    if (searchValue) {
+      dispatch(fetchGuitarsByNameAction(searchValue));
+    }
+  }, [dispatch, searchValue]);
 
   return (
     <div className="form-search">
@@ -54,8 +46,8 @@ function SearchForm (): JSX.Element {
         />
         <label className="visually-hidden" htmlFor="search">Поиск</label>
       </form>
-      <ul className={`form-search__select-list ${filteredGuitars.length > 0 ? 'list-opened' : 'hidden'}`}>
-        {filteredGuitars.map((guitar) => (
+      <ul className={`form-search__select-list ${guitars.length > 0 ? 'list-opened' : 'hidden'}`}>
+        {guitars.map((guitar) => (
           <li
             className="form-search__select-item"
             tabIndex={0}
