@@ -92,7 +92,7 @@ const mockStore = configureMockStore<
 const setup = () => {
   const utils = render(
     <HistoryRouter history={customHistory}>
-      <Provider store={mockStore({ CATALOG_SEARCH: {guitarsByName: mockGuitars} })}>
+      <Provider store={mockStore({ CATALOG_SEARCH: {guitarsBySearch: mockGuitars} })}>
         <SearchForm />
       </Provider>
     </HistoryRouter>,

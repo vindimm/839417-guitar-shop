@@ -4,23 +4,23 @@ import { NameSpace } from '../../const';
 import { CatalogSearch } from '../../types/state';
 
 const initialState: CatalogSearch = {
-  guitarsByName: [],
+  guitarsBySearch: [],
 };
 
 export const catalogSearch = createSlice({
   name: NameSpace.CatalogSearch,
   initialState,
   reducers: {
-    loadGuitarsByName: (state, action) => {
-      state.guitarsByName = action.payload;
+    loadGuitarsBySearch: (state, action) => {
+      state.guitarsBySearch = action.payload;
     },
-    resetGuitarsByName: (state) => {
-      state.guitarsByName = [];
+    resetGuitarsBySearch: (state) => {
+      state.guitarsBySearch = [];
     },
   },
 });
 
 export const {
-  loadGuitarsByName,
-  resetGuitarsByName,
+  loadGuitarsBySearch,
+  resetGuitarsBySearch,
 } = catalogSearch.actions;

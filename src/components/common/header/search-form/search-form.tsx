@@ -2,13 +2,13 @@ import { useState, useEffect, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { getGuitarsByName } from '../../../../store/selectors';
-import { fetchGuitarsByNameAction, resetGuitarsByNameAction } from '../../../../store/api-actions';
+import { getGuitarsBySearch } from '../../../../store/selectors';
+import { fetchGuitarsBySearchAction, resetGuitarsBySearchAction } from '../../../../store/api-actions';
 import { AppRoute } from '../../../../const';
 
 function SearchForm (): JSX.Element {
   const dispatch = useAppDispatch();
-  const guitars = useAppSelector(getGuitarsByName);
+  const guitars = useAppSelector(getGuitarsBySearch);
 
   const [searchValue, setSearchValue] = useState('');
 
@@ -18,12 +18,12 @@ function SearchForm (): JSX.Element {
 
   const handleResetButton = () => {
     setSearchValue('');
-    dispatch(resetGuitarsByNameAction());
+    dispatch(resetGuitarsBySearchAction());
   };
 
   useEffect(() => {
     if (searchValue) {
-      dispatch(fetchGuitarsByNameAction(searchValue));
+      dispatch(fetchGuitarsBySearchAction(searchValue));
     }
   }, [dispatch, searchValue]);
 

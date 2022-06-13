@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getGuitarById, getReviewsByGuitarId } from '../../store/selectors';
-import { fetchGuitarAction } from '../../store/api-actions';
+import { fetchGuitarAction, resetGuitarsAction } from '../../store/api-actions';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
@@ -22,6 +22,13 @@ function ProductPage(): JSX.Element {
       dispatch(fetchGuitarAction(id));
     }
   }, [id, dispatch, guitar]);
+
+  // eslint-disable-next-line arrow-body-style
+  useEffect(() => {
+    return () => {
+      dispatch(resetGuitarsAction());
+    };
+  }, []);
 
   return (
     <div className="wrapper">

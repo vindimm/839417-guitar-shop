@@ -12,5 +12,5 @@ export type CatalogData = {
 };
 
 export type CatalogSearch = {
-  guitarsByName: Guitars;
+  guitarsBySearch: Guitars;
 };

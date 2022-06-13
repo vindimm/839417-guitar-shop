@@ -16,8 +16,8 @@ import {
 } from './catalog-data/catalog-data';
 
 import {
-  loadGuitarsByName,
-  resetGuitarsByName
+  loadGuitarsBySearch,
+  resetGuitarsBySearch
 } from './catalog-search/catalog-search';
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
@@ -32,15 +32,15 @@ export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const fetchGuitarsByNameAction = createAsyncThunk<void, string, {
+export const fetchGuitarsBySearchAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'data/fetchGuitarsByName',
+  'data/fetchGuitarsBySearch',
   async (name, {dispatch, extra: api}) => {
     const {data} = await api.get<Guitars>(`${APIRoute.Guitars}?name_like=${name}`);
-    dispatch(loadGuitarsByName(data));
+    dispatch(loadGuitarsBySearch(data));
   },
 );
 
@@ -49,20 +49,20 @@ export const resetGuitarsAction = createAsyncThunk<void, undefined, {
   state: State,
   extra: AxiosInstance
 }>(
-  'data/fetchGuitarsByName',
+  'data/fetchGuitarsBySearch',
   async (_arg, {dispatch, extra: api}) => {
     dispatch(resetGuitars());
   },
 );
 
-export const resetGuitarsByNameAction = createAsyncThunk<void, undefined, {
+export const resetGuitarsBySearchAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'data/fetchGuitarsByName',
+  'data/fetchGuitarsBySearch',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(resetGuitarsByName());
+    dispatch(resetGuitarsBySearch());
   },
 );
 

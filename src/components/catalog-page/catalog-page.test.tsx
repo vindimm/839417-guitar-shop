@@ -38,7 +38,7 @@ describe('Component: ProductCard', () => {
             reviewsByGuitar: mockReviewsByGuitar,
           },
           CATALOG_SEARCH: {
-            guitarsByName: mockGuitars2,
+            guitarsBySearch: mockGuitars2,
           },
         })}
         >
