@@ -8,6 +8,8 @@ export const getGuitarsQuantity = ((state: State) => state[NameSpace.CatalogData
 
 export const getGuitarsBySearch = ((state: State) => state[NameSpace.CatalogSearch].guitarsBySearch);
 
+export const getIsDataLoaded = ((state: State) => state[NameSpace.CatalogData].isDataLoaded);
+
 export const getGuitarById = (id: number) => (state: State) =>
   state[NameSpace.CatalogData].guitars.find((guitar: Guitar) => guitar.id === id);
 

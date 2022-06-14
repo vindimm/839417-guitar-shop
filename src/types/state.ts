@@ -9,6 +9,7 @@ export type AppDispatch = typeof store.dispatch;
 export type CatalogData = {
   guitars: Guitars;
   reviewsByGuitar: ReviewsByGuitar;
+  isDataLoaded: boolean;
 };
 
 export type CatalogSearch = {

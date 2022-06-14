@@ -1,4 +1,5 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 import { AppRoute } from '../../const';
 import HistoryRoute from '../history-route/history-route';

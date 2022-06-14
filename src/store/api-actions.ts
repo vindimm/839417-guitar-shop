@@ -8,17 +8,12 @@ import { Guitar, Guitars } from '../types/guitar';
 import { Review, PostingReview } from '../types/review';
 import {
   loadGuitars,
-  resetGuitars,
   loadSortedGuitars,
   loadGuitar,
   loadReviews,
   addReview
 } from './catalog-data/catalog-data';
-
-import {
-  loadGuitarsBySearch,
-  resetGuitarsBySearch
-} from './catalog-search/catalog-search';
+import { loadGuitarsBySearch } from './catalog-search/catalog-search';
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -41,28 +36,6 @@ export const fetchGuitarsBySearchAction = createAsyncThunk<void, string, {
   async (name, {dispatch, extra: api}) => {
     const {data} = await api.get<Guitars>(`${APIRoute.Guitars}?name_like=${name}`);
     dispatch(loadGuitarsBySearch(data));
-  },
-);
-
-export const resetGuitarsAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  'data/fetchGuitarsBySearch',
-  async (_arg, {dispatch, extra: api}) => {
-    dispatch(resetGuitars());
-  },
-);
-
-export const resetGuitarsBySearchAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  'data/fetchGuitarsBySearch',
-  async (_arg, {dispatch, extra: api}) => {
-    dispatch(resetGuitarsBySearch());
   },
 );
 

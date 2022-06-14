@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
+import { ThreeDots } from 'react-loader-spinner';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { fetchGuitarsAction, fetchSortedGuitarsAction, resetGuitarsAction } from '../../store/api-actions';
+import { fetchGuitarsAction, fetchSortedGuitarsAction } from '../../store/api-actions';
+import { resetGuitars, resetIsDataLoaded } from '../../store/catalog-data/catalog-data';
 import { redirectToRoute } from '../../store/action';
-import { getGuitars } from '../../store/selectors';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { getGuitars, getIsDataLoaded } from '../../store/selectors';
 import { AppRoute, GUITARS_PER_PAGE, SortingType, SortingOrder } from '../../const';
 import { getSearchParams } from '../../utils/utils';
 import Header from '../common/header/header';
@@ -20,6 +23,7 @@ function CatalogPage(): JSX.Element {
   const startIndex = (Number(id) - 1) * GUITARS_PER_PAGE;
   const endIndex = startIndex + GUITARS_PER_PAGE;
   const guitars = useAppSelector(getGuitars);
+  const isDataLoaded = useAppSelector(getIsDataLoaded);
   const {_sort, _order}  = getSearchParams(search);
   let initialSortingOrder = '';
 
@@ -38,7 +42,8 @@ function CatalogPage(): JSX.Element {
       dispatch(fetchSortedGuitarsAction(search));
     }
     return () => {
-      dispatch(resetGuitarsAction());
+      dispatch(resetGuitars());
+      dispatch(resetIsDataLoaded());
     };
   }, [search, dispatch]);
 
@@ -191,10 +196,17 @@ function CatalogPage(): JSX.Element {
                 </button>
               </div>
             </div>
-            <ProductList products={guitars?.slice(startIndex, endIndex)} />
+
+            {isDataLoaded ?
+              <ProductList products={guitars?.slice(startIndex, endIndex)} /> :
+              <div style={{display: 'flex', justifyContent: 'center', margin: 'auto', width: '100%'}}>
+                <ThreeDots color="#444444" height={80} width={80} />
+              </div>}
+
             <Pagination pageNumber={Number(id)} />
           </div>
         </div>
+
       </main>
       <Footer />
     </div>

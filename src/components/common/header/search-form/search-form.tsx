@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { getGuitarsBySearch } from '../../../../store/selectors';
-import { fetchGuitarsBySearchAction, resetGuitarsBySearchAction } from '../../../../store/api-actions';
+import { fetchGuitarsBySearchAction } from '../../../../store/api-actions';
+import { resetGuitarsBySearch } from '../../../../store/catalog-search/catalog-search';
 import { AppRoute } from '../../../../const';
 
 function SearchForm (): JSX.Element {
@@ -18,7 +19,7 @@ function SearchForm (): JSX.Element {
 
   const handleResetButton = () => {
     setSearchValue('');
-    dispatch(resetGuitarsBySearchAction());
+    dispatch(resetGuitarsBySearch());
   };
 
   useEffect(() => {
