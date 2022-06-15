@@ -12,4 +12,4 @@ type Guitar = {
 
 type Guitars = Guitar[];
 
-export type {Guitar, Guitars };
+export type { Guitar, Guitars };

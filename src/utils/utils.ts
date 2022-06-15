@@ -1,3 +1,6 @@
+import { SortingOrder, SortingType } from '../const';
+import { Sorting } from '../types/sorting';
+
 // Получение массива строк для навигации ("хлебные крошки")
 export const getParsedCrumbs = (crumbs: string[], guitarTitle: string | undefined = '') => {
   const parseCrumbs = (item: string | undefined) => {
@@ -86,14 +89,45 @@ export const validateString = (text: string): string => {
 };
 
 // Принимает search-строку и возвращает объект с get-параметрами и их значениями
-export const getSearchParams = (search: string): Record<string, string> => {
-  const result: Record<string, string> = {};
+export const getSearchParams = (search: string): Record<string, string[]> => {
+  const result: Record<string, string[]> = {};
   search
     .substring(1)
     .split('&')
     .forEach((item) => {
       const param = item.split('=');
-      result[param[0]] = param[1];
+
+      if (param[0] in result) {
+        result[param[0]].push(param[1]);
+      } else {
+        result[param[0]] = [param[1]];
+      }
     });
+  return result;
+};
+
+// Принимает параметры фильтрации и сортировки и возвращает строку search-запроса
+export const createSearchQuery = (filterParams: string[], sortingParams: Sorting): string => {
+  let result = '';
+  let sortingQuery = '';
+  const filterQuery = filterParams.length > 0 ? `type=${filterParams.join('&type=')}` : '';
+
+  if (sortingParams.sortingType !== SortingType.Default) {
+    sortingQuery = `?_sort=${sortingParams.sortingType}`;
+  }
+  if (sortingParams.sortingOrder !== SortingOrder.Default) {
+    sortingQuery = `${sortingQuery}&_order=${sortingParams.sortingOrder}`;
+  }
+
+  if (sortingQuery && filterQuery) {
+    result = `${sortingQuery}&${filterQuery}`;
+  }
+  if (sortingQuery && !filterQuery) {
+    result = `${sortingQuery}${filterQuery}`;
+  }
+  if (!sortingQuery && filterQuery) {
+    result = `?${filterQuery}`;
+  }
+
   return result;
 };

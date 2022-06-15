@@ -22,6 +22,8 @@ export enum APIRoute {
 export enum NameSpace {
   CatalogData = 'CATALOG_DATA',
   CatalogSearch = 'CATALOG_SEARCH',
+  CatalogFilter = 'CATALOG_FILTER',
+  CatalogSorting = 'CATALOG_SORTING',
 }
 
 export enum TabName {
@@ -39,4 +41,10 @@ export enum SortingOrder {
   Default = 'default',
   Asc = 'asc',
   Desc = 'desc',
+}
+
+export enum GuitarType {
+  Acoustic = 'acoustic',
+  Electric = 'electric',
+  Ukulele = 'ukulele',
 }

@@ -8,6 +8,10 @@ export const getGuitarsQuantity = ((state: State) => state[NameSpace.CatalogData
 
 export const getGuitarsBySearch = ((state: State) => state[NameSpace.CatalogSearch].guitarsBySearch);
 
+export const getActiveFilters = ((state: State) => state[NameSpace.CatalogFilter].activeFilters);
+
+export const getSortingParams = ((state: State) => state[NameSpace.CatalogSorting]);
+
 export const getIsDataLoaded = ((state: State) => state[NameSpace.CatalogData].isDataLoaded);
 
 export const getGuitarById = (id: number) => (state: State) =>
