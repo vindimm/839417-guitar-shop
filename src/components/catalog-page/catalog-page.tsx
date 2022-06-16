@@ -52,7 +52,7 @@ function CatalogPage(): JSX.Element {
             {isDataLoaded ?
               <ProductList products={guitars?.slice(startIndex, endIndex)} /> :
               <div style={{display: 'flex', justifyContent: 'center', margin: 'auto', width: '100%'}}>
-                <ThreeDots color="#444444" height={80} width={80} />
+                <ThreeDots color="#888888" height={80} width={80} />
               </div>}
 
             <Pagination pageNumber={Number(id)} />

@@ -19,6 +19,10 @@ export type CatalogSearch = {
 
 export type CatalogFilter = {
   activeFilters: Array<string>;
+  price: {
+    min: number,
+    max: number,
+  };
 }
 
 export type CatalogSorting = {

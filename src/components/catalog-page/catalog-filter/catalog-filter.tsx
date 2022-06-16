@@ -2,25 +2,45 @@
 // в зависимости от того, что выбрал пользователь и того, что пришло из адресной строки.
 // За изменением state.CATALOG_FILTERS.activeFilters следит компонент CatalogPage и
 // совершает соответсвующие get-запросы на получение гитар с учетом нужных фильтров
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent, KeyboardEvent } from 'react';
 import { useLocation } from 'react-router-dom';
+import { ThreeDots } from 'react-loader-spinner';
 
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { GuitarType } from '../../../const';
-import { getSearchParams } from '../../../utils/utils';
-import { addActiveFilter, removeActiveFilter, resetActiveFilters } from '../../../store/catalog-filter/catalog-filter';
+import { getGuitars, getIsDataLoaded } from '../../../store/selectors';
+import { getSearchParams, getMinPrice, getMaxPrice } from '../../../utils/utils';
+import {
+  addActiveFilter,
+  removeActiveFilter,
+  resetActiveFilters,
+  updateMinPrice,
+  updateMaxPrice
+} from '../../../store/catalog-filter/catalog-filter';
 
 function CatalogFilter (): JSX.Element {
   const dispatch = useAppDispatch();
   const { search } = useLocation();
   const { type }  = getSearchParams(search);
+  const guitars = useAppSelector(getGuitars);
 
   const [acousticGuitarActive, setAcousticGuitarActive] = useState(type?.includes(GuitarType.Acoustic));
   const [electricGuitarActive, setElectricGuitarActive] = useState(type?.includes(GuitarType.Electric));
   const [ukuleleGuitarActive, setUkuleleGuitarActive] = useState(type?.includes(GuitarType.Ukulele));
 
+  const [minPriceValue, setMinPriceValue] = useState('');
+  const [maxPriceValue, setMaxPriceValue] = useState('');
+
+  const minPricePlaceholder = getMinPrice(guitars);
+  const maxPricePlaceholder = getMaxPrice(guitars);
+
+  const isDataLoaded = useAppSelector(getIsDataLoaded);
+
   useEffect(() => {
     type?.forEach((item) => dispatch(addActiveFilter(item)));
+    return () => {
+      dispatch(resetActiveFilters());
+    };
   }, []);
 
   const handleAcousticCheckbox = () => {
@@ -60,21 +80,97 @@ function CatalogFilter (): JSX.Element {
     dispatch(resetActiveFilters());
   };
 
+  const handleMinPriceChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setMinPriceValue(evt.target.value);
+    dispatch(updateMinPrice(Number(evt.target.value)));
+  };
+
+  const handleMinPriceBlur = () => {
+    if (Number(minPriceValue) < minPricePlaceholder) {
+      setMinPriceValue(String(minPricePlaceholder));
+      dispatch(updateMinPrice(minPricePlaceholder));
+    }
+  };
+
+  const handleMinPriceKeyPress = (evt: KeyboardEvent<HTMLInputElement>) => {
+    if (evt.key === 'Enter' && Number(minPriceValue) < minPricePlaceholder) {
+      setMinPriceValue(String(minPricePlaceholder));
+      dispatch(updateMinPrice(minPricePlaceholder));
+    }
+  };
+
+  const handleMaxPriceChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setMaxPriceValue(evt.target.value);
+    dispatch(updateMaxPrice(Number(evt.target.value)));
+  };
+
+  const handleMaxPriceBlur = () => {
+    if (Number(maxPriceValue) > maxPricePlaceholder) {
+      setMaxPriceValue(String(maxPricePlaceholder));
+      dispatch(updateMaxPrice(maxPricePlaceholder));
+    }
+    if (Number(maxPriceValue) < Number(minPriceValue)) {
+      setMaxPriceValue(String(minPriceValue));
+      dispatch(updateMaxPrice(minPriceValue));
+    }
+  };
+
+  const handleMaxPriceKeyPress = (evt: KeyboardEvent<HTMLInputElement>) => {
+    if (evt.key === 'Enter') {
+      if (Number(maxPriceValue) > maxPricePlaceholder) {
+        setMaxPriceValue(String(maxPricePlaceholder));
+        dispatch(updateMaxPrice(maxPricePlaceholder));
+      } else if (Number(maxPriceValue) < Number(minPriceValue)) {
+        setMaxPriceValue(String(minPriceValue));
+        dispatch(updateMaxPrice(minPriceValue));
+      } else {
+        setMaxPriceValue((evt.currentTarget as HTMLInputElement).value);
+        dispatch(updateMaxPrice(Number((evt.currentTarget as HTMLInputElement).value)));
+      }
+    }
+  };
+
   return (
     <form className="catalog-filter">
       <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>
       <fieldset className="catalog-filter__block">
         <legend className="catalog-filter__block-title">Цена, ₽</legend>
-        <div className="catalog-filter__price-range">
-          <div className="form-input">
-            <label className="visually-hidden">Минимальная цена</label>
-            <input type="number" placeholder="1 000" id="priceMin" name="от"/>
-          </div>
-          <div className="form-input">
-            <label className="visually-hidden">Максимальная цена</label>
-            <input type="number" placeholder="30 000" id="priceMax" name="до"/>
-          </div>
-        </div>
+
+        {isDataLoaded ?
+          <div className="catalog-filter__price-range">
+            <div className="form-input">
+              <label className="visually-hidden">Минимальная цена</label>
+              <input
+                type="number"
+                min="0"
+                id="priceMin"
+                name="от"
+                value={minPriceValue}
+                placeholder={String(minPricePlaceholder)}
+                onChange={handleMinPriceChange}
+                onBlur={handleMinPriceBlur}
+                onKeyPress={handleMinPriceKeyPress}
+              />
+            </div>
+            <div className="form-input">
+              <label className="visually-hidden">Максимальная цена</label>
+              <input
+                type="number"
+                min={minPriceValue}
+                id="priceMax"
+                name="до"
+                value={maxPriceValue}
+                placeholder={String(maxPricePlaceholder)}
+                onChange={handleMaxPriceChange}
+                onBlur={handleMaxPriceBlur}
+                onKeyPress={handleMaxPriceKeyPress}
+              />
+            </div>
+          </div> :
+          <div style={{display: 'flex', justifyContent: 'center', margin: 'auto', width: '100%'}}>
+            <ThreeDots color="#888888" height={30} width={30} />
+          </div>}
+
       </fieldset>
       <fieldset className="catalog-filter__block">
         <legend className="catalog-filter__block-title">Тип гитар</legend>
@@ -84,7 +180,7 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="acoustic"
             name="acoustic"
-            checked={acousticGuitarActive}
+            checked={acousticGuitarActive || false}
             onChange={handleAcousticCheckbox}
           />
           <label htmlFor="acoustic">Акустические гитары</label>
@@ -95,7 +191,7 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="electric"
             name="electric"
-            checked={electricGuitarActive}
+            checked={electricGuitarActive || false}
             onChange={handleElectricCheckbox}
           />
           <label htmlFor="electric">Электрогитары</label>
@@ -106,7 +202,7 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="ukulele"
             name="ukulele"
-            checked={ukuleleGuitarActive}
+            checked={ukuleleGuitarActive || false}
             onChange={handleUkuleleCheckbox}
           />
           <label htmlFor="ukulele">Укулеле</label>
