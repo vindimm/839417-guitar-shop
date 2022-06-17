@@ -9,6 +9,7 @@ const initialState: CatalogFilter = {
     min: null,
     max: null,
   },
+  stringCount: [],
 };
 
 export const catalogFilter = createSlice({
@@ -32,11 +33,20 @@ export const catalogFilter = createSlice({
     updateMaxPrice: (state, action) => {
       state.price.max = action.payload;
     },
+    updateStringCount: (state, action) => {
+      const index = state.stringCount.indexOf(action.payload);
+      if (index > -1) {
+        state.stringCount.splice(index, 1);
+      } else {
+        state.stringCount = [...state.stringCount, action.payload];
+      }
+    },
   },
 });
 
 export const {
   addActiveFilter,
+  updateStringCount,
   removeActiveFilter,
   resetFilters,
   updateMinPrice,

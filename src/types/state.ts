@@ -23,6 +23,7 @@ export type CatalogFilter = {
     min: number | null,
     max: number | null,
   };
+  stringCount: string[],
 }
 
 export type CatalogSorting = {

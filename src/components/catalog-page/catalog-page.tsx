@@ -12,7 +12,8 @@ import {
   getIsDataLoaded,
   getTypeFilters,
   getPriceFilters,
-  getSortingParams
+  getSortingParams,
+  getStringFilters
 } from '../../store/selectors';
 import { GUITARS_PER_PAGE} from '../../const';
 import Header from '../common/header/header';
@@ -33,10 +34,11 @@ function CatalogPage(): JSX.Element {
   const typeFilters = useAppSelector(getTypeFilters);
   const priceFilters = useAppSelector(getPriceFilters);
   const sortingParams = useAppSelector(getSortingParams);
+  const stringCountFilters = useAppSelector(getStringFilters);
 
   const { search } = useLocation();
 
-  const searchQuery = createSearchQuery(typeFilters, priceFilters, sortingParams);
+  const searchQuery = createSearchQuery(typeFilters, priceFilters, stringCountFilters, sortingParams);
 
   useEffect(() => {
     dispatch(redirectToRoute(searchQuery));

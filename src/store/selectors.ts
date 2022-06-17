@@ -12,6 +12,8 @@ export const getTypeFilters = ((state: State) => state[NameSpace.CatalogFilter].
 
 export const getPriceFilters = ((state: State) => state[NameSpace.CatalogFilter].price);
 
+export const getStringFilters = ((state: State) => state[NameSpace.CatalogFilter].stringCount);
+
 export const getSortingParams = ((state: State) => state[NameSpace.CatalogSorting]);
 
 export const getIsDataLoaded = ((state: State) => state[NameSpace.CatalogData].isDataLoaded);

@@ -16,13 +16,14 @@ import {
   removeActiveFilter,
   resetFilters,
   updateMinPrice,
-  updateMaxPrice
+  updateMaxPrice,
+  updateStringCount
 } from '../../../store/catalog-filter/catalog-filter';
 
 function CatalogFilter (): JSX.Element {
   const dispatch = useAppDispatch();
   const { search } = useLocation();
-  const { type }  = getSearchParams(search);
+  const { type, stringCount }  = getSearchParams(search);
   const guitars = useAppSelector(getGuitars);
 
   const [acousticGuitarActive, setAcousticGuitarActive] = useState(type?.includes(GuitarType.Acoustic));
@@ -32,6 +33,11 @@ function CatalogFilter (): JSX.Element {
   const [minPriceValue, setMinPriceValue] = useState('');
   const [maxPriceValue, setMaxPriceValue] = useState('');
 
+  const [isStringCount4, setIsStringCount4] = useState(stringCount?.includes('4'));
+  const [isStringCount6, setIsStringCount6] = useState(stringCount?.includes('6'));
+  const [isStringCount7, setIsStringCount7] = useState(stringCount?.includes('7'));
+  const [isStringCount12, setIsStringCount12] = useState(stringCount?.includes('12'));
+
   const minPricePlaceholder = getMinPrice(guitars);
   const maxPricePlaceholder = getMaxPrice(guitars);
 
@@ -39,10 +45,31 @@ function CatalogFilter (): JSX.Element {
 
   useEffect(() => {
     type?.forEach((item) => dispatch(addActiveFilter(item)));
+    stringCount?.forEach((item) => dispatch(updateStringCount(item)));
     return () => {
       dispatch(resetFilters());
     };
   }, []);
+
+  const handleStringCount4 = () => {
+    setIsStringCount4(!isStringCount4);
+    dispatch(updateStringCount('4'));
+  };
+
+  const handleStringCount6 = () => {
+    setIsStringCount6(!isStringCount6);
+    dispatch(updateStringCount('6'));
+  };
+
+  const handleStringCount7 = () => {
+    setIsStringCount7(!isStringCount7);
+    dispatch(updateStringCount('7'));
+  };
+
+  const handleStringCount12 = () => {
+    setIsStringCount12(!isStringCount12);
+    dispatch(updateStringCount('12'));
+  };
 
   const handleAcousticCheckbox = () => {
     if (acousticGuitarActive) {
@@ -204,19 +231,47 @@ function CatalogFilter (): JSX.Element {
       <fieldset className="catalog-filter__block">
         <legend className="catalog-filter__block-title">Количество струн</legend>
         <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="4-strings" name="4-strings" checked readOnly/>
+          <input
+            className="visually-hidden"
+            type="checkbox"
+            id="4-strings"
+            name="4-strings"
+            checked={isStringCount4}
+            onChange={handleStringCount4}
+          />
           <label htmlFor="4-strings">4</label>
         </div>
         <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="6-strings" name="6-strings" checked readOnly/>
+          <input
+            className="visually-hidden"
+            type="checkbox"
+            id="6-strings"
+            name="6-strings"
+            checked={isStringCount6}
+            onChange={handleStringCount6}
+          />
           <label htmlFor="6-strings">6</label>
         </div>
         <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="7-strings" name="7-strings"/>
+          <input
+            className="visually-hidden"
+            type="checkbox"
+            id="7-strings"
+            name="7-strings"
+            checked={isStringCount7}
+            onChange={handleStringCount7}
+          />
           <label htmlFor="7-strings">7</label>
         </div>
         <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="12-strings" name="12-strings" disabled/>
+          <input
+            className="visually-hidden"
+            type="checkbox"
+            id="12-strings"
+            name="12-strings"
+            checked={isStringCount12}
+            onChange={handleStringCount12}
+          />
           <label htmlFor="12-strings">12</label>
         </div>
       </fieldset>
