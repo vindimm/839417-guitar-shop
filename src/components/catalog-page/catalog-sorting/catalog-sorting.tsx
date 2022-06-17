@@ -5,8 +5,9 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { useAppDispatch } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getSearchParams } from '../../../utils/utils';
+import { getSortingParams } from '../../../store/selectors';
 import { installSortingType, installSortingOrder } from '../../../store/catalog-sorting/catalog-sorting';
 import { SortingType, SortingOrder } from '../../../const';
 
@@ -15,19 +16,15 @@ function CatalogSorting (): JSX.Element {
   const { search } = useLocation();
   const {_sort, _order}  = getSearchParams(search);
 
+  const params = useAppSelector(getSortingParams);
+
   const [sortingType, setSortingType] = useState(_sort ? _sort[0] : SortingType.Default);
   const [sortingOrder, setSortingOrder] = useState(_order ? _order[0] : SortingOrder.Default);
 
   useEffect(() => {
-    if (sortingType !== SortingType.Default && sortingOrder === SortingOrder.Default) {
-      setSortingOrder(SortingOrder.Asc);
-      dispatch(installSortingOrder(SortingOrder.Asc));
-      dispatch(installSortingType(sortingType));
-    } else {
-      dispatch(installSortingType(sortingType));
-      dispatch(installSortingOrder(sortingOrder));
-    }
-  }, []);
+    setSortingType(params.sortingType);
+    setSortingOrder(params.sortingOrder);
+  }, [params.sortingType, params.sortingOrder]);
 
   const handlePriceSort = () => {
     dispatch(installSortingType(SortingType.Price));

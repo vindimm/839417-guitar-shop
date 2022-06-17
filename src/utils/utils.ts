@@ -108,26 +108,47 @@ export const getSearchParams = (search: string): Record<string, string[]> => {
 };
 
 // Принимает параметры фильтрации и сортировки и возвращает строку search-запроса
-export const createSearchQuery = (filterParams: string[], sortingParams: Sorting): string => {
+export const createSearchQuery = (typeFilters: string[], priceFilters: Record<'min' | 'max', number | null>, sortingParams: Sorting): string => {
+  const createTypeQuery = (types: string[]): string => {
+    const typeQuery = types.length > 0 ? `type=${types.join('&type=')}` : '';
+    return typeQuery;
+  };
+
+  const createSortQuery = (sortes: Sorting): string => {
+    let sortingQuery = '';
+    if (sortes.sortingType !== SortingType.Default) {
+      sortingQuery = `_sort=${sortingParams.sortingType}`;
+    }
+    if (sortes.sortingOrder !== SortingOrder.Default) {
+      sortingQuery = `${sortingQuery}&_order=${sortingParams.sortingOrder}`;
+    }
+    return sortingQuery;
+  };
+
+  const createPriceQuery = (prices: Record<'min' | 'max', number | null>) => {
+    let priceQuery = '';
+    let minPrice = '';
+    let maxPrice = '';
+
+    if (prices.min) {
+      minPrice = `price_gte=${prices.min}`;
+    }
+    if (prices.max) {
+      maxPrice = `price_lte=${prices.max}`;
+    }
+
+    priceQuery = [minPrice, maxPrice].filter((item) => (item !== '')).join('&');
+
+    return priceQuery;
+  };
+
   let result = '';
-  let sortingQuery = '';
-  const filterQuery = filterParams.length > 0 ? `type=${filterParams.join('&type=')}` : '';
+  const queries: string[] =
+    [createTypeQuery(typeFilters), createSortQuery(sortingParams), createPriceQuery(priceFilters)]
+      .filter((item) => item !== '');
 
-  if (sortingParams.sortingType !== SortingType.Default) {
-    sortingQuery = `?_sort=${sortingParams.sortingType}`;
-  }
-  if (sortingParams.sortingOrder !== SortingOrder.Default) {
-    sortingQuery = `${sortingQuery}&_order=${sortingParams.sortingOrder}`;
-  }
-
-  if (sortingQuery && filterQuery) {
-    result = `${sortingQuery}&${filterQuery}`;
-  }
-  if (sortingQuery && !filterQuery) {
-    result = `${sortingQuery}${filterQuery}`;
-  }
-  if (!sortingQuery && filterQuery) {
-    result = `?${filterQuery}`;
+  if (queries.length > 0) {
+    result = `?${queries.join('&')}`;
   }
 
   return result;

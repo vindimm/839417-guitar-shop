@@ -7,7 +7,13 @@ import { fetchSortedGuitarsAction } from '../../store/api-actions';
 import { resetGuitars, resetIsDataLoaded } from '../../store/catalog-data/catalog-data';
 import { redirectToRoute } from '../../store/action';
 import { createSearchQuery } from '../../utils/utils';
-import { getGuitars, getIsDataLoaded, getActiveFilters, getSortingParams } from '../../store/selectors';
+import {
+  getGuitars,
+  getIsDataLoaded,
+  getTypeFilters,
+  getPriceFilters,
+  getSortingParams
+} from '../../store/selectors';
 import { GUITARS_PER_PAGE} from '../../const';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
@@ -24,11 +30,13 @@ function CatalogPage(): JSX.Element {
   const endIndex = startIndex + GUITARS_PER_PAGE;
   const guitars = useAppSelector(getGuitars);
   const isDataLoaded = useAppSelector(getIsDataLoaded);
-  const activeFilters = useAppSelector(getActiveFilters);
+  const typeFilters = useAppSelector(getTypeFilters);
+  const priceFilters = useAppSelector(getPriceFilters);
   const sortingParams = useAppSelector(getSortingParams);
+
   const { search } = useLocation();
 
-  const searchQuery = createSearchQuery(activeFilters, sortingParams);
+  const searchQuery = createSearchQuery(typeFilters, priceFilters, sortingParams);
 
   useEffect(() => {
     dispatch(redirectToRoute(searchQuery));

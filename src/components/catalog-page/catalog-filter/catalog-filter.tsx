@@ -2,7 +2,7 @@
 // в зависимости от того, что выбрал пользователь и того, что пришло из адресной строки.
 // За изменением state.CATALOG_FILTERS.activeFilters следит компонент CatalogPage и
 // совершает соответсвующие get-запросы на получение гитар с учетом нужных фильтров
-import { useEffect, useState, ChangeEvent, KeyboardEvent } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ThreeDots } from 'react-loader-spinner';
 
@@ -10,10 +10,11 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { GuitarType } from '../../../const';
 import { getGuitars, getIsDataLoaded } from '../../../store/selectors';
 import { getSearchParams, getMinPrice, getMaxPrice } from '../../../utils/utils';
+import { resetSorting } from '../../../store/catalog-sorting/catalog-sorting';
 import {
   addActiveFilter,
   removeActiveFilter,
-  resetActiveFilters,
+  resetFilters,
   updateMinPrice,
   updateMaxPrice
 } from '../../../store/catalog-filter/catalog-filter';
@@ -39,7 +40,7 @@ function CatalogFilter (): JSX.Element {
   useEffect(() => {
     type?.forEach((item) => dispatch(addActiveFilter(item)));
     return () => {
-      dispatch(resetActiveFilters());
+      dispatch(resetFilters());
     };
   }, []);
 
@@ -77,46 +78,37 @@ function CatalogFilter (): JSX.Element {
     setAcousticGuitarActive(false);
     setElectricGuitarActive(false);
     setUkuleleGuitarActive(false);
-    dispatch(resetActiveFilters());
+    dispatch(resetFilters());
+    dispatch(resetSorting());
+    setMinPriceValue('');
+    setMaxPriceValue('');
   };
 
   const handleMinPriceChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setMinPriceValue(evt.target.value);
-    dispatch(updateMinPrice(Number(evt.target.value)));
   };
 
-  const handleMinPriceBlur = () => {
-    if (Number(minPriceValue) < minPricePlaceholder) {
-      setMinPriceValue(String(minPricePlaceholder));
-      dispatch(updateMinPrice(minPricePlaceholder));
-    }
-  };
-
-  const handleMinPriceKeyPress = (evt: KeyboardEvent<HTMLInputElement>) => {
-    if (evt.key === 'Enter' && Number(minPriceValue) < minPricePlaceholder) {
-      setMinPriceValue(String(minPricePlaceholder));
-      dispatch(updateMinPrice(minPricePlaceholder));
+  const handleMinPriceBlur = (evt: ChangeEvent<HTMLInputElement>) => {
+    if (minPriceValue !== '') {
+      if (Number(minPriceValue) < minPricePlaceholder) {
+        setMinPriceValue(String(minPricePlaceholder));
+        dispatch(updateMinPrice(minPricePlaceholder));
+      } else {
+        setMinPriceValue(evt.target.value);
+        dispatch(updateMinPrice(Number(evt.target.value)));
+      }
+    } else {
+      setMinPriceValue('');
+      dispatch(updateMinPrice(null));
     }
   };
 
   const handleMaxPriceChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setMaxPriceValue(evt.target.value);
-    dispatch(updateMaxPrice(Number(evt.target.value)));
   };
 
-  const handleMaxPriceBlur = () => {
-    if (Number(maxPriceValue) > maxPricePlaceholder) {
-      setMaxPriceValue(String(maxPricePlaceholder));
-      dispatch(updateMaxPrice(maxPricePlaceholder));
-    }
-    if (Number(maxPriceValue) < Number(minPriceValue)) {
-      setMaxPriceValue(String(minPriceValue));
-      dispatch(updateMaxPrice(minPriceValue));
-    }
-  };
-
-  const handleMaxPriceKeyPress = (evt: KeyboardEvent<HTMLInputElement>) => {
-    if (evt.key === 'Enter') {
+  const handleMaxPriceBlur = (evt: ChangeEvent<HTMLInputElement>) => {
+    if (maxPriceValue !== '') {
       if (Number(maxPriceValue) > maxPricePlaceholder) {
         setMaxPriceValue(String(maxPricePlaceholder));
         dispatch(updateMaxPrice(maxPricePlaceholder));
@@ -124,9 +116,12 @@ function CatalogFilter (): JSX.Element {
         setMaxPriceValue(String(minPriceValue));
         dispatch(updateMaxPrice(minPriceValue));
       } else {
-        setMaxPriceValue((evt.currentTarget as HTMLInputElement).value);
-        dispatch(updateMaxPrice(Number((evt.currentTarget as HTMLInputElement).value)));
+        setMaxPriceValue(evt.target.value);
+        dispatch(updateMaxPrice(Number(evt.target.value)));
       }
+    } else {
+      setMaxPriceValue('');
+      dispatch(updateMaxPrice(null));
     }
   };
 
@@ -149,7 +144,6 @@ function CatalogFilter (): JSX.Element {
                 placeholder={String(minPricePlaceholder)}
                 onChange={handleMinPriceChange}
                 onBlur={handleMinPriceBlur}
-                onKeyPress={handleMinPriceKeyPress}
               />
             </div>
             <div className="form-input">
@@ -163,7 +157,6 @@ function CatalogFilter (): JSX.Element {
                 placeholder={String(maxPricePlaceholder)}
                 onChange={handleMaxPriceChange}
                 onBlur={handleMaxPriceBlur}
-                onKeyPress={handleMaxPriceKeyPress}
               />
             </div>
           </div> :

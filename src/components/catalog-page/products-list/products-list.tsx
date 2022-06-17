@@ -7,7 +7,7 @@ type ProductListProps = {
 
 function ProductsList({products}: ProductListProps): JSX.Element {
   return (
-    <ul className="cards catalog__cards">
+    <ul className="cards catalog__cards" style={{paddingLeft: '0'}}>
       {products.map((product) => <ProductCard product={product} key={product.id} />)}
     </ul>
   );

@@ -20,8 +20,8 @@ export type CatalogSearch = {
 export type CatalogFilter = {
   activeFilters: Array<string>;
   price: {
-    min: number,
-    max: number,
+    min: number | null,
+    max: number | null,
   };
 }
 

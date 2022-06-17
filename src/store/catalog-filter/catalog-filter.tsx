@@ -6,8 +6,8 @@ import { CatalogFilter } from '../../types/state';
 const initialState: CatalogFilter = {
   activeFilters: [],
   price: {
-    min: 0,
-    max: Infinity,
+    min: null,
+    max: null,
   },
 };
 
@@ -21,8 +21,10 @@ export const catalogFilter = createSlice({
     removeActiveFilter: (state, action) => {
       state.activeFilters = state.activeFilters.filter((item) => item !== action.payload);
     },
-    resetActiveFilters: (state) => {
+    resetFilters: (state) => {
       state.activeFilters = [];
+      state.price.min = null;
+      state.price.max = null;
     },
     updateMinPrice: (state, action) => {
       state.price.min = action.payload;
@@ -36,7 +38,7 @@ export const catalogFilter = createSlice({
 export const {
   addActiveFilter,
   removeActiveFilter,
-  resetActiveFilters,
+  resetFilters,
   updateMinPrice,
   updateMaxPrice,
 } = catalogFilter.actions;

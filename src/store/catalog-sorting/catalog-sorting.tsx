@@ -18,10 +18,15 @@ export const catalogSorting = createSlice({
     installSortingOrder: (state, action) => {
       state.sortingOrder = action.payload;
     },
+    resetSorting: (state) => {
+      state.sortingOrder = SortingOrder.Default;
+      state.sortingType = SortingType.Default;
+    },
   },
 });
 
 export const {
   installSortingType,
   installSortingOrder,
+  resetSorting,
 } = catalogSorting.actions;
