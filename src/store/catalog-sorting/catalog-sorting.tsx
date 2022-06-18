@@ -12,10 +12,10 @@ export const catalogSorting = createSlice({
   name: NameSpace.CatalogSorting,
   initialState,
   reducers: {
-    installSortingType: (state, action) => {
+    updateSortingType: (state, action) => {
       state.sortingType = action.payload;
     },
-    installSortingOrder: (state, action) => {
+    updateSortingOrder: (state, action) => {
       state.sortingOrder = action.payload;
     },
     resetSorting: (state) => {
@@ -26,7 +26,7 @@ export const catalogSorting = createSlice({
 });
 
 export const {
-  installSortingType,
-  installSortingOrder,
+  updateSortingType,
+  updateSortingOrder,
   resetSorting,
 } = catalogSorting.actions;

@@ -134,7 +134,7 @@ export const createSearchQuery =
     const createStringCountQuery = (strings: string[]): string => {
       let query = '';
       if (strings.length > 0) {
-        query = `&stringCount=${strings.join('&stringCount=')}`;
+        query = `stringCount=${strings.join('&stringCount=')}`;
       } else {
         query = '';
       }

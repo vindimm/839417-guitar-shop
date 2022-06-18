@@ -18,7 +18,7 @@ export type CatalogSearch = {
 };
 
 export type CatalogFilter = {
-  activeFilters: Array<string>;
+  guitarsTypes: Array<string>;
   price: {
     min: number | null,
     max: number | null,

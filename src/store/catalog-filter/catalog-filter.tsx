@@ -4,7 +4,7 @@ import { NameSpace } from '../../const';
 import { CatalogFilter } from '../../types/state';
 
 const initialState: CatalogFilter = {
-  activeFilters: [],
+  guitarsTypes: [],
   price: {
     min: null,
     max: null,
@@ -17,15 +17,16 @@ export const catalogFilter = createSlice({
   initialState,
   reducers: {
     addActiveFilter: (state, action) => {
-      state.activeFilters = [...state.activeFilters, action.payload];
+      state.guitarsTypes = [...state.guitarsTypes, action.payload];
     },
     removeActiveFilter: (state, action) => {
-      state.activeFilters = state.activeFilters.filter((item) => item !== action.payload);
+      state.guitarsTypes = state.guitarsTypes.filter((item) => item !== action.payload);
     },
     resetFilters: (state) => {
-      state.activeFilters = [];
+      state.guitarsTypes = [];
       state.price.min = null;
       state.price.max = null;
+      state.stringCount = [];
     },
     updateMinPrice: (state, action) => {
       state.price.min = action.payload;

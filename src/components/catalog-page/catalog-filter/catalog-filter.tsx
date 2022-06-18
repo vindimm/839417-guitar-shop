@@ -8,7 +8,7 @@ import { ThreeDots } from 'react-loader-spinner';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { GuitarType } from '../../../const';
-import { getGuitars, getIsDataLoaded } from '../../../store/selectors';
+import { getGuitars, getIsDataLoaded, getEnabledStrings } from '../../../store/selectors';
 import { getSearchParams, getMinPrice, getMaxPrice } from '../../../utils/utils';
 import { resetSorting } from '../../../store/catalog-sorting/catalog-sorting';
 import {
@@ -40,6 +40,8 @@ function CatalogFilter (): JSX.Element {
 
   const minPricePlaceholder = getMinPrice(guitars);
   const maxPricePlaceholder = getMaxPrice(guitars);
+
+  const enabledStrings = useAppSelector(getEnabledStrings);
 
   const isDataLoaded = useAppSelector(getIsDataLoaded);
 
@@ -105,10 +107,14 @@ function CatalogFilter (): JSX.Element {
     setAcousticGuitarActive(false);
     setElectricGuitarActive(false);
     setUkuleleGuitarActive(false);
-    dispatch(resetFilters());
-    dispatch(resetSorting());
     setMinPriceValue('');
     setMaxPriceValue('');
+    setIsStringCount4(false);
+    setIsStringCount6(false);
+    setIsStringCount7(false);
+    setIsStringCount12(false);
+    dispatch(resetFilters());
+    dispatch(resetSorting());
   };
 
   const handleMinPriceChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -236,8 +242,9 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="4-strings"
             name="4-strings"
-            checked={isStringCount4}
+            checked={isStringCount4 || false}
             onChange={handleStringCount4}
+            disabled={!enabledStrings.includes(4)}
           />
           <label htmlFor="4-strings">4</label>
         </div>
@@ -247,8 +254,9 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="6-strings"
             name="6-strings"
-            checked={isStringCount6}
+            checked={isStringCount6 || false}
             onChange={handleStringCount6}
+            disabled={!enabledStrings.includes(6)}
           />
           <label htmlFor="6-strings">6</label>
         </div>
@@ -258,8 +266,9 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="7-strings"
             name="7-strings"
-            checked={isStringCount7}
+            checked={isStringCount7 || false}
             onChange={handleStringCount7}
+            disabled={!enabledStrings.includes(7)}
           />
           <label htmlFor="7-strings">7</label>
         </div>
@@ -269,8 +278,9 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="12-strings"
             name="12-strings"
-            checked={isStringCount12}
+            checked={isStringCount12 || false}
             onChange={handleStringCount12}
+            disabled={!enabledStrings.includes(12)}
           />
           <label htmlFor="12-strings">12</label>
         </div>

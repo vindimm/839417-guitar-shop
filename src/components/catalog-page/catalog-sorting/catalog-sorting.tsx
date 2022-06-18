@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getSearchParams } from '../../../utils/utils';
 import { getSortingParams } from '../../../store/selectors';
-import { installSortingType, installSortingOrder } from '../../../store/catalog-sorting/catalog-sorting';
+import { updateSortingType, updateSortingOrder } from '../../../store/catalog-sorting/catalog-sorting';
 import { SortingType, SortingOrder } from '../../../const';
 
 function CatalogSorting (): JSX.Element {
@@ -27,30 +27,30 @@ function CatalogSorting (): JSX.Element {
   }, [params.sortingType, params.sortingOrder]);
 
   const handlePriceSort = () => {
-    dispatch(installSortingType(SortingType.Price));
+    dispatch(updateSortingType(SortingType.Price));
     setSortingType(SortingType.Price);
   };
 
   const handleRatingSort = () => {
-    dispatch(installSortingType(SortingType.Rating));
+    dispatch(updateSortingType(SortingType.Rating));
     setSortingType(SortingType.Rating);
   };
 
   const handleSortingUp = () => {
     if (sortingType === SortingType.Default) {
-      dispatch(installSortingType(SortingType.Price));
+      dispatch(updateSortingType(SortingType.Price));
       setSortingType(SortingType.Price);
     }
-    dispatch(installSortingOrder(SortingOrder.Asc));
+    dispatch(updateSortingOrder(SortingOrder.Asc));
     setSortingOrder(SortingOrder.Asc);
   };
 
   const handleSortingDown = () => {
     if (sortingType === SortingType.Default) {
-      dispatch(installSortingType(SortingType.Price));
+      dispatch(updateSortingType(SortingType.Price));
       setSortingType(SortingType.Price);
     }
-    dispatch(installSortingOrder(SortingOrder.Desc));
+    dispatch(updateSortingOrder(SortingOrder.Desc));
     setSortingOrder(SortingOrder.Desc);
   };
 
