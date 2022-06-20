@@ -175,6 +175,8 @@ export const createSearchQuery =
     return result;
   };
 
-export const getMinPrice = (guitars: Guitars): number => Math.min(...guitars.map((guitar) => guitar.price));
+export const getMinPrice = (guitars: Guitars): number =>
+  guitars.length === 0 ? 0 : Math.min(...guitars.map((guitar) => guitar.price));
 
-export const getMaxPrice = (guitars: Guitars): number => Math.max(...guitars.map((guitar) => guitar.price));
+export const getMaxPrice = (guitars: Guitars): number =>
+  guitars.length === 0 ? 0 : Math.max(...guitars.map((guitar) => guitar.price));
