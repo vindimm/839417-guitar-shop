@@ -1,8 +1,11 @@
 export const GUITARS_PER_PAGE = 9;
 export const REVIEWS_PER_STEP = 3;
 export const DEFAULT_TAB_NAME = '#characteristics';
-export const RATING = 0;
-export const MAX_RATING = 5;
+
+export enum GuitarRating {
+  Initial = 0,
+  Maximal = 5,
+}
 
 export enum AppRoute {
   Catalog = '/catalog',

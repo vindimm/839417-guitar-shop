@@ -115,50 +115,30 @@ export const createSearchQuery =
     sortingParams: Sorting,
   ): string =>
   {
-    const createTypeQuery = (types: string[]): string => {
-      const typeQuery = types.length > 0 ? `type=${types.join('&type=')}` : '';
-      return typeQuery;
-    };
+    const createTypeQuery = (types: string[]): string => types.length > 0
+      ? `type=${types.join('&type=')}`
+      : '';
 
     const createSortQuery = (sortes: Sorting): string => {
-      let sortingQuery = '';
-      if (sortes.sortingType !== SortingType.Default) {
-        sortingQuery = `_sort=${sortingParams.sortingType}`;
-      }
-      if (sortes.sortingOrder !== SortingOrder.Default) {
-        sortingQuery = `${sortingQuery}&_order=${sortingParams.sortingOrder}`;
-      }
-      return sortingQuery;
+      const sortingQuery = sortes.sortingType !== SortingType.Default
+        ? `_sort=${sortingParams.sortingType}`
+        : '';
+
+      return sortes.sortingOrder !== SortingOrder.Default
+        ? `${sortingQuery}&_order=${sortingParams.sortingOrder}`
+        : sortingQuery;
     };
 
-    const createStringCountQuery = (strings: string[]): string => {
-      let query = '';
-      if (strings.length > 0) {
-        query = `stringCount=${strings.join('&stringCount=')}`;
-      } else {
-        query = '';
-      }
-      return query;
-    };
+    const createStringCountQuery = (strings: string[]): string => strings.length > 0
+      ? `stringCount=${strings.join('&stringCount=')}`
+      : '';
 
     const createPriceQuery = (prices: Record<'min' | 'max', number | null>) => {
-      let priceQuery = '';
-      let minPrice = '';
-      let maxPrice = '';
-
-      if (prices.min) {
-        minPrice = `price_gte=${prices.min}`;
-      }
-      if (prices.max) {
-        maxPrice = `price_lte=${prices.max}`;
-      }
-
-      priceQuery = [minPrice, maxPrice].filter((item) => (item !== '')).join('&');
-
-      return priceQuery;
+      const minPrice = prices.min ? `price_gte=${prices.min}` : '';
+      const maxPrice = prices.max ? `price_lte=${prices.max}` : '';
+      return [minPrice, maxPrice].filter((item) => (item !== '')).join('&');
     };
 
-    let result = '';
     const queries: string[] =
       [
         createTypeQuery(typeFilters),
@@ -168,11 +148,7 @@ export const createSearchQuery =
       ]
         .filter((item) => item !== '');
 
-    if (queries.length > 0) {
-      result = `?${queries.join('&')}`;
-    }
-
-    return result;
+    return queries.length > 0 ? `?${queries.join('&')}` : '';
   };
 
 export const getMinPrice = (guitars: Guitars): number =>

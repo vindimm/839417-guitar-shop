@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { ThreeDots } from  'react-loader-spinner';
 
@@ -26,12 +27,10 @@ function ProductPage(): JSX.Element {
     }
   }, [id, dispatch, guitar]);
 
-  // eslint-disable-next-line arrow-body-style
-  useEffect(() => {
-    return () => {
-      dispatch(resetGuitars());
-      dispatch(resetIsDataLoaded());
-    };
+  useEffect(() => () => {
+    dispatch(resetGuitars());
+    dispatch(resetIsDataLoaded());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -66,9 +65,9 @@ function ProductPage(): JSX.Element {
                 <p className="product-container__price-info product-container__price-info--value">
                   {guitar?.price.toLocaleString('ru-RU')} ₽
                 </p>
-                <a className="button button--red button--big product-container__button" href="#">
+                <Link className="button button--red button--big product-container__button" to="#">
                   Добавить в корзину
-                </a>
+                </Link>
               </div>
             </div>
             <ReviewsList />

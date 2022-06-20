@@ -32,6 +32,7 @@ function ReviewsList(): JSX.Element {
 
   useEffect(() => {
     setShowedReviews(sortedByDateReviews?.slice(0, REVIEWS_PER_STEP));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reviews]);
 
   useEffect(() => {

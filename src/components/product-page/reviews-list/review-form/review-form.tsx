@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { sendReviewAction } from '../../../../store/api-actions';
 import { useAppSelector, useAppDispatch } from '../../../../hooks';
 import { getGuitarById } from '../../../../store/selectors';
-import { RATING, MAX_RATING } from '../../../../const';
+import { GuitarRating } from '../../../../const';
 import { validateString } from '../../../../utils/utils';
 import RatingInputs from './rating-inputs/rating-inputs';
 
@@ -18,7 +18,7 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
   const guitar = useAppSelector(getGuitarById(Number(id)));
   const dispatch = useAppDispatch();
 
-  const [rating, setRating] = useState(RATING);
+  const [rating, setRating] = useState(GuitarRating.Initial);
   const [userName, setUserName] = useState('');
   const [advantage, setAdvantage] = useState('');
   const [disadvantage, setDisadvantage] = useState('');
@@ -131,7 +131,7 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
                 <span className="form-review__label form-review__label--required" >Ваша Оценка</span>
                 <div className="rate rate--reverse">
 
-                  <RatingInputs rating={rating} maxRating={MAX_RATING} onRatingChange={handleRatingChange} />
+                  <RatingInputs rating={rating} maxRating={GuitarRating.Maximal} onRatingChange={handleRatingChange} />
 
                   <p className="rate__message" style={isRatingWarning ? {} : {visibility: 'hidden'}}>
                     Поставьте оценку
