@@ -6,11 +6,11 @@ import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'react-router-dom/node_modules/history';
 
-import { createAPI } from '../../services/api';
-import { makeFakeGuitars, makeFakeReviewsByGuitar } from '../../utils/mocks';
-import { State } from '../../types/state';
-import CatalogPage from './catalog-page';
-import { SortingOrder, SortingType } from '../../const';
+import { createAPI } from '../../../services/api';
+import { makeFakeGuitars, makeFakeReviewsByGuitar } from '../../../utils/mocks';
+import { State } from '../../../types/state';
+import CatalogPage from './../catalog-page';
+import { SortingOrder, SortingType } from '../../../const';
 
 const id = 2;
 const guitarsQuantity = 5;
@@ -29,7 +29,7 @@ const mockStore = configureMockStore<
   ThunkDispatch<State, typeof api, Action>
 >(middlewares);
 
-describe('Component: CatalogPage', () => {
+describe('Component: CatalogFilter', () => {
   it('should render list element correctly', () => {
     render(
       <HistoryRouter history={customHistory}>
@@ -60,6 +60,9 @@ describe('Component: CatalogPage', () => {
       </HistoryRouter>,
     );
 
-    expect(screen.getByText('Сортировать:')).toBeInTheDocument();
+    expect(screen.getByText('Фильтр')).toBeInTheDocument();
+    expect(screen.getByText('Акустические гитары')).toBeInTheDocument();
+    expect(screen.getByText('Количество струн')).toBeInTheDocument();
+    expect(screen.getByText('Очистить')).toBeInTheDocument();
   });
 });
