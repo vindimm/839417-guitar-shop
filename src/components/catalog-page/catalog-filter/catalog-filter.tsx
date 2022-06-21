@@ -51,6 +51,7 @@ function CatalogFilter (): JSX.Element {
     return () => {
       dispatch(resetFilters());
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renewMinPrice = (evt: KeyboardEvent<HTMLInputElement> | ChangeEvent<HTMLInputElement>) => {

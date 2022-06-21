@@ -50,7 +50,12 @@ function ProductPage(): JSX.Element {
                 alt={guitar?.name}
               />
               <div className="product-container__info-wrapper">
-                <h2 className="product-container__title title title--big title--uppercase">{guitar?.name}</h2>
+                <h2
+                  className="product-container__title title title--big title--uppercase"
+                  data-testid="guitar-title-test"
+                >
+                  {guitar?.name}
+                </h2>
                 <div className="rate product-container__rating">
                   <RatingChart rating={guitar?.rating} size={'middle'} />
                   <p className="rate__count" style={{paddingLeft: '8px'}}>
