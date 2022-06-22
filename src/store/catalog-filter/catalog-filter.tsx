@@ -16,10 +16,10 @@ export const catalogFilter = createSlice({
   name: NameSpace.CatalogFilter,
   initialState,
   reducers: {
-    addActiveFilter: (state, action) => {
+    addGuitarTypeFilter: (state, action) => {
       state.guitarsTypes = [...state.guitarsTypes, action.payload];
     },
-    removeActiveFilter: (state, action) => {
+    removeGuitarTypeFilter: (state, action) => {
       state.guitarsTypes = state.guitarsTypes.filter((item) => item !== action.payload);
     },
     resetFilters: (state) => {
@@ -34,21 +34,20 @@ export const catalogFilter = createSlice({
     updateMaxPrice: (state, action) => {
       state.price.max = action.payload;
     },
-    updateStringCount: (state, action) => {
-      const index = state.stringCount.indexOf(action.payload);
-      if (index > -1) {
-        state.stringCount.splice(index, 1);
-      } else {
-        state.stringCount = [...state.stringCount, action.payload];
-      }
+    addStringCount: (state, action: {payload: string[]; type: string}) => {
+      state.stringCount = [...state.stringCount, ...action.payload];
+    },
+    removeStringCount: (state, action: {payload: string[]; type: string}) => {
+      state.stringCount = state.stringCount.filter((item) => !action.payload.includes(item));
     },
   },
 });
 
 export const {
-  addActiveFilter,
-  updateStringCount,
-  removeActiveFilter,
+  addGuitarTypeFilter,
+  addStringCount,
+  removeStringCount,
+  removeGuitarTypeFilter,
   resetFilters,
   updateMinPrice,
   updateMaxPrice,

@@ -8,16 +8,17 @@ import { ThreeDots } from 'react-loader-spinner';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { GuitarType } from '../../../const';
-import { getGuitars, getIsDataLoaded, getEnabledStrings } from '../../../store/selectors';
+import { getGuitars, getIsDataLoaded, getDisabledStrings } from '../../../store/selectors';
 import { getSearchParams, getMinPrice, getMaxPrice } from '../../../utils/utils';
 import { resetSorting } from '../../../store/catalog-sorting/catalog-sorting';
 import {
-  addActiveFilter,
-  removeActiveFilter,
+  addGuitarTypeFilter,
+  removeGuitarTypeFilter,
   resetFilters,
   updateMinPrice,
   updateMaxPrice,
-  updateStringCount
+  addStringCount,
+  removeStringCount
 } from '../../../store/catalog-filter/catalog-filter';
 
 function CatalogFilter (): JSX.Element {
@@ -25,6 +26,8 @@ function CatalogFilter (): JSX.Element {
   const { search } = useLocation();
   const { type, stringCount }  = getSearchParams(search);
   const guitars = useAppSelector(getGuitars);
+  const disabledStrings = useAppSelector(getDisabledStrings);
+  const isDataLoaded = useAppSelector(getIsDataLoaded);
 
   const [acousticGuitarActive, setAcousticGuitarActive] = useState(type?.includes(GuitarType.Acoustic));
   const [electricGuitarActive, setElectricGuitarActive] = useState(type?.includes(GuitarType.Electric));
@@ -33,26 +36,37 @@ function CatalogFilter (): JSX.Element {
   const [minPriceValue, setMinPriceValue] = useState('');
   const [maxPriceValue, setMaxPriceValue] = useState('');
 
-  const [isStringCount4, setIsStringCount4] = useState(stringCount?.includes('4'));
-  const [isStringCount6, setIsStringCount6] = useState(stringCount?.includes('6'));
-  const [isStringCount7, setIsStringCount7] = useState(stringCount?.includes('7'));
-  const [isStringCount12, setIsStringCount12] = useState(stringCount?.includes('12'));
+  const [selectedStrings, setSelectedStrings] = useState<string[]>(stringCount || []);
 
   const minPricePlaceholder = getMinPrice(guitars);
   const maxPricePlaceholder = getMaxPrice(guitars);
 
-  const enabledStrings = useAppSelector(getEnabledStrings);
-
-  const isDataLoaded = useAppSelector(getIsDataLoaded);
-
   useEffect(() => {
-    type?.forEach((item) => dispatch(addActiveFilter(item)));
-    stringCount?.forEach((item) => dispatch(updateStringCount(item)));
+    type?.forEach((item) => dispatch(addGuitarTypeFilter(item)));
+    if (stringCount) {
+      dispatch(addStringCount(stringCount));
+    }
     return () => {
       dispatch(resetFilters());
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    dispatch(removeStringCount(disabledStrings));
+    setSelectedStrings(selectedStrings.filter((item) => !disabledStrings.includes(item)));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [acousticGuitarActive, electricGuitarActive, ukuleleGuitarActive]);
+
+  const updateStrings = (quantity: string) => {
+    if (selectedStrings.includes(quantity)) {
+      setSelectedStrings(selectedStrings.filter((item) => item !== quantity));
+      dispatch(removeStringCount([quantity]));
+    } else {
+      setSelectedStrings([...selectedStrings, quantity]);
+      dispatch(addStringCount([quantity]));
+    }
+  };
 
   const renewMinPrice = (evt: KeyboardEvent<HTMLInputElement> | ChangeEvent<HTMLInputElement>) => {
     if (minPriceValue !== '') {
@@ -88,52 +102,51 @@ function CatalogFilter (): JSX.Element {
   };
 
   const handleStringCount4 = () => {
-    setIsStringCount4(!isStringCount4);
-    dispatch(updateStringCount('4'));
+    updateStrings('4');
   };
 
   const handleStringCount6 = () => {
-    setIsStringCount6(!isStringCount6);
-    dispatch(updateStringCount('6'));
+    updateStrings('6');
   };
 
   const handleStringCount7 = () => {
-    setIsStringCount7(!isStringCount7);
-    dispatch(updateStringCount('7'));
+    updateStrings('7');
   };
 
   const handleStringCount12 = () => {
-    setIsStringCount12(!isStringCount12);
-    dispatch(updateStringCount('12'));
+    updateStrings('12');
   };
 
   const handleAcousticCheckbox = () => {
     if (acousticGuitarActive) {
       setAcousticGuitarActive(false);
-      dispatch(removeActiveFilter(GuitarType.Acoustic));
+      dispatch(removeGuitarTypeFilter(GuitarType.Acoustic));
     } else {
       setAcousticGuitarActive(true);
-      dispatch(addActiveFilter(GuitarType.Acoustic));
+      dispatch(addGuitarTypeFilter(GuitarType.Acoustic));
+      dispatch(removeStringCount(disabledStrings));
     }
   };
 
   const handleElectricCheckbox = () => {
     if (electricGuitarActive) {
       setElectricGuitarActive(false);
-      dispatch(removeActiveFilter(GuitarType.Electric));
+      dispatch(removeGuitarTypeFilter(GuitarType.Electric));
     } else {
       setElectricGuitarActive(true);
-      dispatch(addActiveFilter(GuitarType.Electric));
+      dispatch(addGuitarTypeFilter(GuitarType.Electric));
+      dispatch(removeStringCount(disabledStrings));
     }
   };
 
   const handleUkuleleCheckbox = () => {
     if (ukuleleGuitarActive) {
       setUkuleleGuitarActive(false);
-      dispatch(removeActiveFilter(GuitarType.Ukulele));
+      dispatch(removeGuitarTypeFilter(GuitarType.Ukulele));
     } else {
       setUkuleleGuitarActive(true);
-      dispatch(addActiveFilter(GuitarType.Ukulele));
+      dispatch(addGuitarTypeFilter(GuitarType.Ukulele));
+      dispatch(removeStringCount(disabledStrings));
     }
   };
 
@@ -143,10 +156,7 @@ function CatalogFilter (): JSX.Element {
     setUkuleleGuitarActive(false);
     setMinPriceValue('');
     setMaxPriceValue('');
-    setIsStringCount4(false);
-    setIsStringCount6(false);
-    setIsStringCount7(false);
-    setIsStringCount12(false);
+    setSelectedStrings([]);
     dispatch(resetFilters());
     dispatch(resetSorting());
   };
@@ -273,9 +283,9 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="4-strings"
             name="4-strings"
-            checked={isStringCount4 || false}
+            checked={(selectedStrings?.includes('4') && !disabledStrings.includes('4')) || false}
             onChange={handleStringCount4}
-            disabled={!enabledStrings.includes(4)}
+            disabled={disabledStrings.includes('4')}
           />
           <label htmlFor="4-strings">4</label>
         </div>
@@ -285,9 +295,9 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="6-strings"
             name="6-strings"
-            checked={isStringCount6 || false}
+            checked={(selectedStrings?.includes('6') && !disabledStrings.includes('6')) || false}
             onChange={handleStringCount6}
-            disabled={!enabledStrings.includes(6)}
+            disabled={disabledStrings.includes('6')}
           />
           <label htmlFor="6-strings">6</label>
         </div>
@@ -297,9 +307,9 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="7-strings"
             name="7-strings"
-            checked={isStringCount7 || false}
+            checked={(selectedStrings?.includes('7') && !disabledStrings.includes('7')) || false}
             onChange={handleStringCount7}
-            disabled={!enabledStrings.includes(7)}
+            disabled={disabledStrings.includes('7')}
           />
           <label htmlFor="7-strings">7</label>
         </div>
@@ -309,9 +319,9 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="12-strings"
             name="12-strings"
-            checked={isStringCount12 || false}
+            checked={(selectedStrings?.includes('12') && !disabledStrings.includes('12'))|| false}
             onChange={handleStringCount12}
-            disabled={!enabledStrings.includes(12)}
+            disabled={disabledStrings.includes('12')}
           />
           <label htmlFor="12-strings">12</label>
         </div>

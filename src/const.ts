@@ -2,6 +2,13 @@ export const GUITARS_PER_PAGE = 9;
 export const REVIEWS_PER_STEP = 3;
 export const DEFAULT_TAB_NAME = '#characteristics';
 
+export const stringCountByType = {
+  Default: ['4', '6', '7', '12'],
+  Acoustic: ['6', '7', '12'],
+  Electric: ['4', '6', '7'],
+  Ukulele: ['4'],
+};
+
 export enum GuitarRating {
   Initial = 0,
   Maximal = 5,

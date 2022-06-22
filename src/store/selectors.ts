@@ -1,6 +1,6 @@
 import { State } from '../types/state';
 import { Guitar } from '../types/guitar';
-import { NameSpace, GuitarType } from '../const';
+import { NameSpace, GuitarType, stringCountByType } from '../const';
 
 export const getGuitars = ((state: State) => state[NameSpace.CatalogData].guitars);
 
@@ -14,21 +14,24 @@ export const getPriceFilters = ((state: State) => state[NameSpace.CatalogFilter]
 
 export const getStringFilters = ((state: State) => state[NameSpace.CatalogFilter].stringCount);
 
-export const getEnabledStrings = ((state: State) => {
-  let strings: number[] = [];
+export const getDisabledStrings = ((state: State) => {
+  let enabledStrings: string[] = [];
   if (state[NameSpace.CatalogFilter].guitarsTypes.includes(GuitarType.Acoustic)) {
-    strings = [...strings, 6, 7, 12];
+    enabledStrings = [...enabledStrings, ...stringCountByType.Acoustic];
   }
   if (state[NameSpace.CatalogFilter].guitarsTypes.includes(GuitarType.Electric)) {
-    strings = [...strings, 4, 6, 7];
+    enabledStrings = [...enabledStrings, ...stringCountByType.Electric];
   }
   if (state[NameSpace.CatalogFilter].guitarsTypes.includes(GuitarType.Ukulele)) {
-    strings = [...strings, 4];
+    enabledStrings = [...enabledStrings, ...stringCountByType.Ukulele];
   }
   if (state[NameSpace.CatalogFilter].guitarsTypes.length === 0) {
-    strings = [4, 6, 7, 12];
+    enabledStrings = stringCountByType.Default;
   }
-  return [...new Set(strings)];
+
+  enabledStrings = [...new Set(enabledStrings)];
+  const disabledStrings = stringCountByType.Default.filter((item) => !enabledStrings.includes(item));
+  return disabledStrings;
 });
 
 export const getSortingParams = ((state: State) => state[NameSpace.CatalogSorting]);
