@@ -29,12 +29,10 @@ function CatalogFilter (): JSX.Element {
   const disabledStrings = useAppSelector(getDisabledStrings);
   const isDataLoaded = useAppSelector(getIsDataLoaded);
 
-  const [acousticGuitarActive, setAcousticGuitarActive] = useState(type?.includes(GuitarType.Acoustic));
-  const [electricGuitarActive, setElectricGuitarActive] = useState(type?.includes(GuitarType.Electric));
-  const [ukuleleGuitarActive, setUkuleleGuitarActive] = useState(type?.includes(GuitarType.Ukulele));
-
   const [minPriceValue, setMinPriceValue] = useState('');
   const [maxPriceValue, setMaxPriceValue] = useState('');
+
+  const [selectedGuitarType, setSelectedGuitarType] = useState<string[]>(type || []);
 
   const [selectedStrings, setSelectedStrings] = useState<string[]>(stringCount || []);
 
@@ -42,7 +40,9 @@ function CatalogFilter (): JSX.Element {
   const maxPricePlaceholder = getMaxPrice(guitars);
 
   useEffect(() => {
-    type?.forEach((item) => dispatch(addGuitarTypeFilter(item)));
+    if (type) {
+      dispatch(addGuitarTypeFilter(type));
+    }
     if (stringCount) {
       dispatch(addStringCount(stringCount));
     }
@@ -56,7 +56,7 @@ function CatalogFilter (): JSX.Element {
     dispatch(removeStringCount(disabledStrings));
     setSelectedStrings(selectedStrings.filter((item) => !disabledStrings.includes(item)));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [acousticGuitarActive, electricGuitarActive, ukuleleGuitarActive]);
+  }, [selectedGuitarType]);
 
   const updateStrings = (quantity: string) => {
     if (selectedStrings.includes(quantity)) {
@@ -118,42 +118,40 @@ function CatalogFilter (): JSX.Element {
   };
 
   const handleAcousticCheckbox = () => {
-    if (acousticGuitarActive) {
-      setAcousticGuitarActive(false);
+    if (selectedGuitarType.includes(GuitarType.Acoustic)) {
+      setSelectedGuitarType(selectedGuitarType.filter((item) => item !== GuitarType.Acoustic));
       dispatch(removeGuitarTypeFilter(GuitarType.Acoustic));
     } else {
-      setAcousticGuitarActive(true);
-      dispatch(addGuitarTypeFilter(GuitarType.Acoustic));
+      setSelectedGuitarType([...selectedGuitarType, GuitarType.Acoustic]);
+      dispatch(addGuitarTypeFilter([GuitarType.Acoustic]));
       dispatch(removeStringCount(disabledStrings));
     }
   };
 
   const handleElectricCheckbox = () => {
-    if (electricGuitarActive) {
-      setElectricGuitarActive(false);
+    if (selectedGuitarType.includes(GuitarType.Electric)) {
+      setSelectedGuitarType(selectedGuitarType.filter((item) => item !== GuitarType.Electric));
       dispatch(removeGuitarTypeFilter(GuitarType.Electric));
     } else {
-      setElectricGuitarActive(true);
-      dispatch(addGuitarTypeFilter(GuitarType.Electric));
+      setSelectedGuitarType([...selectedGuitarType, GuitarType.Electric]);
+      dispatch(addGuitarTypeFilter([GuitarType.Electric]));
       dispatch(removeStringCount(disabledStrings));
     }
   };
 
   const handleUkuleleCheckbox = () => {
-    if (ukuleleGuitarActive) {
-      setUkuleleGuitarActive(false);
+    if (selectedGuitarType.includes(GuitarType.Ukulele)) {
+      setSelectedGuitarType(selectedGuitarType.filter((item) => item !== GuitarType.Ukulele));
       dispatch(removeGuitarTypeFilter(GuitarType.Ukulele));
     } else {
-      setUkuleleGuitarActive(true);
-      dispatch(addGuitarTypeFilter(GuitarType.Ukulele));
+      setSelectedGuitarType([...selectedGuitarType, GuitarType.Ukulele]);
+      dispatch(addGuitarTypeFilter([GuitarType.Ukulele]));
       dispatch(removeStringCount(disabledStrings));
     }
   };
 
   const handleResetButton = () => {
-    setAcousticGuitarActive(false);
-    setElectricGuitarActive(false);
-    setUkuleleGuitarActive(false);
+    setSelectedGuitarType([]);
     setMinPriceValue('');
     setMaxPriceValue('');
     setSelectedStrings([]);
@@ -247,7 +245,7 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="acoustic"
             name="acoustic"
-            checked={acousticGuitarActive || false}
+            checked={selectedGuitarType.includes(GuitarType.Acoustic) || false}
             onChange={handleAcousticCheckbox}
           />
           <label htmlFor="acoustic">Акустические гитары</label>
@@ -258,7 +256,7 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="electric"
             name="electric"
-            checked={electricGuitarActive || false}
+            checked={selectedGuitarType.includes(GuitarType.Electric) || false}
             onChange={handleElectricCheckbox}
           />
           <label htmlFor="electric">Электрогитары</label>
@@ -269,7 +267,7 @@ function CatalogFilter (): JSX.Element {
             type="checkbox"
             id="ukulele"
             name="ukulele"
-            checked={ukuleleGuitarActive || false}
+            checked={selectedGuitarType.includes(GuitarType.Ukulele) || false}
             onChange={handleUkuleleCheckbox}
           />
           <label htmlFor="ukulele">Укулеле</label>

@@ -16,8 +16,8 @@ export const catalogFilter = createSlice({
   name: NameSpace.CatalogFilter,
   initialState,
   reducers: {
-    addGuitarTypeFilter: (state, action) => {
-      state.guitarsTypes = [...state.guitarsTypes, action.payload];
+    addGuitarTypeFilter: (state, action: {payload: string[]; type: string}) => {
+      state.guitarsTypes = [...state.guitarsTypes, ...action.payload];
     },
     removeGuitarTypeFilter: (state, action) => {
       state.guitarsTypes = state.guitarsTypes.filter((item) => item !== action.payload);
