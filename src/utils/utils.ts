@@ -1,4 +1,4 @@
-import { SortingOrder, SortingType } from '../const';
+import { GuitarType, SortingOrder, SortingType } from '../const';
 import { Guitars } from '../types/guitar';
 import { Sorting } from '../types/sorting';
 
@@ -78,6 +78,27 @@ export const getDimensions = (size: 'small' | 'middle' | 'large'): [number, numb
   }
 
   return [width, height];
+};
+
+// Перевод типа гитары в русскоязычное название
+export const getGuitarType = (type: string | undefined) => {
+  let result: string;
+
+  switch (type) {
+    case GuitarType.Acoustic :
+      result = 'Акустическая';
+      break;
+    case GuitarType.Electric:
+      result = 'Електрогитара';
+      break;
+    case GuitarType.Ukulele:
+      result = 'Укулеле';
+      break;
+    default:
+      result = '';
+  }
+
+  return result;
 };
 
 // Превращает строку из пробелов в пустую строку

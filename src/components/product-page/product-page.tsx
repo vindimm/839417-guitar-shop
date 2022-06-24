@@ -4,15 +4,17 @@ import { useParams } from 'react-router-dom';
 import { ThreeDots } from  'react-loader-spinner';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getGuitarById, getReviewsByGuitarId, getIsDataLoaded } from '../../store/selectors';
+import { getGuitarById, getReviewsByGuitarId, getIsDataLoaded, getIsPurchasing } from '../../store/selectors';
 import { fetchGuitarAction } from '../../store/api-actions';
 import { resetGuitars, resetIsDataLoaded } from '../../store/catalog-data/catalog-data';
+import { beginPurchasing } from '../../store/catalog-cart/catalog-cart';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
 import ReviewsList from './reviews-list/reviews-list';
 import RatingChart from '../common/rating-chart/rating-chart';
 import ProductTabs from './product-tabs/product-tabs';
+import CartPurchaseModal from '../cart-page/cart-purchase-modal/cart-purchase-modal';
 
 function ProductPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -20,6 +22,7 @@ function ProductPage(): JSX.Element {
   const guitar = useAppSelector(getGuitarById(Number(id)));
   const reviews = useAppSelector(getReviewsByGuitarId(Number(id)));
   const isDataLoaded = useAppSelector(getIsDataLoaded);
+  const isPurchasing = useAppSelector(getIsPurchasing);
 
   useEffect (() => {
     if (id && !guitar) {
@@ -33,12 +36,16 @@ function ProductPage(): JSX.Element {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleClick = () => {
+    dispatch(beginPurchasing());
+  };
+
   return (
     <div className="wrapper">
       <Header />
       <main className="page-content">
 
-        {isDataLoaded ?(
+        {isDataLoaded ? (
           <div className="container">
             <Breadcrumbs />
             <div className="product-container">
@@ -70,7 +77,11 @@ function ProductPage(): JSX.Element {
                 <p className="product-container__price-info product-container__price-info--value">
                   {guitar?.price.toLocaleString('ru-RU')} ₽
                 </p>
-                <Link className="button button--red button--big product-container__button" to="#">
+                <Link
+                  className="button button--red button--big product-container__button"
+                  to="#"
+                  onClick={handleClick}
+                >
                   Добавить в корзину
                 </Link>
               </div>
@@ -84,6 +95,8 @@ function ProductPage(): JSX.Element {
 
       </main>
       <Footer />
+
+      {isPurchasing && guitar ? <CartPurchaseModal guitar={guitar} /> : ''}
     </div>
   );
 }

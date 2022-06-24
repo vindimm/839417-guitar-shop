@@ -29,7 +29,8 @@ const store = {
     sortingOrder: SortingOrder.Default,
   },
   CATALOG_CART: {
-    cartGuitars: {},
+    purchasedGuitars: {},
+    isPurchasing: false,
   },
 };
 

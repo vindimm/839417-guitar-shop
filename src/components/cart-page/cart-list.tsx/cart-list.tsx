@@ -1,12 +1,12 @@
-import { CartGuitars } from '../../../types/cart';
+import { PurchasedGuitars } from '../../../types/cart';
 import { useAppSelector } from '../../../hooks';
-import { getCartGuitars } from '../../../store/selectors';
+import { getPurchasedGuitars } from '../../../store/selectors';
 import CartItem from './cart-item/cart-item';
 
 function CartList(): JSX.Element {
-  const cartGuitars: CartGuitars = useAppSelector(getCartGuitars);
+  const purchasedGuitars: PurchasedGuitars = useAppSelector(getPurchasedGuitars);
 
-  if (Object.keys(cartGuitars).length === 0) {
+  if (Object.keys(purchasedGuitars).length === 0) {
     return (
       <div style={{width: '100%', padding: '64px 0px', textAlign: 'center'}}>
         <h2 style={{margin: '0 auto', color: '#C90606'}}>В корзине сейчас нет товаров.</h2>
@@ -16,10 +16,10 @@ function CartList(): JSX.Element {
 
   return (
     <>
-      {Object.keys(cartGuitars).map((id) => (
+      {Object.keys(purchasedGuitars).map((id) => (
         <CartItem
           id={Number(id)}
-          quantity={cartGuitars[Number(id)]}
+          quantity={purchasedGuitars[Number(id)]}
           key={Number(id)}
         />))}
     </>

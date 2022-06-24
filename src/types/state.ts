@@ -1,7 +1,7 @@
 import { store } from '../store';
 import { SortingType, SortingOrder } from '../const';
 import { Guitars } from './guitar';
-import { CartGuitars } from './cart';
+import { PurchasedGuitars } from './cart';
 import { ReviewsByGuitar } from './review';
 
 export type State = ReturnType<typeof store.getState>;
@@ -33,5 +33,6 @@ export type CatalogSorting = {
 }
 
 export type CatalogCart = {
-  cartGuitars: CartGuitars;
+  purchasedGuitars: PurchasedGuitars;
+  isPurchasing: boolean;
 }

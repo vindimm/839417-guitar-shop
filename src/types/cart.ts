@@ -1,6 +1,6 @@
 type Id = number;
 type Quantity = number;
 
-type CartGuitars = Record<Id, Quantity>;
+type PurchasedGuitars = Record<Id, Quantity>;
 
-export type { CartGuitars };
+export type { PurchasedGuitars };

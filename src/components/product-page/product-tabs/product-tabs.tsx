@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import { Guitar } from '../../../types/guitar';
 import { TabName } from '../../../const';
+import { getGuitarType } from '../../../utils/utils';
 
 type ProductTabsProps = {
   guitar: Guitar | undefined,
@@ -49,7 +50,7 @@ function ProductTabs({ guitar }: ProductTabsProps): JSX.Element {
                 </tr>
                 <tr className="tabs__table-row">
                   <td className="tabs__title">Тип:</td>
-                  <td className="tabs__value">{guitar?.type}</td>
+                  <td className="tabs__value">{getGuitarType(guitar?.type)}</td>
                 </tr>
                 <tr className="tabs__table-row">
                   <td className="tabs__title">Количество струн:</td>
