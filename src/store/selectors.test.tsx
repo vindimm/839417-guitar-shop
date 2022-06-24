@@ -28,6 +28,9 @@ const store = {
     sortingType: SortingType.Default,
     sortingOrder: SortingOrder.Default,
   },
+  CATALOG_CART: {
+    cartGuitars: {},
+  },
 };
 
 describe('redux selectors', () => {

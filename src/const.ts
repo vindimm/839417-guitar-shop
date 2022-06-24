@@ -18,6 +18,7 @@ export enum AppRoute {
   Catalog = '/catalog',
   CatalogPage = '/catalog/page/:id',
   CatalogPage1 = '/catalog/page/1',
+  CartPage = '/catalog/cart',
   GuitarPage = '/catalog/guitar/:id',
   NotFound = '/404',
 }
@@ -34,6 +35,7 @@ export enum NameSpace {
   CatalogSearch = 'CATALOG_SEARCH',
   CatalogFilter = 'CATALOG_FILTER',
   CatalogSorting = 'CATALOG_SORTING',
+  CatalogCart = 'CATALOG_CART',
 }
 
 export enum TabName {

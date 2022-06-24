@@ -43,3 +43,5 @@ export const getGuitarById = (id: number) => (state: State) =>
 
 export const getReviewsByGuitarId = (id: number) => (state: State) =>
   state[NameSpace.CatalogData].reviewsByGuitar[id];
+
+export const getCartGuitars = ((state: State) => state[NameSpace.CatalogCart].cartGuitars);
