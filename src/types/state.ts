@@ -34,5 +34,5 @@ export type CatalogSorting = {
 
 export type CatalogCart = {
   purchasedGuitars: PurchasedGuitars;
-  isPurchasing: boolean;
+  purchasingGuitarId: number | null;
 }

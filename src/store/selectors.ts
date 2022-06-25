@@ -38,7 +38,7 @@ export const getSortingParams = ((state: State) => state[NameSpace.CatalogSortin
 
 export const getIsDataLoaded = ((state: State) => state[NameSpace.CatalogData].isDataLoaded);
 
-export const getGuitarById = (id: number) => (state: State) =>
+export const getGuitarById = (id: number | null) => (state: State) =>
   state[NameSpace.CatalogData].guitars.find((guitar: Guitar) => guitar.id === id);
 
 export const getReviewsByGuitarId = (id: number) => (state: State) =>
@@ -46,4 +46,4 @@ export const getReviewsByGuitarId = (id: number) => (state: State) =>
 
 export const getPurchasedGuitars = ((state: State) => state[NameSpace.CatalogCart].purchasedGuitars);
 
-export const getIsPurchasing = ((state: State) => state[NameSpace.CatalogCart].isPurchasing);
+export const getPurchasingGuitarId = ((state: State) => state[NameSpace.CatalogCart].purchasingGuitarId);

@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, KeyboardEvent } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { ThreeDots } from 'react-loader-spinner';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchSortedGuitarsAction } from '../../store/api-actions';
 import { resetGuitars, resetIsDataLoaded } from '../../store/catalog-data/catalog-data';
+import { endPurchasing } from '../../store/catalog-cart/catalog-cart';
 import { redirectToRoute } from '../../store/action';
 import { createSearchQuery } from '../../utils/utils';
 import {
@@ -13,7 +14,8 @@ import {
   getTypeFilters,
   getPriceFilters,
   getSortingParams,
-  getStringFilters
+  getStringFilters,
+  getPurchasingGuitarId
 } from '../../store/selectors';
 import { GUITARS_PER_PAGE} from '../../const';
 import Header from '../common/header/header';
@@ -23,6 +25,7 @@ import CatalogSorting from './catalog-sorting/catalog-sorting';
 import CatalogFilter from './catalog-filter/catalog-filter';
 import ProductList from './products-list/products-list';
 import Pagination from './pagination/pagination';
+import CartPurchaseModal from '../cart-page/cart-purchase-modal/cart-purchase-modal';
 
 function CatalogPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -35,6 +38,7 @@ function CatalogPage(): JSX.Element {
   const priceFilters = useAppSelector(getPriceFilters);
   const sortingParams = useAppSelector(getSortingParams);
   const stringCountFilters = useAppSelector(getStringFilters);
+  const purchasingGuitarId = useAppSelector(getPurchasingGuitarId);
 
   const { search } = useLocation();
 
@@ -49,8 +53,15 @@ function CatalogPage(): JSX.Element {
     };
   }, [search, dispatch, searchQuery]);
 
+  const handleEscKeyDown = (evt: KeyboardEvent) => {
+    if (evt.key === 'Escape') {
+      document.body.style.position = 'static';
+      dispatch(endPurchasing());
+    }
+  };
+
   return (
-    <div className="wrapper">
+    <div className="wrapper" onKeyDown={handleEscKeyDown}>
       <Header isCatalogPage />
       <main className="page-content">
         <div className="container">
@@ -71,6 +82,8 @@ function CatalogPage(): JSX.Element {
 
       </main>
       <Footer />
+
+      {purchasingGuitarId ? <CartPurchaseModal /> : ''}
     </div>
   );
 }

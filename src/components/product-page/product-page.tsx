@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, KeyboardEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { ThreeDots } from  'react-loader-spinner';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getGuitarById, getReviewsByGuitarId, getIsDataLoaded, getIsPurchasing } from '../../store/selectors';
+import { getGuitarById, getReviewsByGuitarId, getIsDataLoaded, getPurchasingGuitarId } from '../../store/selectors';
 import { fetchGuitarAction } from '../../store/api-actions';
 import { resetGuitars, resetIsDataLoaded } from '../../store/catalog-data/catalog-data';
-import { beginPurchasing } from '../../store/catalog-cart/catalog-cart';
+import { beginPurchasing, endPurchasing } from '../../store/catalog-cart/catalog-cart';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
@@ -22,7 +22,7 @@ function ProductPage(): JSX.Element {
   const guitar = useAppSelector(getGuitarById(Number(id)));
   const reviews = useAppSelector(getReviewsByGuitarId(Number(id)));
   const isDataLoaded = useAppSelector(getIsDataLoaded);
-  const isPurchasing = useAppSelector(getIsPurchasing);
+  const purchasingGuitar = useAppSelector(getPurchasingGuitarId);
 
   useEffect (() => {
     if (id && !guitar) {
@@ -37,11 +37,19 @@ function ProductPage(): JSX.Element {
   }, []);
 
   const handleClick = () => {
-    dispatch(beginPurchasing());
+    dispatch(beginPurchasing(Number(id)));
+    document.body.style.position = 'fixed';
+  };
+
+  const handleEscKeyDown = (evt: KeyboardEvent) => {
+    if (evt.key === 'Escape') {
+      document.body.style.position = 'static';
+      dispatch(endPurchasing());
+    }
   };
 
   return (
-    <div className="wrapper">
+    <div className="wrapper" onKeyDown={handleEscKeyDown}>
       <Header />
       <main className="page-content">
 
@@ -96,7 +104,7 @@ function ProductPage(): JSX.Element {
       </main>
       <Footer />
 
-      {isPurchasing && guitar ? <CartPurchaseModal guitar={guitar} /> : ''}
+      {purchasingGuitar && guitar ? <CartPurchaseModal /> : ''}
     </div>
   );
 }

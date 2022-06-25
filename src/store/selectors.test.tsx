@@ -30,7 +30,7 @@ const store = {
   },
   CATALOG_CART: {
     purchasedGuitars: {},
-    isPurchasing: false,
+    purchasingGuitarId: null,
   },
 };
 

@@ -5,18 +5,18 @@ import { CatalogCart } from '../../types/state';
 
 const initialState: CatalogCart = {
   purchasedGuitars: {},
-  isPurchasing: false,
+  purchasingGuitarId: null,
 };
 
 export const catalogCart = createSlice({
   name: NameSpace.CatalogCart,
   initialState,
   reducers: {
-    beginPurchasing: (state) => {
-      state.isPurchasing = true;
+    beginPurchasing: (state, action: {payload: number, type: string}) => {
+      state.purchasingGuitarId = action.payload;
     },
     endPurchasing: (state) => {
-      state.isPurchasing = false;
+      state.purchasingGuitarId = null;
     },
     addPurchasedGuitar: (state, action: {payload: {id: number, quantity: number}, type: string}) => {
       state.purchasedGuitars[action.payload.id] += action.payload.quantity;

@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../../../hooks';
 
+import { useAppDispatch } from '../../../../hooks';
 import { AppRoute } from '../../../../const';
 import { Guitar } from '../../../../types/guitar';
 import { getPurchasedGuitars } from '../../../../store/selectors';
+import { beginPurchasing } from '../../../../store/catalog-cart/catalog-cart';
 import ProductInfo from './product-info/product-info';
 
 type ProductCardProps = {
@@ -11,7 +13,13 @@ type ProductCardProps = {
 };
 
 function ProductCard({product}: ProductCardProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const purchasedGuitars = useAppSelector(getPurchasedGuitars);
+
+  const handleClick = () => {
+    dispatch(beginPurchasing(product.id));
+    document.body.style.position = 'fixed';
+  };
 
   return (
     <li className="product-card">
@@ -34,7 +42,13 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
         </Link>
         {product.id in purchasedGuitars ?
           <Link className="button button--red-border button--mini button--in-cart" to="#">В Корзине</Link> :
-          <Link className="button button--red button--mini button--add-to-cart" to="#">Купить</Link>}
+          <Link
+            className="button button--red button--mini button--add-to-cart"
+            to="#"
+            onClick={handleClick}
+          >
+            Купить
+          </Link>}
       </div>
     </li>
   );
