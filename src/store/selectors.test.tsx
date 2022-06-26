@@ -1,6 +1,6 @@
 import { makeFakeGuitars } from '../utils/mocks';
 import { getGuitars, getGuitarsBySearch, getGuitarsQuantity, getTypeFilters } from './selectors';
-import { SortingType, SortingOrder, GuitarType } from '../const';
+import { SortingType, SortingOrder, GuitarType, PurchaseStatus } from '../const';
 
 const mockGuitarsQuantity = 8;
 const mockGuitars = makeFakeGuitars(mockGuitarsQuantity);
@@ -31,6 +31,7 @@ const store = {
   CATALOG_CART: {
     purchasedGuitars: {},
     purchasingGuitarId: null,
+    purchaseStatus: PurchaseStatus.Empty,
   },
 };
 

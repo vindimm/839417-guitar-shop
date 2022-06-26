@@ -1,6 +1,6 @@
 import { KeyboardEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { endPurchasing } from '../../../store/catalog-cart/catalog-cart';
+import { addProductToCart, endPurchasing } from '../../../store/catalog-cart/catalog-cart';
 import { getGuitarById, getPurchasingGuitarId } from '../../../store/selectors';
 import { getGuitarType } from '../../../utils/utils';
 
@@ -19,6 +19,10 @@ function CartPurchaseModal(): JSX.Element {
       dispatch(endPurchasing());
       document.body.style.position = 'static';
     }
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addProductToCart());
   };
 
   return (
@@ -47,7 +51,12 @@ function CartPurchaseModal(): JSX.Element {
             </div>
           </div>
           <div className="modal__button-container">
-            <button className="button button--red button--big modal__button modal__button--add">Добавить в корзину</button>
+            <button
+              className="button button--red button--big modal__button modal__button--add"
+              onClick={handleAddToCart}
+            >
+              Добавить в корзину
+            </button>
           </div>
           <button
             className="modal__close-btn button-cross"

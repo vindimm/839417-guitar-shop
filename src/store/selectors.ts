@@ -47,3 +47,5 @@ export const getReviewsByGuitarId = (id: number) => (state: State) =>
 export const getPurchasedGuitars = ((state: State) => state[NameSpace.CatalogCart].purchasedGuitars);
 
 export const getPurchasingGuitarId = ((state: State) => state[NameSpace.CatalogCart].purchasingGuitarId);
+
+export const getPurchaseStatus = ((state: State) => state[NameSpace.CatalogCart].purchaseStatus);

@@ -15,9 +15,9 @@ import {
   getPriceFilters,
   getSortingParams,
   getStringFilters,
-  getPurchasingGuitarId
+  getPurchaseStatus
 } from '../../store/selectors';
-import { GUITARS_PER_PAGE} from '../../const';
+import { GUITARS_PER_PAGE, PurchaseStatus } from '../../const';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
@@ -26,6 +26,7 @@ import CatalogFilter from './catalog-filter/catalog-filter';
 import ProductList from './products-list/products-list';
 import Pagination from './pagination/pagination';
 import CartPurchaseModal from '../cart-page/cart-purchase-modal/cart-purchase-modal';
+import CartSuccessModal from '../cart-page/cart-success-modal/cart-success-modal';
 
 function CatalogPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -38,7 +39,7 @@ function CatalogPage(): JSX.Element {
   const priceFilters = useAppSelector(getPriceFilters);
   const sortingParams = useAppSelector(getSortingParams);
   const stringCountFilters = useAppSelector(getStringFilters);
-  const purchasingGuitarId = useAppSelector(getPurchasingGuitarId);
+  const purchaseStatus = useAppSelector(getPurchaseStatus);
 
   const { search } = useLocation();
 
@@ -83,7 +84,8 @@ function CatalogPage(): JSX.Element {
       </main>
       <Footer />
 
-      {purchasingGuitarId ? <CartPurchaseModal /> : ''}
+      {purchaseStatus === PurchaseStatus.Choice ? <CartPurchaseModal /> : ''}
+      {purchaseStatus === PurchaseStatus.InCart ? <CartSuccessModal /> : ''}
     </div>
   );
 }

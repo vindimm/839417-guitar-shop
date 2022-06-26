@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom';
 import { ThreeDots } from  'react-loader-spinner';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getGuitarById, getReviewsByGuitarId, getIsDataLoaded, getPurchasingGuitarId } from '../../store/selectors';
+import { getGuitarById, getReviewsByGuitarId, getIsDataLoaded, getPurchaseStatus } from '../../store/selectors';
 import { fetchGuitarAction } from '../../store/api-actions';
+import { PurchaseStatus } from '../../const';
 import { resetGuitars, resetIsDataLoaded } from '../../store/catalog-data/catalog-data';
 import { beginPurchasing, endPurchasing } from '../../store/catalog-cart/catalog-cart';
 import Header from '../common/header/header';
@@ -15,6 +16,7 @@ import ReviewsList from './reviews-list/reviews-list';
 import RatingChart from '../common/rating-chart/rating-chart';
 import ProductTabs from './product-tabs/product-tabs';
 import CartPurchaseModal from '../cart-page/cart-purchase-modal/cart-purchase-modal';
+import CartSuccessModal from '../cart-page/cart-success-modal/cart-success-modal';
 
 function ProductPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -22,7 +24,7 @@ function ProductPage(): JSX.Element {
   const guitar = useAppSelector(getGuitarById(Number(id)));
   const reviews = useAppSelector(getReviewsByGuitarId(Number(id)));
   const isDataLoaded = useAppSelector(getIsDataLoaded);
-  const purchasingGuitar = useAppSelector(getPurchasingGuitarId);
+  const purchaseStatus = useAppSelector(getPurchaseStatus);
 
   useEffect (() => {
     if (id && !guitar) {
@@ -104,7 +106,8 @@ function ProductPage(): JSX.Element {
       </main>
       <Footer />
 
-      {purchasingGuitar && guitar ? <CartPurchaseModal /> : ''}
+      {purchaseStatus === PurchaseStatus.Choice && guitar ? <CartPurchaseModal /> : ''}
+      {purchaseStatus === PurchaseStatus.InCart ? <CartSuccessModal /> : ''}
     </div>
   );
 }

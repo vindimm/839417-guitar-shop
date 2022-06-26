@@ -60,3 +60,9 @@ export enum GuitarType {
   Electric = 'electric',
   Ukulele = 'ukulele',
 }
+
+export enum PurchaseStatus {
+  Empty = 'empty',
+  Choice = 'choice',
+  InCart = 'inCart',
+}

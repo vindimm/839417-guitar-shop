@@ -1,5 +1,5 @@
 import { store } from '../store';
-import { SortingType, SortingOrder } from '../const';
+import { SortingType, SortingOrder, PurchaseStatus } from '../const';
 import { Guitars } from './guitar';
 import { PurchasedGuitars } from './cart';
 import { ReviewsByGuitar } from './review';
@@ -33,6 +33,7 @@ export type CatalogSorting = {
 }
 
 export type CatalogCart = {
-  purchasedGuitars: PurchasedGuitars;
-  purchasingGuitarId: number | null;
+  purchasedGuitars: PurchasedGuitars,
+  purchasingGuitarId: number | null,
+  purchaseStatus: PurchaseStatus,
 }
