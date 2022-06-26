@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getGuitarById, getReviewsByGuitarId, getIsDataLoaded, getPurchaseStatus } from '../../store/selectors';
 import { fetchGuitarAction } from '../../store/api-actions';
 import { PurchaseStatus } from '../../const';
-import { resetGuitars, resetIsDataLoaded } from '../../store/catalog-data/catalog-data';
 import { beginPurchasing, endPurchasing } from '../../store/catalog-cart/catalog-cart';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
@@ -31,12 +30,6 @@ function ProductPage(): JSX.Element {
       dispatch(fetchGuitarAction(id));
     }
   }, [id, dispatch, guitar]);
-
-  useEffect(() => () => {
-    dispatch(resetGuitars());
-    dispatch(resetIsDataLoaded());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleClick = () => {
     dispatch(beginPurchasing(Number(id)));

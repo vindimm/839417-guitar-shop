@@ -49,3 +49,14 @@ export const getPurchasedGuitars = ((state: State) => state[NameSpace.CatalogCar
 export const getPurchasingGuitarId = ((state: State) => state[NameSpace.CatalogCart].purchasingGuitarId);
 
 export const getPurchaseStatus = ((state: State) => state[NameSpace.CatalogCart].purchaseStatus);
+
+export const getTotalCostInCart = ((state: State) => {
+  let result = 0;
+  for (const key in state[NameSpace.CatalogCart].purchasedGuitars) {
+    result +=
+      state[NameSpace.CatalogCart].purchasedGuitars[key].price *
+      state[NameSpace.CatalogCart].purchasedGuitars[key].quantity;
+  }
+
+  return result;
+});

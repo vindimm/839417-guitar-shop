@@ -22,7 +22,9 @@ function CartPurchaseModal(): JSX.Element {
   };
 
   const handleAddToCart = () => {
-    dispatch(addProductToCart());
+    if (id && guitar) {
+      dispatch(addProductToCart({id, price: guitar.price}));
+    }
   };
 
   return (

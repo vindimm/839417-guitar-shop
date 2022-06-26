@@ -29,7 +29,7 @@ function CartSuccessModal(): JSX.Element {
   const handleRedirectToCatalog = () => {
     dispatch(endPurchasing());
     document.body.style.position = 'static';
-    dispatch(redirectToRoute(AppRoute.Catalog));
+    dispatch(redirectToRoute(AppRoute.CatalogPage1));
   };
 
   return (

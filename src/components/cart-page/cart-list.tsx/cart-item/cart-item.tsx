@@ -1,5 +1,10 @@
-import { useAppSelector } from '../../../../hooks';
+import { ChangeEvent, useState } from 'react';
+
+import { useAppSelector, useAppDispatch } from '../../../../hooks';
 import { getGuitarById } from '../../../../store/selectors';
+import { GuitarsCountInCart } from '../../../../const';
+import { getGuitarType } from '../../../../utils/utils';
+import { decreaseGuitarsCount, increaseGuitarsCount, updateGuitarsCount } from '../../../../store/catalog-cart/catalog-cart';
 
 type CartItemProps = {
   id: number;
@@ -7,7 +12,29 @@ type CartItemProps = {
 };
 
 function CartItem({id, quantity}: CartItemProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const guitar = useAppSelector(getGuitarById(Number(id)));
+
+  const [guitarsCount, setGuitarsCount] = useState(quantity);
+
+  const handleChangeGuitarsCount = (evt: ChangeEvent<HTMLInputElement>) => {
+    setGuitarsCount(Number(evt.target.value));
+    dispatch(updateGuitarsCount({id, quantity: Number(evt.target.value)}));
+  };
+
+  const handleReduceGuitarsCount = () => {
+    if (guitarsCount > GuitarsCountInCart.Minimal) {
+      setGuitarsCount(guitarsCount - 1);
+      dispatch(decreaseGuitarsCount(id));
+    }
+  };
+
+  const handleIncreaseGuitarsCount = () => {
+    if (guitarsCount < GuitarsCountInCart.Maximal) {
+      setGuitarsCount(guitarsCount + 1);
+      dispatch(increaseGuitarsCount(id));
+    }
+  };
 
   return (
     <div className="cart-item">
@@ -25,13 +52,17 @@ function CartItem({id, quantity}: CartItemProps): JSX.Element {
         />
       </div>
       <div className="product-info cart-item__info">
-        <p className="product-info__title">ЭлектроГитара Честер bass</p>
+        <p className="product-info__title">{guitar?.name}</p>
         <p className="product-info__info">Артикул: {guitar?.vendorCode}</p>
-        <p className="product-info__info">Электрогитара, 6 струнная</p>
+        <p className="product-info__info">{getGuitarType(guitar?.type)}, {guitar?.stringCount} струнная</p>
       </div>
-      <div className="cart-item__price">17 500 ₽</div>
+      <div className="cart-item__price">{guitar?.price.toLocaleString('ru-RU')} ₽</div>
       <div className="quantity cart-item__quantity">
-        <button className="quantity__button" aria-label="Уменьшить количество">
+        <button
+          className="quantity__button"
+          aria-label="Уменьшить количество"
+          onClick={handleReduceGuitarsCount}
+        >
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-minus"></use>
           </svg>
@@ -43,15 +74,22 @@ function CartItem({id, quantity}: CartItemProps): JSX.Element {
           id="2-count"
           name="2-count"
           max="99"
-          value={quantity}
+          value={guitarsCount}
+          onChange={handleChangeGuitarsCount}
         />
-        <button className="quantity__button" aria-label="Увеличить количество">
+        <button
+          className="quantity__button"
+          aria-label="Увеличить количество"
+          onClick={handleIncreaseGuitarsCount}
+        >
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-plus"></use>
           </svg>
         </button>
       </div>
-      <div className="cart-item__price-total">17 500 ₽</div>
+      <div className="cart-item__price-total">
+        {guitar?.price ? (guitar.price * quantity).toLocaleString('ru-RU') : ''} ₽
+      </div>
     </div>
   );
 }

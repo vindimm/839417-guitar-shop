@@ -19,7 +19,7 @@ function CartList(): JSX.Element {
       {Object.keys(purchasedGuitars).map((id) => (
         <CartItem
           id={Number(id)}
-          quantity={purchasedGuitars[Number(id)]}
+          quantity={purchasedGuitars[Number(id)].quantity}
           key={Number(id)}
         />))}
     </>

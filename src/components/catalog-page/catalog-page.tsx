@@ -4,7 +4,6 @@ import { ThreeDots } from 'react-loader-spinner';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchSortedGuitarsAction } from '../../store/api-actions';
-import { resetGuitars, resetIsDataLoaded } from '../../store/catalog-data/catalog-data';
 import { endPurchasing } from '../../store/catalog-cart/catalog-cart';
 import { redirectToRoute } from '../../store/action';
 import { createSearchQuery } from '../../utils/utils';
@@ -48,10 +47,6 @@ function CatalogPage(): JSX.Element {
   useEffect(() => {
     dispatch(redirectToRoute(searchQuery));
     dispatch(fetchSortedGuitarsAction(searchQuery));
-    return () => {
-      dispatch(resetGuitars());
-      dispatch(resetIsDataLoaded());
-    };
   }, [search, dispatch, searchQuery]);
 
   const handleEscKeyDown = (evt: KeyboardEvent) => {

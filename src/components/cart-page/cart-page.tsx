@@ -1,9 +1,14 @@
+import { useAppSelector } from '../../hooks';
+
+import { getTotalCostInCart } from '../../store/selectors';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
 import CartList from './cart-list.tsx/cart-list';
 
 function CartPage(): JSX.Element {
+  const totalCost = useAppSelector(getTotalCostInCart);
+
   return (
     <div className="wrapper">
       <Header />
@@ -28,9 +33,18 @@ function CartPage(): JSX.Element {
                 </form>
               </div>
               <div className="cart__total-info">
-                <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">52 000 ₽</span></p>
-                <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span><span className="cart__total-value cart__total-value--bonus">- 3000 ₽</span></p>
-                <p className="cart__total-item"><span className="cart__total-value-name">К оплате:</span><span className="cart__total-value cart__total-value--payment">49 000 ₽</span></p>
+                <p className="cart__total-item">
+                  <span className="cart__total-value-name">Всего:</span>
+                  <span className="cart__total-value">{totalCost.toLocaleString('ru-RU')} ₽</span>
+                </p>
+                <p className="cart__total-item">
+                  <span className="cart__total-value-name">Скидка:</span>
+                  <span className="cart__total-value cart__total-value--bonus">- xxxx ₽</span>
+                </p>
+                <p className="cart__total-item">
+                  <span className="cart__total-value-name">К оплате:</span>
+                  <span className="cart__total-value cart__total-value--payment">xx xxx ₽</span>
+                </p>
                 <button className="button button--red button--big cart__order-button">Оформить заказ</button>
               </div>
             </div>
