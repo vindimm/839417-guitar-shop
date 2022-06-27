@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 
 import { AppRoute } from '../../../const';
+import { useAppSelector } from '../../../hooks';
+import { getQuantityGuitarsInCart } from '../../../store/selectors';
 import SearchForm from './search-form/search-form';
 
 type HeaderProps = {
@@ -8,6 +10,8 @@ type HeaderProps = {
 }
 
 function Header({ isCatalogPage }: HeaderProps ): JSX.Element {
+  const guitarsQuantity = useAppSelector(getQuantityGuitarsInCart);
+
   return (
     <header className="header" id="header">
       <div className="container header__wrapper">
@@ -38,7 +42,9 @@ function Header({ isCatalogPage }: HeaderProps ): JSX.Element {
         <Link className="header__cart-link" to={AppRoute.CartPage} aria-label="Корзина">
           <svg className="header__cart-icon" width="14" height="14" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
-          </svg><span className="visually-hidden">Перейти в корзину</span><span className="header__cart-count">2</span>
+          </svg>
+          <span className="visually-hidden">Перейти в корзину</span>
+          {guitarsQuantity > 0 ? <span className="header__cart-count">{guitarsQuantity}</span> : ''}
         </Link>
       </div>
     </header>

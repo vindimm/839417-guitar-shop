@@ -60,3 +60,16 @@ export const getTotalCostInCart = ((state: State) => {
 
   return result;
 });
+
+export const getQuantityGuitarsInCart = ((state: State) => {
+  let result = 0;
+  for (const key in state[NameSpace.CatalogCart].purchasedGuitars) {
+    result += state[NameSpace.CatalogCart].purchasedGuitars[key].quantity;
+  }
+
+  return result;
+});
+
+export const getDiscountPercent = ((state: State) => state[NameSpace.CatalogCart].discountPercent);
+
+export const getPromoCodeStatus = ((state: State) => state[NameSpace.CatalogCart].promoCodeStatus);

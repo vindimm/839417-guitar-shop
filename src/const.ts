@@ -28,6 +28,7 @@ export enum APIRoute {
   Guitar = '/guitars/:id',
   Comment = '/guitars/:id/comments',
   SendComment = '/comments',
+  SendCoupon = '/coupons',
 }
 
 export enum NameSpace {
@@ -68,7 +69,19 @@ export enum PurchaseStatus {
   Deleting = 'deleting',
 }
 
+export enum PromoCodeStatus {
+  Default = 'default',
+  Ok = 'ok',
+  Error = 'error',
+}
+
 export enum GuitarsCountInCart {
   Minimal = 1,
   Maximal = 99,
+}
+
+export enum PromoCode {
+  Light = 'light-333',
+  Medium = 'medium-444',
+  Height = 'height-555',
 }

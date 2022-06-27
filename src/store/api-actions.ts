@@ -1,11 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { APIRoute, AppRoute } from '../const';
+import { APIRoute, AppRoute, PromoCodeStatus } from '../const';
 import { redirectToRoute } from './action';
 import { AppDispatch, State } from '../types/state';
 import { Guitar, Guitars } from '../types/guitar';
 import { Review, PostingReview } from '../types/review';
+import { setDiscount, setPromoCodeStatus } from '../store/catalog-cart/catalog-cart';
 import {
   loadGuitars,
   loadSortedGuitars,
@@ -88,5 +89,23 @@ export const sendReviewAction = createAsyncThunk<void, PostingReview, {
   async (review, {dispatch, extra: api}) => {
     const {data} = await api.post<Review>(APIRoute.SendComment, review);
     dispatch(addReview(data));
+  },
+);
+
+export const sendCouponAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'cart/sendCoupon',
+  async (text, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.post<number>(APIRoute.SendCoupon, {coupon: text});
+      dispatch(setDiscount(data));
+      dispatch(setPromoCodeStatus(PromoCodeStatus.Ok));
+    } catch(error) {
+      dispatch(setPromoCodeStatus(PromoCodeStatus.Error));
+      dispatch(setDiscount(0));
+    }
   },
 );

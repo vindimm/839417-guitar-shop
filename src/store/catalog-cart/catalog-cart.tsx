@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { NameSpace, PurchaseStatus } from '../../const';
+import { NameSpace, PurchaseStatus, PromoCodeStatus } from '../../const';
 import { CatalogCart } from '../../types/state';
 
 const initialState: CatalogCart = {
   purchasedGuitars: {},
   purchasingGuitarId: null,
   purchaseStatus: PurchaseStatus.Empty,
+  promoCodeStatus: PromoCodeStatus.Default,
+  discountPercent: 0,
 };
 
 export const catalogCart = createSlice({
@@ -44,6 +46,12 @@ export const catalogCart = createSlice({
     removePurchasedGuitar: (state, action) => {
       delete state.purchasedGuitars[action.payload];
     },
+    setDiscount: (state, action: {payload: number, type: string}) => {
+      state.discountPercent = action.payload;
+    },
+    setPromoCodeStatus: (state, action: {payload: PromoCodeStatus, type: string}) => {
+      state.promoCodeStatus = action.payload;
+    },
   },
 });
 
@@ -57,4 +65,6 @@ export const {
   increaseGuitarsCount,
   addPurchasedGuitar,
   removePurchasedGuitar,
+  setDiscount,
+  setPromoCodeStatus,
 } = catalogCart.actions;
