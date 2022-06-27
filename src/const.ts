@@ -65,9 +65,10 @@ export enum PurchaseStatus {
   Empty = 'empty',
   Choice = 'choice',
   InCart = 'inCart',
+  Deleting = 'deleting',
 }
 
 export enum GuitarsCountInCart {
-  Minimal = 0,
+  Minimal = 1,
   Maximal = 99,
 }

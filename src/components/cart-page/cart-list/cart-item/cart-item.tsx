@@ -4,7 +4,12 @@ import { useAppSelector, useAppDispatch } from '../../../../hooks';
 import { getGuitarById } from '../../../../store/selectors';
 import { GuitarsCountInCart } from '../../../../const';
 import { getGuitarType } from '../../../../utils/utils';
-import { decreaseGuitarsCount, increaseGuitarsCount, updateGuitarsCount } from '../../../../store/catalog-cart/catalog-cart';
+import {
+  beginDeleting,
+  decreaseGuitarsCount,
+  increaseGuitarsCount,
+  updateGuitarsCount
+} from '../../../../store/catalog-cart/catalog-cart';
 
 type CartItemProps = {
   id: number;
@@ -20,9 +25,15 @@ function CartItem({id, quantity}: CartItemProps): JSX.Element {
   const handleChangeGuitarsCount = (evt: ChangeEvent<HTMLInputElement>) => {
     setGuitarsCount(Number(evt.target.value));
     dispatch(updateGuitarsCount({id, quantity: Number(evt.target.value)}));
+    if (Number(evt.target.value) === 0) {
+      dispatch(beginDeleting(id));
+    }
   };
 
   const handleReduceGuitarsCount = () => {
+    if (guitarsCount === 1) {
+      dispatch(beginDeleting(id));
+    }
     if (guitarsCount > GuitarsCountInCart.Minimal) {
       setGuitarsCount(guitarsCount - 1);
       dispatch(decreaseGuitarsCount(id));
@@ -36,9 +47,18 @@ function CartItem({id, quantity}: CartItemProps): JSX.Element {
     }
   };
 
+  const handleDeleteItem = () => {
+    dispatch(beginDeleting(id));
+  };
+
   return (
     <div className="cart-item">
-      <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
+      <button
+        className="cart-item__close-button button-cross"
+        type="button"
+        aria-label="Удалить"
+        onClick={handleDeleteItem}
+      >
         <span className="button-cross__icon"></span>
         <span className="cart-item__close-button-interactive-area"></span>
       </button>

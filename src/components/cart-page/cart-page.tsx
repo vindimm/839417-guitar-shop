@@ -1,16 +1,29 @@
-import { useAppSelector } from '../../hooks';
+import { KeyboardEvent } from 'react';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 
-import { getTotalCostInCart } from '../../store/selectors';
+import { PurchaseStatus } from '../../const';
+import { getTotalCostInCart, getPurchaseStatus } from '../../store/selectors';
+import { endPurchasing } from '../../store/catalog-cart/catalog-cart';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
-import CartList from './cart-list.tsx/cart-list';
+import CartList from './cart-list/cart-list';
+import CartDeleteModal from './cart-delete-modal/cart-delete-modal';
 
 function CartPage(): JSX.Element {
+  const dispatch = useAppDispatch();
   const totalCost = useAppSelector(getTotalCostInCart);
+  const purchaseStatus = useAppSelector(getPurchaseStatus);
+
+  const handleEscKeyDown = (evt: KeyboardEvent) => {
+    if (evt.key === 'Escape') {
+      document.body.style.position = 'static';
+      dispatch(endPurchasing());
+    }
+  };
 
   return (
-    <div className="wrapper">
+    <div className="wrapper" onKeyDown={handleEscKeyDown}>
       <Header />
       <main className="page-content">
         <div className="container">
@@ -52,6 +65,8 @@ function CartPage(): JSX.Element {
         </div>
       </main>
       <Footer />
+
+      {purchaseStatus === PurchaseStatus.Deleting ? <CartDeleteModal /> : ''}
     </div>
   );
 }

@@ -21,6 +21,10 @@ export const catalogCart = createSlice({
       state.purchasingGuitarId = null;
       state.purchaseStatus = PurchaseStatus.Empty;
     },
+    beginDeleting: (state, action: {payload: number, type: string}) => {
+      state.purchasingGuitarId = action.payload;
+      state.purchaseStatus = PurchaseStatus.Deleting;
+    },
     addProductToCart: (state, action: {payload: {id: number, price: number}, type: string}) => {
       state.purchaseStatus = PurchaseStatus.InCart;
       state.purchasedGuitars[action.payload.id] = {quantity: 1, price: action.payload.price};
@@ -37,6 +41,9 @@ export const catalogCart = createSlice({
     addPurchasedGuitar: (state, action: {payload: {id: number, quantity: number}, type: string}) => {
       state.purchasedGuitars[action.payload.id].quantity += action.payload.quantity;
     },
+    removePurchasedGuitar: (state, action) => {
+      delete state.purchasedGuitars[action.payload];
+    },
   },
 });
 
@@ -44,8 +51,10 @@ export const {
   beginPurchasing,
   addProductToCart,
   endPurchasing,
-  addPurchasedGuitar,
+  beginDeleting,
   updateGuitarsCount,
   decreaseGuitarsCount,
   increaseGuitarsCount,
+  addPurchasedGuitar,
+  removePurchasedGuitar,
 } = catalogCart.actions;
