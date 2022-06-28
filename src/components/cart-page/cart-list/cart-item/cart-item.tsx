@@ -52,7 +52,7 @@ function CartItem({id, quantity}: CartItemProps): JSX.Element {
   };
 
   return (
-    <div className="cart-item">
+    <div className="cart-item" data-testid="cart-item-testid">
       <button
         className="cart-item__close-button button-cross"
         type="button"
@@ -88,6 +88,7 @@ function CartItem({id, quantity}: CartItemProps): JSX.Element {
           </svg>
         </button>
         <input
+          data-testid="guitar-count-input-testid"
           className="quantity__input"
           type="number"
           placeholder="1"
@@ -98,6 +99,7 @@ function CartItem({id, quantity}: CartItemProps): JSX.Element {
           onChange={handleChangeGuitarsCount}
         />
         <button
+          data-testid="plus-button-testid"
           className="quantity__button"
           aria-label="Увеличить количество"
           onClick={handleIncreaseGuitarsCount}
