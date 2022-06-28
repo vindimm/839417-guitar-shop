@@ -8,6 +8,7 @@ import { createMemoryHistory } from 'react-router-dom/node_modules/history';
 
 import { createAPI } from '../../../services/api';
 import { makeFakeGuitars, makeFakeReviewsByGuitar } from '../../../utils/mocks';
+import { PurchaseStatus } from '../../../const';
 import { State } from '../../../types/state';
 import ProductsList from './products-list';
 
@@ -34,6 +35,10 @@ describe('Component: ProductCard', () => {
           CATALOG_DATA: {
             reviewsByGuitar: mockReviewsByGuitar,
           },
+          CATALOG_CART: {
+            purchasedGuitars: {},
+            purchaseStatus: PurchaseStatus.Empty,
+          },
         })}
         >
           <ProductsList products={mockGuitars} />
@@ -50,6 +55,10 @@ describe('Component: ProductCard', () => {
         <Provider store={mockStore({
           CATALOG_DATA: {
             reviewsByGuitar: mockReviewsByGuitar,
+          },
+          CATALOG_CART: {
+            purchasedGuitars: {},
+            purchaseStatus: PurchaseStatus.Empty,
           },
         })}
         >

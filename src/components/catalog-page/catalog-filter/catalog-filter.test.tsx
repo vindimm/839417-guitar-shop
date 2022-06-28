@@ -8,9 +8,9 @@ import { createMemoryHistory } from 'react-router-dom/node_modules/history';
 
 import { createAPI } from '../../../services/api';
 import { makeFakeGuitars, makeFakeReviewsByGuitar } from '../../../utils/mocks';
+import { SortingOrder, SortingType, PurchaseStatus } from '../../../const';
 import { State } from '../../../types/state';
 import CatalogPage from './../catalog-page';
-import { SortingOrder, SortingType } from '../../../const';
 
 const id = 2;
 const guitarsQuantity = 5;
@@ -52,6 +52,10 @@ describe('Component: CatalogFilter', () => {
           CATALOG_SORTING: {
             sortingType: SortingType.Default,
             sortingOrder: SortingOrder.Default,
+          },
+          CATALOG_CART: {
+            purchasedGuitars: {},
+            purchaseStatus: PurchaseStatus.Empty,
           },
         })}
         >

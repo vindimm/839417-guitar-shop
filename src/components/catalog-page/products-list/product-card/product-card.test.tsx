@@ -33,6 +33,9 @@ describe('Component: ProductCard', () => {
           CATALOG_DATA: {
             reviewsByGuitar: mockReviewsByGuitar,
           },
+          CATALOG_CART: {
+            purchasedGuitars: {},
+          },
         })}
         >
           <ProductCard product={mockGuitar} />

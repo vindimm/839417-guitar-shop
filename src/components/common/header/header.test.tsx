@@ -28,7 +28,11 @@ describe('Component: Header', () => {
   it('should render correctly', () => {
     render(
       <HistoryRouter history={customHistory}>
-        <Provider store={mockStore({ CATALOG_SEARCH: {guitarsBySearch: mockGuitars} })}>
+        <Provider store={mockStore({
+          CATALOG_SEARCH: {guitarsBySearch: mockGuitars},
+          CATALOG_CART: {purchasedGuitars: {}},
+        })}
+        >
           <Header />
         </Provider>
       </HistoryRouter>,

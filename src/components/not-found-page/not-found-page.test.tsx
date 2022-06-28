@@ -7,6 +7,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 
 import { createAPI } from '../../services/api';
+import { PurchaseStatus } from '../../const';
 import { State } from '../../types/state';
 import { makeFakeGuitars } from '../../utils/mocks';
 import NotFoundPage from './not-found-page';
@@ -29,8 +30,16 @@ describe('Component: NotFoundPage', () => {
     render(
       <HistoryRouter history={customHistory}>
         <Provider store={mockStore({
-          CATALOG_DATA: {guitars: mockGuitars},
-          CATALOG_SEARCH: {guitarsBySearch: mockGuitars},
+          CATALOG_DATA: {
+            guitars: mockGuitars,
+          },
+          CATALOG_SEARCH: {
+            guitarsBySearch: mockGuitars,
+          },
+          CATALOG_CART: {
+            purchasedGuitars: {},
+            purchaseStatus: PurchaseStatus.Empty,
+          },
         })}
         >
           <NotFoundPage />

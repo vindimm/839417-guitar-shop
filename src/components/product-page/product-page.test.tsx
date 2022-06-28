@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'react-router-dom/node_modules/history';
 
+import { PurchaseStatus } from '../../const';
 import { makeFakeReviewsByGuitar, makeFakeGuitars } from '../../utils/mocks';
 import ProductPage from './product-page';
 
@@ -28,6 +29,10 @@ describe('Component: ProductPage', () => {
           CATALOG_SEARCH: {
             guitarsBySearch: mockGuitars,
           },
+          CATALOG_CART: {
+            purchasedGuitars: {},
+            purchaseStatus: PurchaseStatus.Empty,
+          },
         })}
         >
           <ProductPage />
@@ -50,6 +55,10 @@ describe('Component: ProductPage', () => {
           },
           CATALOG_SEARCH: {
             guitarsBySearch: mockGuitars,
+          },
+          CATALOG_CART: {
+            purchasedGuitars: {},
+            purchaseStatus: PurchaseStatus.Empty,
           },
         })}
         >

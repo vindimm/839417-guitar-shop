@@ -53,6 +53,9 @@ describe('Component: CatalogPage', () => {
             sortingType: SortingType.Default,
             sortingOrder: SortingOrder.Default,
           },
+          CATALOG_CART: {
+            purchasedGuitars: {},
+          },
         })}
         >
           <CatalogPage />
