@@ -20,13 +20,19 @@ function CartItem({id, quantity}: CartItemProps): JSX.Element {
   const dispatch = useAppDispatch();
   const guitar = useAppSelector(getGuitarById(Number(id)));
 
-  const [guitarsCount, setGuitarsCount] = useState(quantity);
+  const [guitarsCount, setGuitarsCount] = useState<number>(quantity);
 
   const handleChangeGuitarsCount = (evt: ChangeEvent<HTMLInputElement>) => {
+    setGuitarsCount(Number(evt.currentTarget.value.slice(0, 2)));
+    dispatch(updateGuitarsCount({id, quantity: Number(evt.target.value.slice(0, 2))}));
+  };
+
+  const handleBlurGuitarsCount = (evt: ChangeEvent<HTMLInputElement>) => {
     setGuitarsCount(Number(evt.target.value));
     dispatch(updateGuitarsCount({id, quantity: Number(evt.target.value)}));
     if (Number(evt.target.value) === 0) {
-      dispatch(beginDeleting(id));
+      setGuitarsCount(1);
+      dispatch(updateGuitarsCount({id, quantity: 1}));
     }
   };
 
@@ -94,9 +100,11 @@ function CartItem({id, quantity}: CartItemProps): JSX.Element {
           placeholder="1"
           id="2-count"
           name="2-count"
+          min="1"
           max="99"
-          value={guitarsCount}
+          value={String(guitarsCount)}
           onChange={handleChangeGuitarsCount}
+          onBlur={handleBlurGuitarsCount}
         />
         <button
           data-testid="plus-button-testid"
