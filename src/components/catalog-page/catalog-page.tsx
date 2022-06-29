@@ -16,7 +16,7 @@ import {
   getStringFilters,
   getPurchaseStatus
 } from '../../store/selectors';
-import { GUITARS_PER_PAGE, PurchaseStatus, SortingOrder, SortingType } from '../../const';
+import { AppRoute, GUITARS_PER_PAGE, PurchaseStatus, SortingOrder, SortingType } from '../../const';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
@@ -26,6 +26,7 @@ import ProductList from './products-list/products-list';
 import Pagination from './pagination/pagination';
 import CartPurchaseModal from '../cart-page/cart-purchase-modal/cart-purchase-modal';
 import CartSuccessModal from '../cart-page/cart-success-modal/cart-success-modal';
+import { resetGuitars, resetIsDataLoaded } from '../../store/catalog-data/catalog-data';
 
 function CatalogPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -59,7 +60,9 @@ function CatalogPage(): JSX.Element {
   );
 
   useEffect(() => {
-    dispatch(redirectToRoute(searchQuery));
+    dispatch(resetIsDataLoaded());
+    dispatch(resetGuitars());
+    dispatch(redirectToRoute(`${AppRoute.CatalogPage1}${searchQuery}`));
     dispatch(fetchSortedGuitarsAction(searchQuery));
     dispatch(fetchMinPriceGuitarAction(minPriceGuitarSearchQuery));
     dispatch(fetchMaxPriceGuitarAction(maxPriceGuitarSearchQuery));

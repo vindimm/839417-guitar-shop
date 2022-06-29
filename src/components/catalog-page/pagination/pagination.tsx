@@ -11,7 +11,7 @@ type PaginationProps = {
 
 function Pagination({pageNumber}: PaginationProps): JSX.Element {
   const guitarsQuantity = useAppSelector(getGuitarsQuantity);
-  const pagesQuantity = Math.floor(guitarsQuantity / GUITARS_PER_PAGE);
+  const pagesQuantity = Math.ceil(guitarsQuantity / GUITARS_PER_PAGE);
   const pages = Array.from({length: pagesQuantity}, () => '');
 
   const { search } = useLocation();

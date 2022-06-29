@@ -72,6 +72,9 @@ function CatalogFilter (): JSX.Element {
       if (Number(minPriceValue) < minPricePlaceholder) {
         setMinPriceValue(String(minPricePlaceholder));
         dispatch(updateMinPrice(minPricePlaceholder));
+      } else if (Number(minPriceValue) > Number(maxPriceValue) && (maxPriceValue !== '')) {
+        setMinPriceValue(String(maxPriceValue));
+        dispatch(updateMinPrice(maxPriceValue));
       } else {
         setMinPriceValue(evt.currentTarget.value);
         dispatch(updateMinPrice(Number(evt.currentTarget.value)));

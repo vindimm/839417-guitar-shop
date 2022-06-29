@@ -25,7 +25,9 @@ export const catalogData = createSlice({
     },
     loadSortedGuitars: (state, action) => {
       state.guitars = action.payload;
-      state.isDataLoaded = true;
+      if (action.payload.length > 0) {
+        state.isDataLoaded = true;
+      }
     },
     loadGuitar: (state, action) => {
       // чтобы гитары не дублировались, проверяем нет ли уже такой гитары в стейте
@@ -36,7 +38,6 @@ export const catalogData = createSlice({
     },
     loadReviews: (state, action) => {
       state.reviewsByGuitar[action.payload[0].guitarId] = action.payload;
-      state.isDataLoaded = true;
     },
     addReview: (state, action) => {
       state.reviewsByGuitar[action.payload.guitarId].push(action.payload);
