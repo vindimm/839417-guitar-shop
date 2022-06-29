@@ -3,7 +3,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import { ThreeDots } from 'react-loader-spinner';
 
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { fetchSortedGuitarsAction } from '../../store/api-actions';
+import { fetchMinPriceGuitarAction, fetchMaxPriceGuitarAction, fetchSortedGuitarsAction } from '../../store/api-actions';
 import { endPurchasing } from '../../store/catalog-cart/catalog-cart';
 import { redirectToRoute } from '../../store/action';
 import { createSearchQuery } from '../../utils/utils';
@@ -16,7 +16,7 @@ import {
   getStringFilters,
   getPurchaseStatus
 } from '../../store/selectors';
-import { GUITARS_PER_PAGE, PurchaseStatus } from '../../const';
+import { GUITARS_PER_PAGE, PurchaseStatus, SortingOrder, SortingType } from '../../const';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Breadcrumbs from '../common/breadcrumbs/breadcrumbs';
@@ -44,10 +44,26 @@ function CatalogPage(): JSX.Element {
 
   const searchQuery = createSearchQuery(typeFilters, priceFilters, stringCountFilters, sortingParams);
 
+  const minPriceGuitarSearchQuery = createSearchQuery(
+    typeFilters,
+    {min: null, max: null},
+    stringCountFilters,
+    {sortingType: SortingType.Price, sortingOrder: SortingOrder.Asc},
+  );
+
+  const maxPriceGuitarSearchQuery = createSearchQuery(
+    typeFilters,
+    {min: null, max: null},
+    stringCountFilters,
+    {sortingType: SortingType.Price, sortingOrder: SortingOrder.Desc},
+  );
+
   useEffect(() => {
     dispatch(redirectToRoute(searchQuery));
     dispatch(fetchSortedGuitarsAction(searchQuery));
-  }, [search, dispatch, searchQuery]);
+    dispatch(fetchMinPriceGuitarAction(minPriceGuitarSearchQuery));
+    dispatch(fetchMaxPriceGuitarAction(maxPriceGuitarSearchQuery));
+  }, [search, dispatch, searchQuery, minPriceGuitarSearchQuery, maxPriceGuitarSearchQuery]);
 
   const handleEscKeyDown = (evt: KeyboardEvent) => {
     if (evt.key === 'Escape') {

@@ -8,8 +8,8 @@ import { ThreeDots } from 'react-loader-spinner';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { GuitarType } from '../../../const';
-import { getGuitars, getIsDataLoaded, getDisabledStrings } from '../../../store/selectors';
-import { getSearchParams, getMinPrice, getMaxPrice } from '../../../utils/utils';
+import { getIsDataLoaded, getDisabledStrings, getGuitarsMinPrice, getGuitarsMaxPrice } from '../../../store/selectors';
+import { getSearchParams } from '../../../utils/utils';
 import { resetSorting } from '../../../store/catalog-sorting/catalog-sorting';
 import {
   addGuitarTypeFilter,
@@ -25,9 +25,11 @@ function CatalogFilter (): JSX.Element {
   const dispatch = useAppDispatch();
   const { search } = useLocation();
   const { type, stringCount }  = getSearchParams(search);
-  const guitars = useAppSelector(getGuitars);
   const disabledStrings = useAppSelector(getDisabledStrings);
   const isDataLoaded = useAppSelector(getIsDataLoaded);
+
+  const minPricePlaceholder = useAppSelector(getGuitarsMinPrice);
+  const maxPricePlaceholder = useAppSelector(getGuitarsMaxPrice);
 
   const [minPriceValue, setMinPriceValue] = useState('');
   const [maxPriceValue, setMaxPriceValue] = useState('');
@@ -35,9 +37,6 @@ function CatalogFilter (): JSX.Element {
   const [selectedGuitarType, setSelectedGuitarType] = useState<string[]>(type || []);
 
   const [selectedStrings, setSelectedStrings] = useState<string[]>(stringCount || []);
-
-  const minPricePlaceholder = getMinPrice(guitars);
-  const maxPricePlaceholder = getMaxPrice(guitars);
 
   useEffect(() => {
     if (type) {

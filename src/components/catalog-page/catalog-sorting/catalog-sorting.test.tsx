@@ -43,7 +43,7 @@ describe('Component: CatalogSorting', () => {
           },
           CATALOG_FILTER: {
             guitarsTypes: [],
-            price: {
+            priceSearch: {
               min: null,
               max: null,
             },

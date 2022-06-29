@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { NameSpace } from '../../const';
+import { Guitars } from '../../types/guitar';
 import { CatalogFilter } from '../../types/state';
 
 const initialState: CatalogFilter = {
   guitarsTypes: [],
-  price: {
+  priceSearch: {
     min: null,
     max: null,
   },
   stringCount: [],
+  minPriceAvailable: 0,
+  maxPriceAvailable: 0,
 };
 
 export const catalogFilter = createSlice({
@@ -24,21 +27,27 @@ export const catalogFilter = createSlice({
     },
     resetFilters: (state) => {
       state.guitarsTypes = [];
-      state.price.min = null;
-      state.price.max = null;
+      state.priceSearch.min = null;
+      state.priceSearch.max = null;
       state.stringCount = [];
     },
     updateMinPrice: (state, action) => {
-      state.price.min = action.payload;
+      state.priceSearch.min = action.payload;
     },
     updateMaxPrice: (state, action) => {
-      state.price.max = action.payload;
+      state.priceSearch.max = action.payload;
     },
     addStringCount: (state, action: {payload: string[]; type: string}) => {
       state.stringCount = [...state.stringCount, ...action.payload];
     },
     removeStringCount: (state, action: {payload: string[]; type: string}) => {
       state.stringCount = state.stringCount.filter((item) => !action.payload.includes(item));
+    },
+    loadMinPriceGuitar: (state, action: {payload:Guitars, type: string}) => {
+      state.minPriceAvailable = action.payload[0].price;
+    },
+    loadMaxPriceGuitar: (state, action: {payload:Guitars, type: string}) => {
+      state.maxPriceAvailable = action.payload[0].price;
     },
   },
 });
@@ -51,4 +60,6 @@ export const {
   resetFilters,
   updateMinPrice,
   updateMaxPrice,
+  loadMinPriceGuitar,
+  loadMaxPriceGuitar,
 } = catalogFilter.actions;

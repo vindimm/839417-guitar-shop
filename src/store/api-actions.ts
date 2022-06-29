@@ -14,6 +14,7 @@ import {
   loadReviews,
   addReview
 } from './catalog-data/catalog-data';
+import { loadMinPriceGuitar, loadMaxPriceGuitar } from './catalog-filter/catalog-filter';
 import { loadGuitarsBySearch } from './catalog-search/catalog-search';
 
 export const fetchGuitarsAction = createAsyncThunk<void, undefined, {
@@ -49,6 +50,30 @@ export const fetchSortedGuitarsAction = createAsyncThunk<void, string, {
   async (search, {dispatch, extra: api}) => {
     const {data} = await api.get<Guitars>(`${APIRoute.Guitars}${search}`);
     dispatch(loadSortedGuitars(data));
+  },
+);
+
+export const fetchMinPriceGuitarAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'filter/fetchMinPriceGuitar',
+  async (search, {dispatch, extra: api}) => {
+    const {data} = await api.get<Guitars>(`${APIRoute.Guitars}${search}&_limit=1`);
+    dispatch(loadMinPriceGuitar(data));
+  },
+);
+
+export const fetchMaxPriceGuitarAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'filter/fetchMinPriceGuitar',
+  async (search, {dispatch, extra: api}) => {
+    const {data} = await api.get<Guitars>(`${APIRoute.Guitars}${search}&_limit=1`);
+    dispatch(loadMaxPriceGuitar(data));
   },
 );
 

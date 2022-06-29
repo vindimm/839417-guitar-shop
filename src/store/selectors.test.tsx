@@ -27,11 +27,13 @@ const store = {
   },
   CATALOG_FILTER: {
     guitarsTypes: mockGuitarsTypes,
-    price: {
+    priceSearch: {
       min: null,
       max: null,
     },
     stringCount: [],
+    minPriceAvailable: 0,
+    maxPriceAvailable: 0,
   },
   CATALOG_SORTING: {
     sortingType: SortingType.Default,

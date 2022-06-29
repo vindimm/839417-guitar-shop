@@ -1,5 +1,5 @@
 import { GuitarType, SortingOrder, SortingType } from '../const';
-import { Guitars } from '../types/guitar';
+// import { Guitars } from '../types/guitar';
 import { Sorting } from '../types/sorting';
 
 // Получение массива строк для навигации ("хлебные крошки")
@@ -171,9 +171,3 @@ export const createSearchQuery =
 
     return queries.length > 0 ? `?${queries.join('&')}` : '';
   };
-
-export const getMinPrice = (guitars: Guitars): number =>
-  guitars.length === 0 ? 0 : Math.min(...guitars.map((guitar) => guitar.price));
-
-export const getMaxPrice = (guitars: Guitars): number =>
-  guitars.length === 0 ? 0 : Math.max(...guitars.map((guitar) => guitar.price));

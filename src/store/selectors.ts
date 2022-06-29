@@ -10,7 +10,7 @@ export const getGuitarsBySearch = ((state: State) => state[NameSpace.CatalogSear
 
 export const getTypeFilters = ((state: State) => state[NameSpace.CatalogFilter].guitarsTypes);
 
-export const getPriceFilters = ((state: State) => state[NameSpace.CatalogFilter].price);
+export const getPriceFilters = ((state: State) => state[NameSpace.CatalogFilter].priceSearch);
 
 export const getStringFilters = ((state: State) => state[NameSpace.CatalogFilter].stringCount);
 
@@ -38,11 +38,11 @@ export const getSortingParams = ((state: State) => state[NameSpace.CatalogSortin
 
 export const getIsDataLoaded = ((state: State) => state[NameSpace.CatalogData].isDataLoaded);
 
-export const getGuitarById = (id: number | null) => (state: State) =>
-  state[NameSpace.CatalogData].guitars.find((guitar: Guitar) => guitar.id === id);
+export const getGuitarById = ((id: number | null) => (state: State) =>
+  state[NameSpace.CatalogData].guitars.find((guitar: Guitar) => guitar.id === id));
 
-export const getReviewsByGuitarId = (id: number) => (state: State) =>
-  state[NameSpace.CatalogData].reviewsByGuitar[id];
+export const getReviewsByGuitarId = ((id: number) => (state: State) =>
+  state[NameSpace.CatalogData].reviewsByGuitar[id]);
 
 export const getPurchasedGuitars = ((state: State) => state[NameSpace.CatalogCart].purchasedGuitars);
 
@@ -73,3 +73,7 @@ export const getQuantityGuitarsInCart = ((state: State) => {
 export const getDiscountPercent = ((state: State) => state[NameSpace.CatalogCart].discountPercent);
 
 export const getPromoCodeStatus = ((state: State) => state[NameSpace.CatalogCart].promoCodeStatus);
+
+export const getGuitarsMinPrice = ((state: State) => state[NameSpace.CatalogFilter].minPriceAvailable);
+
+export const getGuitarsMaxPrice = ((state: State) => state[NameSpace.CatalogFilter].maxPriceAvailable);
