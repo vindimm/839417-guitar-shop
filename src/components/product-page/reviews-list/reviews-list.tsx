@@ -16,6 +16,7 @@ function ReviewsList(): JSX.Element {
   const reviews: Reviews = useAppSelector(getReviewsByGuitarId(Number(id)));
 
   const sortedByDateReviews = reviews?.slice(0).reverse();
+
   sortedByDateReviews?.sort((reviewA: Review, reviewB: Review): number => {
     if (reviewA.createAt < reviewB.createAt ) {
       return 1;
@@ -29,11 +30,6 @@ function ReviewsList(): JSX.Element {
   const [showedReviews, setShowedReviews] = useState<Reviews>(sortedByDateReviews?.slice(0, REVIEWS_PER_STEP));
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-
-  useEffect(() => {
-    setShowedReviews(sortedByDateReviews?.slice(0, REVIEWS_PER_STEP));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reviews]);
 
   useEffect(() => {
     if (id && !reviews) {
@@ -58,6 +54,7 @@ function ReviewsList(): JSX.Element {
 
   const closeSuccessModal = () => {
     setIsSuccessModalOpen(false);
+    setShowedReviews(sortedByDateReviews?.slice(0, ((showedReviews.length + 1) || 1)));
     document.body.style.position = 'static';
   };
 

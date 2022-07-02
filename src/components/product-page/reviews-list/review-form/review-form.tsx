@@ -54,36 +54,11 @@ function ReviewForm({ handleCloseReviewModal, handleOpenSuccessModal }: ReviewFo
 
   const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-
-    if (!rating) {
-      setIsRatingWarning(true);
-    } else {
-      setIsRatingWarning(false);
-    }
-
-    if (!userName) {
-      setIsUserNameWarning(true);
-    } else {
-      setIsUserNameWarning(false);
-    }
-
-    if (!advantage) {
-      setIsAdvantageWarning(true);
-    } else {
-      setIsAdvantageWarning(false);
-    }
-
-    if (!disadvantage) {
-      setIsDisadvantageWarning(true);
-    } else {
-      setIsDisadvantageWarning(false);
-    }
-
-    if (!comment) {
-      setIsCommentWarning(true);
-    } else {
-      setIsCommentWarning(false);
-    }
+    setIsRatingWarning(!rating);
+    setIsUserNameWarning(!userName);
+    setIsAdvantageWarning(!advantage);
+    setIsDisadvantageWarning(!disadvantage);
+    setIsCommentWarning(!comment);
 
     if (isFormValid) {
       dispatch(sendReviewAction({guitarId: Number(id), userName, advantage, disadvantage, comment, rating}));

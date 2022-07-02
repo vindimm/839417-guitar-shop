@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { ThreeDots } from 'react-loader-spinner';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { GuitarType } from '../../../const';
+import { GuitarType, disabledStringCountByType } from '../../../const';
 import { getIsDataLoaded, getDisabledStrings, getGuitarsMinPrice, getGuitarsMaxPrice } from '../../../store/selectors';
 import { getSearchParams } from '../../../utils/utils';
 import { resetSorting } from '../../../store/catalog-sorting/catalog-sorting';
@@ -50,12 +50,6 @@ function CatalogFilter (): JSX.Element {
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    dispatch(removeStringCount(disabledStrings));
-    setSelectedStrings(selectedStrings.filter((item) => !disabledStrings.includes(item)));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedGuitarType]);
 
   const updateStrings = (quantity: string) => {
     if (selectedStrings.includes(quantity)) {
@@ -126,7 +120,9 @@ function CatalogFilter (): JSX.Element {
     } else {
       setSelectedGuitarType([...selectedGuitarType, GuitarType.Acoustic]);
       dispatch(addGuitarTypeFilter([GuitarType.Acoustic]));
-      dispatch(removeStringCount(disabledStrings));
+      dispatch(removeStringCount([...disabledStrings, ...disabledStringCountByType.Acoustic]));
+      setSelectedStrings(selectedStrings.filter((item) =>
+        ![...disabledStrings, ...disabledStringCountByType.Acoustic].includes(item)));
     }
   };
 
@@ -137,7 +133,9 @@ function CatalogFilter (): JSX.Element {
     } else {
       setSelectedGuitarType([...selectedGuitarType, GuitarType.Electric]);
       dispatch(addGuitarTypeFilter([GuitarType.Electric]));
-      dispatch(removeStringCount(disabledStrings));
+      dispatch(removeStringCount([...disabledStrings, ...disabledStringCountByType.Electric]));
+      setSelectedStrings(selectedStrings.filter((item) =>
+        ![...disabledStrings, ...disabledStringCountByType.Electric].includes(item)));
     }
   };
 
@@ -148,7 +146,9 @@ function CatalogFilter (): JSX.Element {
     } else {
       setSelectedGuitarType([...selectedGuitarType, GuitarType.Ukulele]);
       dispatch(addGuitarTypeFilter([GuitarType.Ukulele]));
-      dispatch(removeStringCount(disabledStrings));
+      dispatch(removeStringCount([...disabledStrings, ...disabledStringCountByType.Ukulele]));
+      setSelectedStrings(selectedStrings.filter((item) =>
+        ![...disabledStrings, ...disabledStringCountByType.Ukulele].includes(item)));
     }
   };
 

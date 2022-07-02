@@ -9,6 +9,13 @@ export const stringCountByType = {
   Ukulele: ['4'],
 };
 
+export const disabledStringCountByType = {
+  Default: [],
+  Acoustic: ['4'],
+  Electric: ['12'],
+  Ukulele: ['6', '7', '12'],
+};
+
 export enum GuitarRating {
   Initial = 0,
   Maximal = 5,
