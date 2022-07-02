@@ -5,7 +5,9 @@ describe('Reducer: catalogFilter', () => {
     expect(catalogFilter.reducer(void 0, {type: 'UNKNOWN_ACTION'}))
       .toEqual({
         guitarsTypes: [],
-        price: {
+        maxPriceAvailable: 0,
+        minPriceAvailable: 0,
+        priceSearch: {
           min: null,
           max: null,
         },
