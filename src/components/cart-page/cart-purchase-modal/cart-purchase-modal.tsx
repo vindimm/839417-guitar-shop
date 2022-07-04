@@ -38,7 +38,7 @@ function CartPurchaseModal(): JSX.Element {
             <img
               className="modal__img"
               src={`/${guitar?.previewImg.replace('.jpg', '.png')}`}
-              srcSet="img/content/catalog-product-2@2x.png 2x"
+              srcSet={`/${guitar?.previewImg.slice(0, -4)}@2x.jpg`}
               width="67" height="137"
               alt={guitar?.name}
             />

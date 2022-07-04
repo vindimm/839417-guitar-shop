@@ -71,7 +71,7 @@ function CartItem({id, quantity}: CartItemProps): JSX.Element {
       <div className="cart-item__image">
         <img
           src={`/${guitar?.previewImg.replace('.jpg', '.png')}`}
-          srcSet="img/content/catalog-product-2@2x.jpg 2x"
+          srcSet={`/${guitar?.previewImg.slice(0, -4)}@2x.jpg`}
           width="55"
           height="130"
           alt={guitar?.name}

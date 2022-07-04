@@ -41,7 +41,12 @@ function ProductCard({product}: ProductCardProps): JSX.Element {
           Подробнее
         </Link>
         {product.id in purchasedGuitars ?
-          <Link className="button button--red-border button--mini button--in-cart" to="#">В Корзине</Link> :
+          <Link
+            className="button button--red-border button--mini button--in-cart"
+            to={AppRoute.CartPage}
+          >
+            В Корзине
+          </Link> :
           <Link
             className="button button--red button--mini button--add-to-cart"
             to="#"
