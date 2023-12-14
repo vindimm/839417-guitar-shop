@@ -2,6 +2,10 @@
 
 Данный проект создан с помощью [Create React App](https://github.com/facebook/create-react-app).
 
+## Деплой
+
+https://vinogradov-guitar-shop.vercel.app/
+
 ## Структура проекта
 
 ---
